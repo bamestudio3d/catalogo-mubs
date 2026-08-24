@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo MUBs — Urbmídia Fortaleza</title>
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8FAFC;color:#0f172a;font-size:14px;height:100vh;overflow:hidden;display:flex}
+
+#nav-rail{width:54px;background:#0f172a;display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;flex-shrink:0}
+.nr-logo{width:32px;height:32px;background:#2563eb;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;cursor:pointer;flex-shrink:0}
+.nr-logo span{color:#fff;font-size:13px;font-weight:800}
+.nr-btn{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#475569;border:none;background:transparent;transition:background .15s,color .15s;flex-shrink:0}
+.nr-btn:hover,.nr-btn.active{background:#1e293b;color:#93c5fd}
+.nr-btn svg{width:17px;height:17px}
+.nr-bottom{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:5px}
+.nr-avatar{width:30px;height:30px;border-radius:50%;background:#1e3a8a;display:flex;align-items:center;justify-content:center;color:#93c5fd;font-size:11px;font-weight:700;cursor:pointer;border:none;flex-shrink:0}
+
+#main-wrap{display:flex;flex-direction:column;flex:1;overflow:hidden}
+
+#topbar{display:flex;align-items:center;gap:10px;padding:10px 20px;background:#fff;border-bottom:1px solid #f1f5f9;flex-shrink:0;z-index:10}
+.tb-logo{font-size:15px;font-weight:700;color:#0f172a;letter-spacing:-.4px;white-space:nowrap}
+.tb-logo em{color:#2563eb;font-style:normal}
+#search-box{flex:1;display:flex;align-items:center;gap:8px;background:#F8FAFC;border:1px solid #e9eef5;border-radius:9px;padding:0 13px;height:36px;max-width:440px;transition:border-color .15s,background .15s}
+#search-box:focus-within{border-color:#93c5fd;background:#fff}
+#search-box svg{color:#c7d2e0;flex-shrink:0;width:14px;height:14px}
+#search-input{border:none;background:transparent;outline:none;font-size:13px;color:#0f172a;flex:1}
+#search-input::placeholder{color:#c7d2e0}
+.spacer{flex:1}
+.view-btns{display:flex;background:#F8FAFC;border:1px solid #e9eef5;border-radius:9px;padding:3px;gap:2px}
+.vb{width:28px;height:26px;border:none;background:transparent;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#c7d2e0;cursor:pointer;transition:all .15s}
+.vb svg{width:13px;height:13px}
+.vb.active{background:#fff;color:#2563eb;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+#mode-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:#eff6ff;color:#1d4ed8;font-weight:600;white-space:nowrap;letter-spacing:-.1px}
+#mode-badge.admin{background:#fef9c3;color:#854d0e}
+.btn-admin-open{display:flex;align-items:center;gap:5px;height:32px;padding:0 13px;border:1px solid #e9eef5;border-radius:9px;background:#fff;font-size:12px;color:#64748b;cursor:pointer;font-weight:500;white-space:nowrap}
+.btn-admin-open:hover{background:#F8FAFC}
+.btn-admin-open svg{width:13px;height:13px}
+.btn-bairro{display:flex;align-items:center;gap:6px;height:32px;padding:0 13px;border:1px solid #e9eef5;border-radius:9px;background:#fff;font-size:12px;color:#64748b;cursor:pointer;font-weight:500;white-space:nowrap;transition:all .15s}
+.btn-bairro:hover,.btn-bairro.active{border-color:#93c5fd;color:#2563eb;background:#f0f9ff}
+.btn-bairro svg{width:13px;height:13px}
+.bairro-cnt{background:#2563eb;color:#fff;border-radius:10px;font-size:10px;padding:1px 5px;font-weight:700}
+
+#admin-bar{display:none;align-items:center;gap:10px;padding:8px 20px;background:#fefce8;border-bottom:1px solid #fde68a;flex-shrink:0}
+#admin-bar.visible{display:flex}
+.ab-text{font-size:12px;color:#78350f;flex:1}
+.btn-logout{background:none;border:1px solid #fbbf24;border-radius:7px;padding:4px 12px;font-size:11px;color:#92400e;cursor:pointer;font-weight:600}
+
+#filter-bar{display:none;align-items:center;gap:8px;padding:8px 20px;background:#fff;border-bottom:1px solid #f1f5f9;flex-wrap:wrap;flex-shrink:0}
+.filter-bar-label{font-size:11px;color:#94a3b8;font-weight:500;white-space:nowrap}
+.chip{display:flex;align-items:center;gap:4px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;border-radius:20px;padding:3px 9px;font-size:11px;font-weight:600}
+.chip button{background:none;border:none;color:#60a5fa;cursor:pointer;font-size:15px;line-height:1;padding:0}
+.chip-clear{background:none;border:none;color:#94a3b8;font-size:11px;cursor:pointer;padding:0}
+.chip-clear:hover{color:#ef4444}
+
+#bairro-panel{position:fixed;z-index:200;background:#fff;border:1px solid #e9eef5;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.1);padding:14px;display:none;width:252px;max-height:400px;flex-direction:column}
+#bairro-panel.open{display:flex}
+.bp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
+.bp-head span{font-size:12px;font-weight:600;color:#0f172a}
+.bp-clear{background:none;border:none;font-size:11px;color:#94a3b8;cursor:pointer}
+.bp-clear:hover{color:#ef4444}
+.bp-search{display:flex;align-items:center;gap:6px;background:#F8FAFC;border:1px solid #e9eef5;border-radius:8px;padding:0 9px;height:29px;margin-bottom:8px;flex-shrink:0}
+.bp-search input{border:none;background:transparent;outline:none;font-size:12px;flex:1}
+.bp-search svg{width:12px;height:12px;color:#c7d2e0}
+.bp-list{overflow-y:auto;flex:1}
+.bp-row{display:flex;align-items:center;gap:7px;padding:4px 3px;cursor:pointer;border-radius:6px}
+.bp-row:hover{background:#F8FAFC}
+.bp-row input{accent-color:#2563eb;width:14px;height:14px;flex-shrink:0}
+.bp-row-name{font-size:12px;color:#475569;flex:1}
+.bp-row-cnt{font-size:10px;color:#94a3b8;background:#F8FAFC;padding:1px 5px;border-radius:5px}
+
+#page{display:flex;flex:1;overflow:hidden}
+#sidebar{width:186px;flex-shrink:0;background:#fff;border-right:1px solid #f1f5f9;padding:16px;display:flex;flex-direction:column;gap:0;overflow-y:auto}
+.sb-head{font-size:10px;font-weight:600;color:#c7d2e0;text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px}
+.sel-box{background:#F8FAFC;border:1px solid #e9eef5;border-radius:12px;padding:14px}
+.sel-num{font-size:30px;font-weight:700;color:#2563eb;line-height:1;letter-spacing:-1px}
+.sel-lbl{font-size:11px;color:#94a3b8;margin-top:3px}
+.btn-pdf{width:100%;margin-top:11px;background:#2563eb;color:#fff;border:none;border-radius:9px;padding:9px 0;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:background .15s}
+.btn-pdf:hover{background:#1d4ed8}
+.btn-pdf:disabled{background:#e9eef5;color:#94a3b8;cursor:default}
+.btn-pdf svg{width:13px;height:13px}
+.btn-allpdf{width:100%;margin-top:6px;background:#fff;color:#64748b;border:1px solid #e9eef5;border-radius:9px;padding:7px 0;font-size:11px;display:flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:background .15s}
+.btn-allpdf svg{width:11px;height:11px}
+.btn-allpdf:hover{background:#F8FAFC}
+.btn-clrsel{width:100%;margin-top:5px;background:none;border:none;color:#c7d2e0;font-size:11px;cursor:pointer;padding:3px 0;font-family:inherit}
+.btn-clrsel:hover{color:#ef4444}
+
+#main{flex:1;overflow-y:auto;padding:20px;transition:background .3s}
+#main.detail-bg{background:#1e3a8a}
+.res-bar{font-size:11px;color:#c7d2e0;margin-bottom:16px;letter-spacing:.1px}
+#main.detail-bg .res-bar{color:rgba(255,255,255,.4)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+
+/* CARD - novo visual limpo */
+.card{background:#fff;border-radius:16px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.02);display:flex;flex-direction:column}
+.card:hover{box-shadow:0 12px 40px rgba(0,0,0,.08),0 2px 8px rgba(0,0,0,.04);transform:translateY(-3px)}
+.card.sel{outline:2px solid #2563eb;outline-offset:-1px;box-shadow:0 12px 40px rgba(37,99,235,.1),0 2px 8px rgba(37,99,235,.04)}
+.card.inactive-card{opacity:.5}
+
+/* PHOTO */
+.card-photo{position:relative;height:200px;overflow:hidden;background:#f1f5f9;flex-shrink:0}
+.card-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.card:hover .card-photo img{transform:scale(1.05)}
+.ph-fb{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:#f8fafc;color:#c7d2e0}
+.ph-fb svg{width:28px;height:28px;opacity:.5}
+.ph-fb span{font-size:10px}
+.photo-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.1) 50%,transparent 75%);pointer-events:none}
+
+/* CHK */
+.card-chk{position:absolute;top:10px;left:10px;width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,.92);border:1.5px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;z-index:2;cursor:pointer;opacity:0;transition:opacity .15s,background .15s;backdrop-filter:blur(4px)}
+.card:hover .card-chk,.card.sel .card-chk{opacity:1}
+.card-chk.on{background:#2563eb;border-color:#2563eb;opacity:1}
+.card-chk svg{display:none;width:11px;height:11px;stroke:#fff;stroke-width:3;fill:none}
+.card-chk.on svg{display:block}
+.inactive-overlay{position:absolute;top:10px;right:10px;background:rgba(239,68,68,.8);color:#fff;font-size:9px;font-weight:700;padding:3px 7px;border-radius:5px;text-transform:uppercase;letter-spacing:.5px;backdrop-filter:blur(4px)}
+
+/* PHOTO BOTTOM INFO */
+.photo-info{position:absolute;bottom:12px;left:13px;right:13px;display:flex;align-items:flex-end;justify-content:space-between;pointer-events:none}
+.mub-label{font-size:12px;font-weight:700;color:#fff;letter-spacing:.2px;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.alcance-pill{background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);color:#fff;padding:4px 10px;border-radius:20px;text-align:right;line-height:1.25}
+.alcance-pill .a-num{font-size:13px;font-weight:700;display:block}
+.alcance-pill .a-unit{font-size:9px;opacity:.85}
+.alcance-estudo-pill{background:rgba(251,191,36,.2);backdrop-filter:blur(8px);border:1px solid rgba(251,191,36,.4);color:#fef3c7;font-size:10px;padding:4px 10px;border-radius:20px}
+
+/* CARD BODY */
+.card-body{padding:13px 14px;flex:1;display:flex;flex-direction:column}
+.card-name{font-size:13px;font-weight:600;color:#0f172a;line-height:1.4;margin-bottom:4px}
+.card-addr{font-size:10px;color:#94a3b8;margin-bottom:10px;line-height:1.5}
+.card-bairro{display:inline-block;font-size:10px;font-weight:600;color:#1d4ed8;background:#eff6ff;padding:3px 9px;border-radius:20px}
+.card-code{font-size:10px;color:#e2e8f0;margin-top:8px}
+
+/* ACTIONS - appear on hover / selected */
+.card-actions{display:flex;gap:0;border-top:1px solid #f8fafc;margin-top:12px;opacity:0;transition:opacity .18s}
+.card:hover .card-actions,.card.sel .card-actions{opacity:1}
+.act-btn{flex:1;padding:8px 0;font-size:11px;color:#94a3b8;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-family:inherit;transition:color .12s,background .12s}
+.act-btn svg{width:11px;height:11px}
+.act-btn:hover{color:#2563eb;background:#f8fafc}
+.act-sep{width:1px;background:#f8fafc;flex-shrink:0}
+
+/* ADMIN CARD BAR */
+.card-admin-bar{display:flex;gap:6px;padding:0 14px 12px}
+.btn-card-edit{flex:1;background:#F8FAFC;border:none;border-radius:8px;padding:7px 0;font-size:11px;color:#2563eb;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-card-edit:hover{background:#eff6ff}
+.btn-card-pause{flex:1;background:transparent;border:1px solid #fed7aa;border-radius:8px;padding:7px 0;font-size:11px;color:#c2410c;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-card-activate{flex:1;background:transparent;border:1px solid #bbf7d0;border-radius:8px;padding:7px 0;font-size:11px;color:#15803d;font-weight:600;cursor:pointer;font-family:inherit}
+
+/* LIST */
+.list-item{background:#fff;border-radius:12px;display:flex;align-items:stretch;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:box-shadow .15s,transform .15s}
+.list-item:hover{box-shadow:0 6px 20px rgba(0,0,0,.07);transform:translateY(-1px)}
+.list-item.sel{outline:2px solid #2563eb;outline-offset:-1px}
+.list-item.inactive-card{opacity:.5}
+.list-thumb{width:112px;flex-shrink:0;cursor:pointer;overflow:hidden;background:#f1f5f9;position:relative}
+.list-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .3s;display:block}
+.list-thumb:hover img{transform:scale(1.05)}
+.list-thumb .ph-fb{position:absolute;inset:0}
+.list-body{flex:1;padding:12px 14px;min-width:0}
+.list-name{font-size:13px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.list-addr{font-size:11px;color:#94a3b8;margin-bottom:8px}
+.list-tags-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.list-mub{font-size:11px;font-weight:600;color:#475569}
+.list-alcance{font-size:12px;font-weight:700;color:#15803d;margin-left:4px}
+.list-code{font-size:10px;color:#c7d2e0;margin-left:4px}
+.list-actions{display:flex;flex-direction:column;gap:5px;padding:10px 12px;flex-shrink:0;justify-content:center}
+.list-chk-wrap{display:flex;align-items:center;gap:5px;font-size:11px;color:#94a3b8;cursor:pointer;white-space:nowrap}
+.list-chk-wrap input{accent-color:#2563eb;cursor:pointer;width:14px;height:14px}
+.btn-sm{background:#F8FAFC;border:none;border-radius:7px;padding:5px 11px;font-size:11px;color:#64748b;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;font-family:inherit}
+.btn-sm svg{width:11px;height:11px}
+.btn-sm:hover{background:#eff6ff;color:#2563eb}
+.btn-sm-red{background:transparent;border:none;border-radius:7px;padding:5px 11px;font-size:11px;color:#ef4444;cursor:pointer;white-space:nowrap;font-family:inherit}
+
+/* DETAIL - fundo azul escuro, cards brancos */
+#detail-view{max-width:740px;margin:0 auto}
+.btn-back{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:9px;color:#fff;font-size:12px;cursor:pointer;padding:7px 13px;margin-bottom:18px;font-weight:500;width:fit-content;transition:background .15s;font-family:inherit}
+.btn-back:hover{background:rgba(255,255,255,.2)}
+.btn-back svg{width:14px;height:14px}
+.detail-photo-wrap{width:100%;height:360px;border-radius:18px;overflow:hidden;margin-bottom:22px;background:#1e40af;position:relative;cursor:zoom-in}
+.detail-photo-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.detail-photo-wrap:hover img{transform:scale(1.02)}
+.detail-photo-wrap .ph-fb{position:absolute;inset:0;background:#1e40af;color:rgba(255,255,255,.35);flex-direction:column;align-items:center;justify-content:center}
+.detail-photo-wrap .ph-fb svg{width:48px;height:48px;opacity:.4}
+.zoom-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.45);color:#fff;font-size:11px;padding:5px 14px;border-radius:20px;display:flex;align-items:center;gap:5px;white-space:nowrap;backdrop-filter:blur(4px);transition:opacity .2s;pointer-events:none}
+.detail-photo-wrap:hover .zoom-hint{opacity:0}
+.detail-name{font-size:22px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:6px;letter-spacing:-.4px}
+.detail-addr{font-size:13px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px;margin-bottom:18px}
+.detail-addr svg{width:13px;height:13px;flex-shrink:0}
+.detail-data{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.dd{background:rgba(255,255,255,.1);border-radius:12px;padding:13px 15px;border:1px solid rgba(255,255,255,.12)}
+.dd.white{background:#fff}
+.dd-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.dd.white .dd-lbl{color:#94a3b8}
+.dd-val{font-size:16px;font-weight:700;color:#fff}
+.dd.white .dd-val{color:#0f172a}
+.dd-val.green{color:#86efac;font-size:18px}
+.dd-full{background:rgba(255,255,255,.1);border-radius:12px;padding:13px 15px;border:1px solid rgba(255,255,255,.12);margin-bottom:20px}
+.dd-full .dd-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.dd-full .dd-val{font-size:13px;font-weight:500;color:rgba(255,255,255,.75)}
+.detail-actions{display:flex;gap:10px;margin-bottom:12px}
+.btn-d-map{flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px;font-size:13px;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font-weight:500;transition:background .15s;font-family:inherit}
+.btn-d-map svg{width:15px;height:15px}
+.btn-d-map:hover{background:rgba(255,255,255,.18)}
+.btn-d-sel{flex:1;border:none;border-radius:12px;padding:12px;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-d-sel svg{width:15px;height:15px}
+.btn-d-sel.off{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.btn-d-sel.off:hover{background:rgba(255,255,255,.2)}
+.btn-d-sel.on{background:#fff;color:#1d4ed8}
+.btn-d-sel.on:hover{background:#f0f9ff}
+.detail-admin-bar{display:flex;gap:10px}
+.btn-d-edit{flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:11px;font-size:13px;color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit}
+.btn-d-edit:hover{background:rgba(255,255,255,.2)}
+.btn-d-pause{flex:1;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:11px;font-size:13px;color:#fca5a5;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit}
+
+.empty{text-align:center;padding:60px 20px;color:#c7d2e0}
+.empty svg{margin-bottom:14px;opacity:.35;width:48px;height:48px}
+.empty p{font-size:14px}
+
+/* ADMIN LOGIN MODAL */
+#admin-login-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:300;align-items:center;justify-content:center}
+#admin-login-overlay.open{display:flex}
+.login-card{background:#fff;border-radius:20px;padding:36px;width:100%;max-width:370px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,.15)}
+.login-icon{width:50px;height:50px;border-radius:14px;background:#eff6ff;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.login-icon svg{width:22px;height:22px}
+.login-card h3{font-size:19px;font-weight:700;color:#0f172a;margin-bottom:8px;letter-spacing:-.3px}
+.login-card p{font-size:13px;color:#64748b;margin-bottom:22px;line-height:1.6}
+.field{text-align:left;margin-bottom:14px}
+.field label{font-size:10px;font-weight:700;color:#64748b;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.field input{width:100%;border:1.5px solid #e9eef5;border-radius:9px;padding:10px 13px;font-size:13px;outline:none;transition:border-color .15s;color:#0f172a;font-family:inherit}
+.field input:focus{border-color:#3b82f6}
+.login-err{font-size:12px;color:#ef4444;min-height:16px;text-align:center;margin-top:4px}
+.btn-login{width:100%;background:#2563eb;color:#fff;border:none;border-radius:9px;padding:11px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px}
+.btn-login:hover{background:#1d4ed8}
+.btn-cancel-login{width:100%;background:transparent;border:none;font-size:12px;color:#94a3b8;cursor:pointer;padding:8px 0;font-family:inherit}
+.btn-cancel-login:hover{color:#64748b}
+
+/* EDIT OVERLAY */
+#edit-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:400;align-items:center;justify-content:center}
+#edit-overlay.open{display:flex}
+.edit-modal{background:#fff;border-radius:18px;width:92%;max-width:510px;max-height:90vh;overflow-y:auto;padding:26px;box-shadow:0 25px 60px rgba(0,0,0,.15)}
+.edit-modal h3{font-size:16px;font-weight:700;color:#0f172a;margin-bottom:18px;letter-spacing:-.3px}
+.upload-zone{border:2px dashed #bfdbfe;border-radius:12px;background:#f0f9ff;margin-bottom:16px;cursor:pointer;overflow:hidden;transition:border-color .15s;position:relative;min-height:80px}
+.upload-zone:hover{border-color:#3b82f6;background:#e0f2fe}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2}
+#uz-img{width:100%;height:140px;object-fit:cover;display:none;border-radius:10px;pointer-events:none}
+.uz-empty{padding:22px;text-align:center}
+.uz-icon svg{width:30px;height:30px;color:#93c5fd;margin-bottom:8px}
+.uz-title{font-size:13px;font-weight:600;color:#1d4ed8;margin-bottom:3px}
+.uz-sub{font-size:11px;color:#64748b}
+.uz-change{position:absolute;bottom:8px;right:8px;background:rgba(15,23,42,.6);color:#fff;font-size:10px;padding:4px 10px;border-radius:8px;pointer-events:none;z-index:1}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px}
+.fg input{border:1.5px solid #e9eef5;border-radius:8px;padding:8px 11px;font-size:13px;outline:none;color:#0f172a;transition:border-color .15s;font-family:inherit}
+.fg input:focus{border-color:#3b82f6}
+.edit-actions{display:flex;gap:9px}
+.btn-cancel{flex:1;background:#F8FAFC;border:none;border-radius:9px;padding:10px;font-size:13px;color:#64748b;cursor:pointer;font-weight:500;font-family:inherit}
+.btn-cancel:hover{background:#e9eef5}
+.btn-save{flex:1;background:#2563eb;color:#fff;border:none;border-radius:9px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-save:hover{background:#1d4ed8}
+
+/* LIGHTBOX */
+#lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:500;align-items:center;justify-content:center;cursor:zoom-out}
+#lightbox.open{display:flex}
+#lightbox img{max-width:95vw;max-height:95vh;object-fit:contain;border-radius:8px;cursor:default}
+.lb-close{position:fixed;top:16px;right:20px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-size:18px;font-weight:300;backdrop-filter:blur(4px)}
+
+@media print{body>*{display:none!important} #print-area{display:block!important} *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}
+#print-area{display:none}
+.pp{page-break-after:always;padding:30px 36px;font-family:-apple-system,sans-serif}
+.pp:last-child{page-break-after:avoid}
+.pp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid #2563eb}
+.pp-logo{font-size:20px;font-weight:800;color:#0f172a}
+.pp-logo em{color:#2563eb;font-style:normal}
+.pp-badge{background:#2563eb;color:#fff;padding:5px 16px;border-radius:20px;font-size:12px;font-weight:700}
+.pp-name{font-size:20px;font-weight:800;color:#0f172a;margin-bottom:5px;letter-spacing:-.4px}
+.pp-addr{font-size:12px;color:#64748b;margin-bottom:16px}
+.pp-photo{width:100%;height:300px;object-fit:cover;border-radius:12px;display:block;margin-bottom:18px;background:#f1f5f9}
+.pp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.pp-box{background:#f8fafc;border-radius:9px;padding:11px 14px}
+.pp-label{font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.pp-val{font-size:15px;font-weight:700;color:#0f172a}
+.pp-gps{font-size:11px;color:#94a3b8;display:flex;align-items:center;gap:6px;margin-bottom:14px}
+.pp-footer{border-top:1px solid #e2e8f0;padding-top:10px;font-size:10px;color:#94a3b8;display:flex;justify-content:space-between}
+
+</style>
+</head>
+<body>
+
+<nav id="nav-rail">
+  <div class="nr-logo"><span>U</span></div>
+  <button class="nr-btn active" id="nr-cat" title="Catálogo" onclick="setView('grid')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+  </button>
+  <button class="nr-btn" title="Mapa de Fortaleza" onclick="openMapFortaleza()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+  </button>
+  <button class="nr-btn" title="Exportar catálogo completo" onclick="printAll()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+  </button>
+  <div class="nr-bottom">
+    <button class="nr-btn" id="nr-adm" title="Admin" onclick="openAdminLogin()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+    </button>
+    <button class="nr-avatar" onclick="openAdminLogin()">U</button>
+  </div>
+</nav>
+
+<div id="main-wrap">
+  <div id="topbar">
+    <div class="tb-logo">urb<em>mídia</em></div>
+    <div id="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="search-input" type="text" placeholder="Buscar painel, bairro, código… (espaço = ou)">
+    </div>
+    <div class="spacer"></div>
+    <button class="btn-bairro" id="btn-bairro" onclick="toggleBairroPanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      Bairros
+      <span class="bairro-cnt" id="bairro-badge" style="display:none">0</span>
+    </button>
+    <div class="view-btns">
+      <button class="vb active" id="vb-grid" onclick="setView('grid')" title="Grade">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </button>
+      <button class="vb" id="vb-list" onclick="setView('list')" title="Lista">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      </button>
+    </div>
+    <div id="mode-badge">Modo cliente</div>
+    <button class="btn-admin-open" onclick="openAdminLogin()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Admin
+    </button>
+  </div>
+
+  <div id="admin-bar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <span class="ab-text">Modo administração ativo — edite e pause painéis diretamente nos cards.</span>
+    <button class="btn-logout" onclick="doLogout()">Sair do admin</button>
+  </div>
+
+  <div id="filter-bar">
+    <span class="filter-bar-label">Bairros ativos:</span>
+    <div id="chip-container"></div>
+    <button class="chip-clear" onclick="clearBairros()">Limpar</button>
+  </div>
+
+  <div id="page">
+    <aside id="sidebar">
+      <div class="sb-head">Selecionados</div>
+      <div class="sel-box">
+        <div class="sel-num" id="sel-num">0</div>
+        <div class="sel-lbl">painéis selecionados</div>
+        <button class="btn-pdf" id="btn-pdf" disabled onclick="printSelected()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Gerar PDF selecionados
+        </button>
+        <button class="btn-allpdf" onclick="printAll()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Catálogo completo
+        </button>
+        <button class="btn-clrsel" id="btn-clrsel" style="display:none" onclick="clearSel()">Limpar seleção</button>
+      </div>
+    </aside>
+    <main id="main">
+      <div class="res-bar" id="res-bar"></div>
+      <div id="content"></div>
+    </main>
+  </div>
+</div>
+
+<div id="bairro-panel">
+  <div class="bp-head"><span>Filtrar por bairro</span><button class="bp-clear" onclick="clearBairros()">Limpar</button></div>
+  <div class="bp-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="bp-q" type="text" placeholder="Buscar bairro…" oninput="renderBairroPanel()"></div>
+  <div class="bp-list" id="bp-list"></div>
+</div>
+
+<div id="admin-login-overlay">
+  <div class="login-card">
+    <div class="login-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+    <h3>Acesso restrito</h3>
+    <p>Painel exclusivo para administradores da Urbmídia.</p>
+    <div class="field"><label>Senha</label><input type="password" id="admin-pwd" placeholder="Digite a senha de acesso"></div>
+    <div class="login-err" id="login-err"></div>
+    <button class="btn-login" onclick="doLogin()">Entrar no painel</button>
+    <button class="btn-cancel-login" onclick="closeAdminLogin()">Cancelar</button>
+  </div>
+</div>
+
+<div id="edit-overlay">
+  <div class="edit-modal">
+    <h3 id="edit-h3">Editar painel</h3>
+    <div class="upload-zone">
+      <input type="file" accept="image/*" id="photo-input" onchange="onPhotoChange(this)">
+      <img id="uz-img" alt="preview">
+      <div class="uz-empty" id="uz-empty">
+        <div class="uz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <div class="uz-title">Clique para adicionar ou trocar a foto</div>
+        <div class="uz-sub">Arraste ou clique · JPG ou PNG · máx 5MB</div>
+      </div>
+      <span class="uz-change" id="uz-change" style="display:none">Trocar foto</span>
+    </div>
+    <div class="form-grid">
+      <div class="fg"><label>Número MUB</label><input type="text" id="e-mub"></div>
+      <div class="fg"><label>Código</label><input type="text" id="e-code"></div>
+      <div class="fg full"><label>Nome do ponto</label><input type="text" id="e-name"></div>
+      <div class="fg full"><label>Endereço completo</label><input type="text" id="e-addr"></div>
+      <div class="fg"><label>Bairro</label><input type="text" id="e-bairro"></div>
+      <div class="fg"><label>Alcance estimado</label><input type="text" id="e-alcance" placeholder="ex: 22,6 mil"></div>
+      <div class="fg"><label>Latitude</label><input type="text" id="e-lat"></div>
+      <div class="fg"><label>Longitude</label><input type="text" id="e-lng"></div>
+    </div>
+    <div class="edit-actions">
+      <button class="btn-cancel" onclick="closeEdit()">Cancelar</button>
+      <button class="btn-save" onclick="saveEdit()">Salvar alterações</button>
+    </div>
+  </div>
+</div>
+
+<div id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">&#x2715;</span>
+  <img id="lightbox-img" alt="Foto ampliada" onclick="event.stopPropagation()">
+</div>
+<div id="print-area"></div>
+
+<script>
+
+const BASE_DATA_RAW = [{"mub":"001","code":"41559","name":"Av. Desembargador Moreira | Praça da Imprensa","addr":"Avenida Desembargador Moreira, 2398 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"22,6 mil","lat":-3.746593,"lng":-38.501688},{"mub":"002","code":"41561","name":"Av. Godofredo Maciel | Detran Maraponga","addr":"Avenida Godofredo Maciel, 2900 - Maraponga","bairro":"Maraponga","alcance":"43,9 mil","lat":-3.8021442,"lng":-38.5719397},{"mub":"003","code":"41563","name":"Av. Dr. Silas Munguba | Próximo ao Banco do Nordeste","addr":"Avenida Doutor Silas Munguba, 5556 - Passaré","bairro":"Passaré","alcance":"49,7 mil","lat":-3.7911667,"lng":-38.5378627},{"mub":"004","code":"41596","name":"Av. Desembargador Gonzaga | Igreja da Glória","addr":"Avenida Desembargador Gonzaga, 1040 - Parque Iracema","bairro":"Parque Iracema","alcance":"63,8 mil","lat":-3.7964,"lng":-38.50017},{"mub":"005","code":"41565","name":"Av. Beira Mar | Praia de Iracema","addr":"Avenida Historiador Raimundo Girão, 843 - Praia de Iracema","bairro":"Praia de Iracema","alcance":"22,9 mil","lat":-3.72221,"lng":-38.50824},{"mub":"006","code":"41591","name":"Av. Abolição | Praia Náutico","addr":"Avenida da Abolição, 2790 - Meireles","bairro":"Meireles","alcance":"13,8 mil","lat":-3.7273,"lng":-38.4944049},{"mub":"007","code":"41592","name":"Av. Santos Dumont | Center Um","addr":"Avenida Santos Dumont, 3131 - Aldeota","bairro":"Aldeota","alcance":"6,1 mil","lat":-3.738671,"lng":-38.4903534},{"mub":"008","code":"41593","name":"Av. Fernandes Távora | North Shopping Jockey","addr":"Avenida Senador Fernandes Távora, 236 - Jóquei Clube","bairro":"Jóquei Clube","alcance":"19,5 mil","lat":-3.7658529,"lng":-38.5751611},{"mub":"009","code":"41594","name":"Av. Treze de Maio | Igreja de Fátima","addr":"Avenida Treze de Maio, 605 - Fátima","bairro":"Fátima","alcance":"53,9 mil","lat":-3.75213,"lng":-38.5262},{"mub":"010","code":"41595","name":"Av. Dom Luís, 705 | Espaço Aberto","addr":"Avenida Dom Luís, 705 - Meireles","bairro":"Meireles","alcance":"13,4 mil","lat":-3.734044,"lng":-38.494932},{"mub":"011","code":"41832","name":"Av. Santos Dumont | BS Gold","addr":"Avenida Santos Dumont, 3601 - Aldeota","bairro":"Aldeota","alcance":"28,3 mil","lat":-3.738671,"lng":-38.4903534},{"mub":"012","code":"41833","name":"Av. Desembargador Moreira | Praça das Flores","addr":"Avenida Desembargador Moreira, 1435 - Aldeota","bairro":"Aldeota","alcance":"49,4 mil","lat":-3.738419,"lng":-38.4990579},{"mub":"013","code":"41834","name":"Av. Antônio Sales | Pinheiro Supermercado","addr":"Avenida Antônio Sales, 3316 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"28,5 mil","lat":-3.7479361,"lng":-38.4948371},{"mub":"014","code":"41835","name":"Av. Pontes Vieira | Assembleia Legislativa","addr":"Avenida Pontes Vieira, 2340 - Tauape","bairro":"Tauape","alcance":"1,8 mil","lat":-3.7513729,"lng":-38.5007311},{"mub":"015","code":"41843","name":"Av. Alberto Craveiro | Igreja São Francisco de Assis","addr":"Avenida Alberto Craveiro, 28 - Dias Macedo","bairro":"Dias Macedo","alcance":"47,1 mil","lat":-3.7860844,"lng":-38.5169877},{"mub":"016","code":"41956","name":"Av. Sebastião de Abreu | Leroy Merlin","addr":"Avenida Sebastião de Abreu, 600 - Edson Queiroz","bairro":"Edson Queiroz","alcance":"1,9 mil","lat":-3.7579461,"lng":-38.4841115},{"mub":"019","code":"41953","name":"Av. Barão de Studart | Esq. Av. Antônio Sales","addr":"Avenida Barão de Studart, 2190 - Joaquim Távora","bairro":"Joaquim Távora","alcance":"1,7 mil","lat":-3.74277,"lng":-38.50927},{"mub":"021","code":"41975","name":"Av. Monsenhor Tabosa | Frente ao Ideal Clube","addr":"Avenida Monsenhor Tabosa, 1448 - Meireles","bairro":"Meireles","alcance":"30,3 mil","lat":-3.7245694,"lng":-38.506209},{"mub":"022","code":"41976","name":"Av. Treze de Maio | Praça da Gentilândia","addr":"Avenida Treze de Maio, 2301 - Fátima","bairro":"Fátima","alcance":"25,3 mil","lat":-3.7427288,"lng":-38.5372385},{"mub":"024","code":"41977","name":"Av. Rogaciano Leite | Nissan","addr":"Avenida Rogaciano Leite, 524 - Salinas","bairro":"Salinas","alcance":"23,8 mil","lat":-3.76353,"lng":-38.49459},{"mub":"026","code":"42010","name":"Av. Dr. Silas Munguba | UECE","addr":"Avenida Doutor Silas Munguba, 2259 - Serrinha","bairro":"Serrinha","alcance":"51,9 mil","lat":-3.7855405,"lng":-38.5515317},{"mub":"028","code":"41995","name":"Av. Duque de Caxias | Extrafarma","addr":"Avenida Duque de Caxias, 808 - Centro","bairro":"Centro","alcance":"45,8 mil","lat":-3.7311162,"lng":-38.5316952},{"mub":"029","code":"41963","name":"Av. Humberto Monte | Frente Praça da UFC","addr":"Avenida Humberto Monte, 2677 - Pici","bairro":"Pici","alcance":"27,8 mil","lat":-3.7391565,"lng":-38.5690078},{"mub":"030","code":"41988","name":"Av. Pontes Vieira | Frente à Praça João Távora","addr":"Avenida Pontes Vieira, 400 - Tauape","bairro":"Tauape","alcance":"33,5 mil","lat":-3.7533166,"lng":-38.5169606},{"mub":"031","code":"42004","name":"Av. José Bastos | Em frente ao Hemoce","addr":"Avenida José Bastos, 3396 - Rodolfo Teófilo","bairro":"Rodolfo Teófilo","alcance":"40 mil","lat":-3.749442,"lng":-38.549983},{"mub":"034","code":"42005","name":"Av. Santos Dumont | Planeta Bebê","addr":"Avenida Santos Dumont, 3757 - Aldeota","bairro":"Aldeota","alcance":"27,0 mil","lat":-3.73907,"lng":-38.48971},{"mub":"036","code":"41952","name":"Av. Jovita Feitosa | Praça Ari de Sá","addr":"Avenida Jovita Feitosa, 1089 - Amadeu Furtado","bairro":"Amadeu Furtado","alcance":"18 mil","lat":-3.7393103,"lng":-38.5528292},{"mub":"037","code":"41955","name":"Av. Domingos Olímpio | Oposto Ceará Off Road","addr":"Avenida Domingos Olímpio, 137 - José Bonifácio","bairro":"José Bonifácio","alcance":"7,5 mil","lat":-3.7386497,"lng":-38.5253273},{"mub":"038","code":"42007","name":"Av. Eng. Santana Júnior | Habibs","addr":"Avenida Engenheiro Santana Júnior, 1901 - Cocó","bairro":"Cocó","alcance":"21,2 mil","lat":-3.7423998,"lng":-38.4863944},{"mub":"039","code":"42008","name":"Av. Dom Luís | Lopes Imóveis","addr":"Avenida Dom Luís, 230 - Meireles","bairro":"Meireles","alcance":"13,2 mil","lat":-3.7591632,"lng":-38.5048039},{"mub":"044","code":"42506","name":"Av. João Pessoa | Cometa Supermercado","addr":"Avenida João Pessoa, 5099 - Damas","bairro":"Damas","alcance":"63,9 mil","lat":-3.7566847,"lng":-38.5529618},{"mub":"049","code":"42237","name":"Av. Sargento Hermínio | Polo de Lazer","addr":"Avenida Sargento Hermínio Sampaio, 2056 - Monte Castelo","bairro":"Monte Castelo","alcance":"41,7 mil","lat":-3.7259895,"lng":-38.5592892},{"mub":"050","code":"42251","name":"Av. Expedicionários | Assaí Supermercado","addr":"Avenida dos Expedicionários, 4364 - Jardim América","bairro":"Jardim América","alcance":"6,9 mil","lat":-3.7556039,"lng":-38.5392724},{"mub":"051","code":"42299","name":"Av. Jovita Feitosa | Igreja Redonda","addr":"Avenida Jovita Feitosa, 2733 - Amadeu Furtado","bairro":"Amadeu Furtado","alcance":"13,8 mil","lat":-3.7409932,"lng":-38.5612192},{"mub":"052","code":"42370","name":"Av. Mister Hull | Varejão da Fórmica","addr":"Avenida Mister Hull, 4035 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"24,5 mil","lat":-3.7381788,"lng":-38.5805808},{"mub":"053","code":"42376","name":"Estação Couto Fernandes","addr":"Avenida José Bastos, 4675 - Bela Vista","bairro":"Bela Vista","alcance":"5,8 mil","lat":-3.7575107,"lng":-38.5577096},{"mub":"054","code":"42377","name":"Av. Silas Munguba | Frente GBarbosa","addr":"Avenida Dedé Brasil, 450 - Parangaba","bairro":"Parangaba","alcance":"45,6 mil","lat":-3.8326984,"lng":-38.5641174},{"mub":"055","code":"42400","name":"Assembleia Legislativa","addr":"Avenida Pontes Vieira, 2101 - Tauape","bairro":"Tauape","alcance":"13,2 mil","lat":-3.7510764,"lng":-38.5027657},{"mub":"057","code":"42417","name":"Carneiro Prime","addr":"Avenida Godofredo Maciel, 1155 - Parangaba","bairro":"Parangaba","alcance":"30,7 mil","lat":-3.785741,"lng":-38.5661577},{"mub":"058","code":"42425","name":"Av. Oliveira Paiva | Cometa Supermercado","addr":"Avenida Oliveira Paiva, 1735 - Parque Manibura","bairro":"Parque Manibura","alcance":"28,3 mil","lat":-3.79584,"lng":-38.49075},{"mub":"059","code":"42435","name":"Av. Domingos Olímpio | Faculdade Lourenço Filho","addr":"Avenida Domingos Olímpio, 1608 - José Bonifácio","bairro":"José Bonifácio","alcance":"18,6 mil","lat":-3.7346059,"lng":-38.5379368},{"mub":"060","code":"42436","name":"Av. Bernardo Manoel | Centerbox","addr":"Vila Três Américas, 10141 - Itaperi","bairro":"Itaperi","alcance":"18 mil","lat":-3.7887732,"lng":-38.5483887},{"mub":"062","code":"42457","name":"Av. Padre Ibiapina | Unifametro","addr":"Avenida Padre Ibiapina, 1313 - Jacarecanga","bairro":"Jacarecanga","alcance":"7 mil","lat":-3.7880124,"lng":-38.5666276},{"mub":"063","code":"42458","name":"Av. Aguanambi | Auto Escola Montenegro","addr":"Avenida Aguanambi, 1017 - Fátima","bairro":"Fátima","alcance":"Em estudo","lat":-3.745734,"lng":-38.5251239},{"mub":"064","code":"42459","name":"Av. Barão de Studart | Cobasi / Unimed","addr":"Avenida Barão de Studart, 800 - Aldeota","bairro":"Aldeota","alcance":"8,9 mil","lat":-3.7313547,"lng":-38.505835},{"mub":"065","code":"42462","name":"Av. Abolição | Igreja N. Sra. da Saúde","addr":"Avenida da Abolição, 3929 - Mucuripe","bairro":"Mucuripe","alcance":"10 mil","lat":-3.725081,"lng":-38.4838667},{"mub":"066","code":"42463","name":"Av. Borges de Melo | Rodoviária","addr":"Avenida Borges de Melo, 1630 - Fátima","bairro":"Fátima","alcance":"16,8 mil","lat":-3.7584688,"lng":-38.5297189},{"mub":"067","code":"42467","name":"Av. Raul Barbosa | Oposto Fellini","addr":"Avenida Governador Raul Barbosa, 1945 - Tauape","bairro":"Tauape","alcance":"19,7 mil","lat":-3.753352,"lng":-38.503881},{"mub":"068","code":"42468","name":"Av. Godofredo Maciel | Cometa Supermercado","addr":"Avenida Godofredo Maciel, 1945 - Maraponga","bairro":"Maraponga","alcance":"33 mil","lat":-3.7938268,"lng":-38.5687019},{"mub":"069","code":"42469","name":"Av. Presidente Juscelino Kubitschek | EMMTI","addr":"Avenida Juscelino Kubitschek, 3300 - Passaré","bairro":"Passaré","alcance":"45,7 mil","lat":-3.80855,"lng":-38.52606},{"mub":"070","code":"42493","name":"Av. Raul Barbosa | Shopping Ipiranga","addr":"Rua Floro Bartolomeu, 900 - Tauape","bairro":"Tauape","alcance":"72,3 mil","lat":-3.7598071,"lng":-38.5047585},{"mub":"072","code":"42511","name":"Av. Antônio Justa | Escola de Saúde do Ceará","addr":"Avenida Antônio Justa, 3113 - Meireles","bairro":"Meireles","alcance":"9,4 mil","lat":-3.7278557,"lng":-38.4929831},{"mub":"076","code":"42808","name":"Av. Desembargador Moreira, 1248","addr":"Avenida Desembargador Moreira, 1248 - Aldeota","bairro":"Aldeota","alcance":"26,3 mil","lat":-3.7378,"lng":-38.4975},{"mub":"077","code":"42809","name":"Av. Almirante Maximiniano da Fonseca","addr":"Av. Almirante Maximiniano da Fonseca, 1397 - Eng. Luciano Cavalcante","bairro":"Eng. Luciano Cavalcante","alcance":"21,7 mil","lat":-3.7711525,"lng":-38.4833182},{"mub":"078","code":"42811","name":"Av. Desembargador Moreira | Shopping Boulevard","addr":"Avenida Desembargador Moreira, 333 - Meireles","bairro":"Meireles","alcance":"4,4 mil","lat":-3.7298325,"lng":-38.4964054},{"mub":"079","code":"42810","name":"Av. Antônio Sales | Praça da Imprensa","addr":"Avenida Antônio Sales, 2442 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"17,0 mil","lat":-3.7456226,"lng":-38.5021165},{"mub":"080","code":"42813","name":"Av. Padre Antônio Tomás | Praça das Flores","addr":"Avenida Padre Antônio Tomás, 531 - Aldeota","bairro":"Aldeota","alcance":"20,6 mil","lat":-3.739,"lng":-38.498},{"mub":"081","code":"42845","name":"Av. Borges de Melo | Aeroporto CISP","addr":"Avenida Borges de Melo, 764 - Aeroporto","bairro":"Aeroporto","alcance":"18,5 mil","lat":-3.76064,"lng":-38.5259},{"mub":"083","code":"42862","name":"Av. Paulino Rocha | Morada dos Bosques","addr":"Avenida Deputado Paulino Rocha, 1001 - Cajazeiras","bairro":"Cajazeiras","alcance":"64 mil","lat":-3.8057303,"lng":-38.5077819},{"mub":"084","code":"42863","name":"Av. Coronel Carvalho","addr":"Avenida Coronel Carvalho, 2697 - Jardim Iracema","bairro":"Jardim Iracema","alcance":"17,5 mil","lat":-3.7267,"lng":-38.58562},{"mub":"085","code":"42905","name":"Av. Presidente Costa e Silva | Frotinha da Messejana","addr":"Avenida Presidente Costa e Silva, 1555 - Jangurussu","bairro":"Jangurussu","alcance":"Em estudo","lat":-3.8301669,"lng":-38.5090598},{"mub":"086","code":"42907","name":"Av. Gov. Parsifal Barroso | Parque Rachel de Queiroz","addr":"Avenida Governador Parsifal Barroso, 678 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"13,5 mil","lat":-3.73356,"lng":-38.56907},{"mub":"087","code":"42910","name":"Av. Senador Virgílio Távora | Esquina com a Anatel","addr":"Avenida Senador Virgílio Távora, 2454 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"17,7 mil","lat":-3.748067,"lng":-38.4968714},{"mub":"088","code":"43196","name":"Av. Senador Pompeu | Instituto José Frota","addr":"Avenida Senador Pompeu, 1810 - Centro","bairro":"Centro","alcance":"14,1 mil","lat":-3.73385,"lng":-38.53179},{"mub":"089","code":"43197","name":"Av. Vicente de Castro | Ed. Porto Jangada","addr":"Avenida Vicente de Castro, 4999 - Cais do Porto","bairro":"Cais do Porto","alcance":"7,2 mil","lat":-3.71932,"lng":-38.47557},{"mub":"090","code":"43211","name":"Av. Vicente de Castro | Grande Moinho Cearense","addr":"Avenida Vicente de Castro, 975 - Cais do Porto","bairro":"Cais do Porto","alcance":"6,7 mil","lat":-3.71477,"lng":-38.47411},{"mub":"091","code":"43212","name":"Av. Barão de Studart | Pracinha da Coelce","addr":"Avenida Barão de Studart, 2740 - Joaquim Távora","bairro":"Joaquim Távora","alcance":"8 mil","lat":-3.74773,"lng":-38.51074},{"mub":"092","code":"43213","name":"Av. 13 de Maio | Banco do Brasil","addr":"Avenida 13 de Maio, 1257 - Fátima","bairro":"Fátima","alcance":"23,9 mil","lat":-3.74858,"lng":-38.53015},{"mub":"093","code":"43214","name":"Av. Pontes Vieira | Ceará Motor","addr":"Avenida Pontes Vieira, 855 - Tauape","bairro":"Tauape","alcance":"26 mil","lat":-3.75311,"lng":-38.51624},{"mub":"094","code":"43218","name":"Av. Raul Barbosa | Pista de Skate do Cocó","addr":"Avenida Raul Barbosa, 6570 - Aerolândia","bairro":"Aerolândia","alcance":"80,3 mil","lat":-3.772289,"lng":-38.51201},{"mub":"095","code":"43219","name":"Rua José Hipólito | Shopping Giga Mall","addr":"Rua José Hipólito, 264 - Messejana","bairro":"Messejana","alcance":"34,5 mil","lat":-3.83296,"lng":-38.492439},{"mub":"096","code":"43260","name":"Av. Alberto Craveiro | Atacadão","addr":"Avenida Alberto Craveiro, 430 - Dias Macedo","bairro":"Dias Macedo","alcance":"90 mil","lat":-3.78161,"lng":-38.51613},{"mub":"101","code":"43458","name":"Av. Eng. Santana Júnior | Atacadão","addr":"Avenida Eng. Santana Júnior, 970 - Papicu","bairro":"Papicu","alcance":"19,3 mil","lat":-3.73675,"lng":-38.4826},{"mub":"102","code":"43459","name":"Av. Domingos Olímpio | Chevrolet Silcar","addr":"Avenida Domingos Olímpio, 1441 - Benfica","bairro":"Benfica","alcance":"32,7 mil","lat":-3.735396,"lng":-38.5362905},{"mub":"103","code":"43460","name":"Av. Santos Dumont | Loja Jeep","addr":"Avenida Santos Dumont, 7700 - Manoel Dias Branco","bairro":"Manoel Dias Branco","alcance":"22,3 mil","lat":-3.747519,"lng":-38.4645277},{"mub":"104","code":"43461","name":"Rua Bento Albuquerque | Praça do Colégio Alamar","addr":"Rua Bento Albuquerque, 2300 - Cocó","bairro":"Cocó","alcance":"29,2 mil","lat":-3.74844,"lng":-38.4689525},{"mub":"105","code":"43462","name":"Av. João Pessoa | Colégio Gustavo Braga","addr":"Avenida João Pessoa, 4680 - Damas","bairro":"Damas","alcance":"62,9 mil","lat":-3.7545475,"lng":-38.5512766},{"mub":"106","code":"43463","name":"Av. dos Expedicionários | Escola Filgueiras Lima","addr":"Avenida dos Expedicionários, 3910 - Jardim América","bairro":"Jardim América","alcance":"17,8 mil","lat":-3.7526023,"lng":-38.5376189},{"mub":"107","code":"43464","name":"Av. Mister Hull | Em frente à UFC","addr":"Avenida Mister Hull, 404 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"77,5 mil","lat":-3.7370961,"lng":-38.5725597},{"mub":"108","code":"43465","name":"Av. Sargento Hermínio | Padaria Espaço Gourmet","addr":"Avenida Sargento Hermínio, 880 - Monte Castelo","bairro":"Monte Castelo","alcance":"39,8 mil","lat":-3.7244245,"lng":-38.5487267},{"mub":"109","code":"43466","name":"Av. Monsenhor Tabosa | Frente à Movida","addr":"Avenida Monsenhor Tabosa, 1160 - Meireles","bairro":"Meireles","alcance":"28,5 mil","lat":-3.72428,"lng":-38.50877},{"mub":"110","code":"43520","name":"Av. Almirante Barroso | Carpa Hotel","addr":"Avenida Almirante Barroso, 727 - Praia de Iracema","bairro":"Praia de Iracema","alcance":"39,3 mil","lat":-3.72032,"lng":-38.51658},{"mub":"111","code":"43521","name":"Av. Desembargador Moreira | Caixa Econômica Federal","addr":"Avenida Desembargador Moreira, 115 - Meireles","bairro":"Meireles","alcance":"16,6 mil","lat":-3.7280589,"lng":-38.4953812},{"mub":"112","code":"43524","name":"Av. Desembargador Moreira | Pague Menos","addr":"Avenida Desembargador Moreira, 615 - Meireles","bairro":"Meireles","alcance":"8,4 mil","lat":-3.73172,"lng":-38.49688},{"mub":"113","code":"43525","name":"Av. Santos Dumont | Center Box","addr":"Avenida Santos Dumont, 6350 - Cocó","bairro":"Cocó","alcance":"15,3 mil","lat":-3.74348,"lng":-38.47604},{"mub":"114","code":"43588","name":"Av. Presidente Castelo Branco | Corpo de Bombeiros","addr":"Avenida Presidente Castelo Branco, 1000 - Moura Brasil","bairro":"Moura Brasil","alcance":"Em estudo","lat":-3.7178201,"lng":-38.5351306},{"mub":"115","code":"43589","name":"Av. Tristão Gonçalves | Igreja Universal","addr":"Avenida Tristão Gonçalves, 613 - Centro","bairro":"Centro","alcance":"9,8 mil","lat":-3.7275497,"lng":-38.5329822},{"mub":"116","code":"43611","name":"Av. Américo Barreira | Lagoa da Parangaba","addr":"Avenida Américo Barreira, 591 - Parangaba","bairro":"Parangaba","alcance":"38,2 mil","lat":-3.766754,"lng":-38.568374},{"mub":"117","code":"43612","name":"Av. Senador Fernandes Távora | Igreja dos Mórmons","addr":"Avenida Senador Fernandes Távora, 2200 - Autran Nunes","bairro":"Autran Nunes","alcance":"13,3 mil","lat":-3.75698,"lng":-38.59171},{"mub":"118","code":"43658","name":"Av. Almirante Barroso | Ministério Público do Trabalho","addr":"Avenida Almirante Barroso, 501 - Praia de Iracema","bairro":"Praia de Iracema","alcance":"34,3 mil","lat":-3.7206,"lng":-38.51868},{"mub":"119","code":"43659","name":"Av. Sargento Hermínio | Assaí Atacadista","addr":"Avenida Sargento Hermínio, 3100 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"54,6 mil","lat":-3.7276391,"lng":-38.56819},{"mub":"120","code":"43660","name":"Av. Dr. Theberge | RioMar Kennedy","addr":"Avenida Dr. Theberge, 2759 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"10,9 mil","lat":-3.7266198,"lng":-38.568569},{"mub":"121","code":"43661","name":"Av. Rogaciano Leite | Ed. Maison Verte","addr":"Avenida Rogaciano Leite, 200 - Jardim das Oliveiras","bairro":"Jardim das Oliveiras","alcance":"12,5 mil","lat":-3.7592627,"lng":-38.4922246},{"mub":"122","code":"43662","name":"Av. da Abolição | UBS Flávio Marcílio","addr":"Avenida da Abolição, 4599 - Meireles","bairro":"Meireles","alcance":"15,9 mil","lat":-3.72306,"lng":-38.4805608},{"mub":"123","code":"43663","name":"Av. Desembargador Moreira | Igreja Batista Manancial","addr":"Avenida Desembargador Moreira, 2669 - Aldeota","bairro":"Aldeota","alcance":"32,5 mil","lat":-3.74908,"lng":-38.5022172},{"mub":"124","code":"43664","name":"Av. Santos Dumont | Plaza Tower","addr":"Avenida Santos Dumont, 2500 - Aldeota","bairro":"Aldeota","alcance":"Em estudo","lat":-3.735096,"lng":-38.501979},{"mub":"125","code":"43665","name":"Av. Godofredo Maciel | Atacadão Supermercado","addr":"Avenida Godofredo Maciel, 3190 - Maraponga","bairro":"Maraponga","alcance":"30,3 mil","lat":-3.8035486,"lng":-38.5725082},{"mub":"126","code":"43666","name":"Av. Eng. Santana Júnior | Frangolândia","addr":"Avenida Eng. Santana Júnior, 3500 - Cocó","bairro":"Cocó","alcance":"19,8 mil","lat":-3.7499,"lng":-38.4906269},{"mub":"127","code":"43667","name":"Av. Desembargador Moreira | Hospital Militar","addr":"Avenida Desembargador Moreira, 1510 - Aldeota","bairro":"Aldeota","alcance":"40,8 mil","lat":-3.7393414,"lng":-38.499501},{"mub":"128","code":"43668","name":"Av. Pessoa Anta | Prédio Histórico","addr":"Avenida Pessoa Anta, 69 - Centro","bairro":"Centro","alcance":"33,6 mil","lat":-3.72106,"lng":-38.5222}];
+const PASS='urb@2025';
+let S={view:'grid',detailMub:null,sel:new Set(),terms:[],bairros:new Set(),adminMode:false,editMub:null,pendingPhoto:null,bairroPanelOpen:false};
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{alert('Armazenamento cheio. Tente uma imagem menor.')}}
+function getOvr(){return lsGet('mub_ovr')||{}}
+function getInactive(){return new Set(lsGet('mub_inactive')||[])}
+function getPhotos(){return lsGet('mub_photos')||{}}
+function saveOvr(o){lsSet('mub_ovr',o)}
+function saveInactive(s){lsSet('mub_inactive',[...s])}
+function savePhotos(p){lsSet('mub_photos',p)}
+function getPanel(origMub){const base=BASE_DATA_RAW.find(p=>p.mub===origMub)||{};const ovr=getOvr()[origMub]||{};return{...base,...ovr,_origMub:origMub};}
+function dMub(p){return p.displayMub||p.mub;}
+function getPanels(inclInactive=false){const inactive=getInactive();return BASE_DATA_RAW.map(p=>getPanel(p.mub)).filter(p=>inclInactive||!inactive.has(p._origMub)).sort((a,b)=>parseInt(dMub(a))-parseInt(dMub(b)));}
+function photoSrc(origMub){const ph=getPhotos();return ph[origMub]||`fotos/mub-${origMub}.jpg`;}
+function parseTerms(raw){return raw.split(/[\s,]+/).map(t=>t.trim().toLowerCase()).filter(t=>t.length>0);}
+function matchTerms(p,terms){if(!terms.length) return true;const hay=`${p.name} ${p.addr} ${p.bairro} ${p.code} ${dMub(p)} ${p._origMub}`.toLowerCase();return terms.some(t=>hay.includes(t));}
+function filtered(){return getPanels(S.adminMode).filter(p=>{const mt=matchTerms(p,S.terms);const mb=S.bairros.size===0||S.bairros.has(p.bairro);return mt&&mb;});}
+function toggleBairroPanel(){S.bairroPanelOpen=!S.bairroPanelOpen;const panel=document.getElementById('bairro-panel');const btn=document.getElementById('btn-bairro');if(S.bairroPanelOpen){panel.classList.add('open');btn.classList.add('active');positionBairroPanel();renderBairroPanel();document.getElementById('bp-q').focus();}else{panel.classList.remove('open');btn.classList.remove('active');document.getElementById('bp-q').value='';}}
+function positionBairroPanel(){const btn=document.getElementById('btn-bairro');const rect=btn.getBoundingClientRect();const panel=document.getElementById('bairro-panel');panel.style.left=rect.left+'px';panel.style.top=(rect.bottom+6)+'px';}
+function renderBairroPanel(){const q=(document.getElementById('bp-q').value||'').toLowerCase();const panels=getPanels(true);const all=[...new Set(panels.map(p=>p.bairro))].sort();const vis=q?all.filter(b=>b.toLowerCase().includes(q)):all;document.getElementById('bp-list').innerHTML=vis.map(b=>{const n=getPanels(false).filter(p=>p.bairro===b).length;const chk=S.bairros.has(b)?'checked':'';const esc=b.replace(/\\/g,'\\\\').replace(/'/g,"\\'");return`<label class="bp-row"><input type="checkbox" ${chk} onchange="toggleBairro('${esc}',this.checked)"><span class="bp-row-name">${b}</span><span class="bp-row-cnt">${n}</span></label>`;}).join('');}
+function toggleBairro(b,on){on?S.bairros.add(b):S.bairros.delete(b);updateChips();renderBairroPanel();render();}
+function clearBairros(){S.bairros.clear();if(document.getElementById('bp-q'))document.getElementById('bp-q').value='';updateChips();renderBairroPanel();render();}
+function updateChips(){const n=S.bairros.size;const badge=document.getElementById('bairro-badge');badge.textContent=n;badge.style.display=n>0?'inline':'none';const bar=document.getElementById('filter-bar');if(n===0){bar.style.display='none';return;}bar.style.display='flex';document.getElementById('chip-container').innerHTML=[...S.bairros].sort().map(b=>{const esc=b.replace(/\\/g,'\\\\').replace(/'/g,"\\'");return`<span class="chip">${b}<button onclick="toggleBairro('${esc}',false)">×</button></span>`;}).join('');}
+function toggleSel(origMub){S.sel.has(origMub)?S.sel.delete(origMub):S.sel.add(origMub);updateSelUI();const card=document.getElementById('card-'+origMub);if(card){card.classList.toggle('sel',S.sel.has(origMub));const chk=document.getElementById('chk-'+origMub);if(chk) chk.classList.toggle('on',S.sel.has(origMub));}const cb=document.getElementById('cb-'+origMub);if(cb) cb.checked=S.sel.has(origMub);if(S.detailMub===origMub) updateDetailBtn(origMub);}
+function clearSel(){S.sel.clear();updateSelUI();render();}
+function updateSelUI(){const n=S.sel.size;document.getElementById('sel-num').textContent=n;document.getElementById('btn-pdf').disabled=n===0;document.getElementById('btn-clrsel').style.display=n>0?'block':'none';}
+function updateDetailBtn(origMub){const btn=document.getElementById('d-sel-btn');if(!btn) return;const on=S.sel.has(origMub);btn.className='btn-d-sel '+(on?'on':'off');btn.innerHTML=on?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="15" height="15"><polyline points="20 6 9 17 4 12"/></svg> Selecionado`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Selecionar este painel`;}
+function openLightbox(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+function setView(v){S.view=v;S.detailMub=null;document.getElementById('vb-grid').classList.toggle('active',v==='grid');document.getElementById('vb-list').classList.toggle('active',v==='list');render();}
+function openDetail(origMub){S.detailMub=origMub;S.view='detail';render();}
+function closeDetail(){S.detailMub=null;S.view='grid';render();}
+function openMapFortaleza(){window.open('https://www.google.com/maps/@-3.7721,-38.5229,12z','_blank');}
+function mapsUrl(p){return(p.lat&&Math.abs(p.lat)>0.5)?`https://maps.google.com?q=${p.lat},${p.lng}`:null;}
+function render(){
+  const list=filtered();const rb=document.getElementById('res-bar');const ct=document.getElementById('content');const m=document.getElementById('main');
+  if(S.view==='detail'&&S.detailMub){m.classList.add('detail-bg');rb.textContent='';ct.innerHTML=renderDetail(getPanel(S.detailMub));return;}
+  m.classList.remove('detail-bg');
+  rb.textContent=`${list.length} painel${list.length!==1?'is':''} encontrado${list.length!==1?'s':''}`;
+  if(!list.length){ct.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>Nenhum painel encontrado.</p></div>`;return;}
+  ct.innerHTML=S.view==='grid'?renderGrid(list):renderList(list);
+}
+function phHtml(origMub,big=false){
+  const src=photoSrc(origMub);
+  const sz=big?48:28;
+  return `<img src="${src}" alt="MUB ${origMub}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph-fb" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="${sz}" height="${sz}"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span style="font-size:${big?13:10}px">MUB ${origMub}</span></div>`;
+}
+function renderGrid(list){
+  const inactive=getInactive();
+  return`<div class="grid">${list.map(p=>{
+    const om=p._origMub;const sel=S.sel.has(om);const inact=inactive.has(om);const url=mapsUrl(p);const dm=dMub(p);
+    const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');
+    const alcHtml=estudo?`<span class="alcance-estudo-pill">Em estudo</span>`:`<div class="alcance-pill"><span class="a-num">${p.alcance}</span><span class="a-unit">pessoas</span></div>`;
+    return`<div class="card${sel?' sel':''}${inact?' inactive-card':''}" id="card-${om}">
+      <div class="card-photo" onclick="openDetail('${om}')">
+        ${phHtml(om)}
+        <div class="photo-grad"></div>
+        <div class="card-chk${sel?' on':''}" id="chk-${om}" onclick="event.stopPropagation();toggleSel('${om}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        ${inact?'<div class="inactive-overlay">Inativo</div>':''}
+        <div class="photo-info">
+          <span class="mub-label">MUB ${dm}</span>
+          ${alcHtml}
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${p.name}</div>
+        <div class="card-addr">${p.addr}</div>
+        <span class="card-bairro">${p.bairro}</span>
+        <div class="card-actions">
+          <button class="act-btn" onclick="event.stopPropagation();openDetail('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Ver ficha</button>
+          ${url?`<div class="act-sep"></div><button class="act-btn" onclick="event.stopPropagation();window.open('${url}','_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Maps</button>`:''}
+        </div>
+        ${S.adminMode?`<div class="card-admin-bar"><button class="btn-card-edit" onclick="openEdit('${om}')">Editar</button>${inact?`<button class="btn-card-activate" onclick="toggleInactive('${om}')">Ativar</button>`:`<button class="btn-card-pause" onclick="toggleInactive('${om}')">Pausar</button>`}</div>`:''}
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+function renderList(list){
+  const inactive=getInactive();
+  return list.map(p=>{
+    const om=p._origMub;const sel=S.sel.has(om);const inact=inactive.has(om);const url=mapsUrl(p);const dm=dMub(p);
+    const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');
+    return`<div class="list-item${sel?' sel':''}${inact?' inactive-card':''}" id="card-${om}">
+      <div class="list-thumb" onclick="openDetail('${om}')">${phHtml(om)}</div>
+      <div class="list-body">
+        <div class="list-name">${p.name}</div>
+        <div class="list-addr">${p.addr}</div>
+        <div class="list-tags-row">
+          <span class="card-bairro">${p.bairro}</span>
+          ${!estudo?`<span class="list-alcance">${p.alcance} pessoas</span>`:'<span style="font-size:11px;color:#d97706">Em estudo</span>'}
+          <span class="list-code">· MUB ${dm} · Cód. ${p.code}</span>
+        </div>
+      </div>
+      <div class="list-actions">
+        <label class="list-chk-wrap"><input type="checkbox" id="cb-${om}" ${sel?'checked':''} onchange="toggleSel('${om}')"> Selecionar</label>
+        <button class="btn-sm" onclick="openDetail('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Ficha</button>
+        ${url?`<button class="btn-sm" onclick="window.open('${url}','_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Maps</button>`:''}
+        ${S.adminMode?`<button class="btn-sm" onclick="openEdit('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar</button>`:''}
+        ${S.adminMode?`<button class="btn-sm-red" onclick="toggleInactive('${om}')">${inact?'Ativar':'Pausar'}</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderDetail(p){
+  const om=p._origMub;const sel=S.sel.has(om);const url=mapsUrl(p);const dm=dMub(p);
+  const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');
+  const src=photoSrc(om);const inact=getInactive().has(om);
+  return`<div>
+    <button class="btn-back" onclick="closeDetail()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Voltar ao catálogo</button>
+    <div class="detail-photo-wrap" onclick="openLightbox('${src}')">
+      ${phHtml(om,true)}
+      <div class="zoom-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg> Clique para ver foto completa</div>
+    </div>
+    <div class="detail-name">${p.name}${inact?' <span style="font-size:14px;color:#fca5a5;font-weight:500">(Inativo)</span>':''}</div>
+    <div class="detail-addr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.addr}</div>
+    <div class="detail-data">
+      <div class="dd white"><div class="dd-lbl">Bairro</div><div class="dd-val" style="font-size:14px">${p.bairro}</div></div>
+      <div class="dd${estudo?'':' white'}"><div class="dd-lbl">Alcance estimado</div><div class="dd-val${estudo?'':' green'}">${estudo?'<span style="color:#fbbf24;font-size:14px">Em estudo</span>':p.alcance+' pessoas'}</div></div>
+      <div class="dd white"><div class="dd-lbl">MUB / Código</div><div class="dd-val" style="font-size:14px">${dm} / ${p.code}</div></div>
+    </div>
+    <div class="dd-full"><div class="dd-lbl">Coordenadas GPS</div><div class="dd-val">${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}</div></div>
+    <div class="detail-actions">
+      ${url?`<button class="btn-d-map" onclick="window.open('${url}','_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Ver no Google Maps</button>`:`<button class="btn-d-map" disabled style="opacity:.4;cursor:default">GPS em atualização</button>`}
+      <button class="btn-d-sel ${sel?'on':'off'}" id="d-sel-btn" onclick="toggleSel('${om}')">
+        ${sel?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="15" height="15"><polyline points="20 6 9 17 4 12"/></svg> Selecionado`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Selecionar este painel`}
+      </button>
+    </div>
+    ${S.adminMode?`<div class="detail-admin-bar"><button class="btn-d-edit" onclick="openEdit('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar painel</button><button class="btn-d-pause" onclick="toggleInactive('${om}');closeDetail()">${inact?'Ativar painel':'Pausar painel'}</button></div>`:''}
+  </div>`;
+}
+function buildPrint(panels){const today=new Date().toLocaleDateString('pt-BR');return panels.map(p=>{const url=mapsUrl(p);const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');const dm=dMub(p);return`<div class="pp"><div class="pp-head"><div class="pp-logo">urb<em>mídia</em></div><span>Circuito MUBs — Fortaleza</span><div class="pp-badge">MUB ${dm}</div></div><div class="pp-name">${p.name}</div><div class="pp-addr">${p.addr}</div><img src="${photoSrc(p._origMub)}" class="pp-photo" alt="MUB ${dm}" onerror="this.style.background='#f1f5f9'"><div class="pp-grid"><div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">${p.bairro}</div></div><div class="pp-box"><div class="pp-label">Alcance estimado</div><div class="pp-val" style="color:#1d4ed8">${estudo?'Em estudo':p.alcance+' pessoas'}</div></div><div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">${p.code}</div></div></div><div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}${url?` · <a href="${url}" style="color:#2563eb">${url}</a>`:''}</div><div class="pp-footer"><span>urbmídia — Catálogo Circuito MUBs Fortaleza</span><span>Gerado em ${today}</span></div></div>`;}).join('');}
+function printSelected(){const p=getPanels(false).filter(x=>S.sel.has(x._origMub));if(!p.length) return;document.getElementById('print-area').innerHTML=buildPrint(p);setTimeout(()=>window.print(),150);}
+function printAll(){document.getElementById('print-area').innerHTML=buildPrint(getPanels(false));setTimeout(()=>window.print(),150);}
+function openAdminLogin(){document.getElementById('admin-login-overlay').classList.add('open');setTimeout(()=>document.getElementById('admin-pwd').focus(),100);}
+function closeAdminLogin(){document.getElementById('admin-login-overlay').classList.remove('open');document.getElementById('admin-pwd').value='';document.getElementById('login-err').textContent='';}
+function doLogin(){const v=document.getElementById('admin-pwd').value;const stored=localStorage.getItem('mub_admin_pwd')||PASS;if(v===stored){S.adminMode=true;document.getElementById('admin-pwd').value='';document.getElementById('login-err').textContent='';closeAdminLogin();document.getElementById('admin-bar').classList.add('visible');document.getElementById('mode-badge').textContent='Modo admin';document.getElementById('mode-badge').className='admin';document.getElementById('nr-adm').classList.add('active');render();}else{document.getElementById('login-err').textContent='Senha incorreta. Tente novamente.';}}
+function doLogout(){S.adminMode=false;document.getElementById('admin-bar').classList.remove('visible');document.getElementById('mode-badge').textContent='Modo cliente';document.getElementById('mode-badge').className='';document.getElementById('nr-adm').classList.remove('active');render();}
+function toggleInactive(origMub){const s=getInactive();s.has(origMub)?s.delete(origMub):s.add(origMub);saveInactive(s);render();}
+function openEdit(origMub){S.editMub=origMub;S.pendingPhoto=null;const p=getPanel(origMub);document.getElementById('edit-h3').textContent=`Editar — MUB ${dMub(p)}`;document.getElementById('e-mub').value=dMub(p);document.getElementById('e-code').value=p.code||'';document.getElementById('e-name').value=p.name||'';document.getElementById('e-addr').value=p.addr||'';document.getElementById('e-bairro').value=p.bairro||'';document.getElementById('e-alcance').value=p.alcance||'';document.getElementById('e-lat').value=p.lat||'';document.getElementById('e-lng').value=p.lng||'';document.getElementById('photo-input').value='';const photos=getPhotos();const src=photos[origMub]||`fotos/mub-${origMub}.jpg`;showUploadPreview(src);document.getElementById('edit-overlay').classList.add('open');}
+function closeEdit(){document.getElementById('edit-overlay').classList.remove('open');S.editMub=null;S.pendingPhoto=null;}
+function showUploadPreview(src){const img=document.getElementById('uz-img');const empty=document.getElementById('uz-empty');const chg=document.getElementById('uz-change');img.onload=()=>{img.style.display='block';empty.style.display='none';chg.style.display='block';};img.onerror=()=>{img.style.display='none';empty.style.display='block';chg.style.display='none';};img.src=src;}
+function onPhotoChange(input){const file=input.files[0];if(!file) return;if(file.size>5*1024*1024){alert('Arquivo muito grande. Máximo 5MB.');input.value='';return;}const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');const img=new Image();img.onload=()=>{const maxW=1200,maxH=900;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}canvas.width=w;canvas.height=h;ctx.drawImage(img,0,0,w,h);const b64=canvas.toDataURL('image/jpeg',0.85);S.pendingPhoto=b64;showUploadPreview(b64);};img.src=URL.createObjectURL(file);}
+function saveEdit(){const origMub=S.editMub;if(!origMub) return;const newDm=document.getElementById('e-mub').value.trim();const ovr=getOvr();ovr[origMub]={displayMub:newDm!==origMub?newDm:undefined,code:document.getElementById('e-code').value.trim(),name:document.getElementById('e-name').value.trim(),addr:document.getElementById('e-addr').value.trim(),bairro:document.getElementById('e-bairro').value.trim(),alcance:document.getElementById('e-alcance').value.trim(),lat:parseFloat(document.getElementById('e-lat').value)||0,lng:parseFloat(document.getElementById('e-lng').value)||0};if(!ovr[origMub].displayMub) delete ovr[origMub].displayMub;saveOvr(ovr);if(S.pendingPhoto){const ph=getPhotos();ph[origMub]=S.pendingPhoto;savePhotos(ph);}closeEdit();render();}
+document.getElementById('search-input').addEventListener('input',e=>{S.terms=parseTerms(e.target.value);render();});
+document.getElementById('admin-pwd').addEventListener('keydown',e=>{if(e.key==='Enter') doLogin();});
+document.getElementById('edit-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('edit-overlay')) closeEdit();});
+document.getElementById('admin-login-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('admin-login-overlay')) closeAdminLogin();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();closeEdit();closeAdminLogin();}});
+document.addEventListener('click',e=>{if(!S.bairroPanelOpen) return;const panel=document.getElementById('bairro-panel');const btn=document.getElementById('btn-bairro');if(!panel.contains(e.target)&&!btn.contains(e.target)){S.bairroPanelOpen=false;panel.classList.remove('open');btn.classList.remove('active');}});
+window.addEventListener('resize',()=>{if(S.bairroPanelOpen) positionBairroPanel();});
+render();
+
+</script>
+</body>
+</html>
