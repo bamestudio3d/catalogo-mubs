@@ -1000,82 +1000,7 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
 
 <script>
 
-const BASE_DATA_RAW = [{"mub":"001","code":"41559","name":"Av. Desembargador Moreira | Praça da Imprensa","addr":"Avenida Desembargador Moreira, 2398 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"22,6 mil","lat":-3.746593,"lng":-38.501688},{"mub":"002","code":"41561","name":"Av. Godofredo Maciel | Detran Maraponga","addr":"Avenida Godofredo Maciel, 2900 - Maraponga","bairro":"Maraponga","alcance":"43,9 mil","lat":-3.8021442,"lng":-38.5719397},{"mub":"003","code":"41563","name":"Av. Dr. Silas Munguba | Próximo ao Banco do Nordeste","addr":"Avenida Doutor Silas Munguba, 5556 - Passaré","bairro":"Passaré","alcance":"49,7 mil","lat":-3.7911667,"lng":-38.5378627},{"mub":"004","code":"41596","name":"Av. Desembargador Gonzaga | Igreja da Glória","addr":"Avenida Desembargador Gonzaga, 1040 - Parque Iracema","bairro":"Parque Iracema","alcance":"63,8 mil","lat":-3.7964,"lng":-38.50017},{"mub":"005","code":"41565","name":"Av. Beira Mar | Praia de Iracema","addr":"Avenida Historiador Raimundo Girão, 843 - Praia de Iracema","bairro":"Praia de Iracema","alcance":"22,9 mil","lat":-3.72221,"lng":-38.50824},{"mub":"006","code":"41591","name":"Av. Abolição | Praia Náutico","addr":"Avenida da Abolição, 2790 - Meireles","bairro":"Meireles","alcance":"13,8 mil","lat":-3.7273,"lng":-38.4944049},{"mub":"007","code":"41592","name":"Av. Santos Dumont | Center Um","addr":"Avenida Santos Dumont, 3131 - Aldeota","bairro":"Aldeota","alcance":"6,1 mil","lat":-3.738671,"lng":-38.4903534},{"mub":"008","code":"41593","name":"Av. Fernandes Távora | North Shopping Jockey","addr":"Avenida Senador Fernandes Távora, 236 - Jóquei Clube","bairro":"Jóquei Clube","alcance":"19,5 mil","lat":-3.7658529,"lng":-38.5751611},{"mub":"009","code":"41594","name":"Av. Treze de Maio | Igreja de Fátima","addr":"Avenida Treze de Maio, 605 - Fátima","bairro":"Fátima","alcance":"53,9 mil","lat":-3.75213,"lng":-38.5262},{"mub":"010","code":"41595","name":"Av. Dom Luís, 705 | Espaço Aberto","addr":"Avenida Dom Luís, 705 - Meireles","bairro":"Meireles","alcance":"13,4 mil","lat":-3.734044,"lng":-38.494932},{"mub":"011","code":"41832","name":"Av. Santos Dumont | BS Gold","addr":"Avenida Santos Dumont, 3601 - Aldeota","bairro":"Aldeota","alcance":"28,3 mil","lat":-3.738671,"lng":-38.4903534},{"mub":"012","code":"41833","name":"Av. Desembargador Moreira | Praça das Flores","addr":"Avenida Desembargador Moreira, 1435 - Aldeota","bairro":"Aldeota","alcance":"49,4 mil","lat":-3.738419,"lng":-38.4990579},{"mub":"013","code":"41834","name":"Av. Antônio Sales | Pinheiro Supermercado","addr":"Avenida Antônio Sales, 3316 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"28,5 mil","lat":-3.7479361,"lng":-38.4948371},{"mub":"014","code":"41835","name":"Av. Pontes Vieira | Assembleia Legislativa","addr":"Avenida Pontes Vieira, 2340 - Tauape","bairro":"Tauape","alcance":"1,8 mil","lat":-3.7513729,"lng":-38.5007311},{"mub":"015","code":"41843","name":"Av. Alberto Craveiro | Igreja São Francisco de Assis","addr":"Avenida Alberto Craveiro, 28 - Dias Macedo","bairro":"Dias Macedo","alcance":"47,1 mil","lat":-3.7860844,"lng":-38.5169877},{"mub":"016","code":"41956","name":"Av. Sebastião de Abreu | Leroy Merlin","addr":"Avenida Sebastião de Abreu, 600 - Edson Queiroz","bairro":"Edson Queiroz","alcance":"1,9 mil","lat":-3.7579461,"lng":-38.4841115},{"mub":"019","code":"41953","name":"Av. Barão de Studart | Esq. Av. Antônio Sales","addr":"Avenida Barão de Studart, 2190 - Joaquim Távora","bairro":"Joaquim Távora","alcance":"1,7 mil","lat":-3.74277,"lng":-38.50927},{"mub":"021","code":"41975","name":"Av. Monsenhor Tabosa | Frente ao Ideal Clube","addr":"Avenida Monsenhor Tabosa, 1448 - Meireles","bairro":"Meireles","alcance":"30,3 mil","lat":-3.7245694,"lng":-38.506209},{"mub":"022","code":"41976","name":"Av. Treze de Maio | Praça da Gentilândia","addr":"Avenida Treze de Maio, 2301 - Fátima","bairro":"Fátima","alcance":"25,3 mil","lat":-3.7427288,"lng":-38.5372385},{"mub":"024","code":"41977","name":"Av. Rogaciano Leite | Nissan","addr":"Avenida Rogaciano Leite, 524 - Salinas","bairro":"Salinas","alcance":"23,8 mil","lat":-3.76353,"lng":-38.49459},{"mub":"026","code":"42010","name":"Av. Dr. Silas Munguba | UECE","addr":"Avenida Doutor Silas Munguba, 2259 - Serrinha","bairro":"Serrinha","alcance":"51,9 mil","lat":-3.7855405,"lng":-38.5515317},{"mub":"028","code":"41995","name":"Av. Duque de Caxias | Extrafarma","addr":"Avenida Duque de Caxias, 808 - Centro","bairro":"Centro","alcance":"45,8 mil","lat":-3.7311162,"lng":-38.5316952},{"mub":"029","code":"41963","name":"Av. Humberto Monte | Frente Praça da UFC","addr":"Avenida Humberto Monte, 2677 - Pici","bairro":"Pici","alcance":"27,8 mil","lat":-3.7391565,"lng":-38.5690078},{"mub":"030","code":"41988","name":"Av. Pontes Vieira | Frente à Praça João Távora","addr":"Avenida Pontes Vieira, 400 - Tauape","bairro":"Tauape","alcance":"33,5 mil","lat":-3.7533166,"lng":-38.5169606},{"mub":"031","code":"42004","name":"Av. José Bastos | Em frente ao Hemoce","addr":"Avenida José Bastos, 3396 - Rodolfo Teófilo","bairro":"Rodolfo Teófilo","alcance":"40 mil","lat":-3.749442,"lng":-38.549983},{"mub":"034","code":"42005","name":"Av. Santos Dumont | Planeta Bebê","addr":"Avenida Santos Dumont, 3757 - Aldeota","bairro":"Aldeota","alcance":"27,0 mil","lat":-3.73907,"lng":-38.48971},{"mub":"036","code":"41952","name":"Av. Jovita Feitosa | Praça Ari de Sá","addr":"Avenida Jovita Feitosa, 1089 - Amadeu Furtado","bairro":"Amadeu Furtado","alcance":"18 mil","lat":-3.7393103,"lng":-38.5528292},{"mub":"037","code":"41955","name":"Av. Domingos Olímpio | Oposto Ceará Off Road","addr":"Avenida Domingos Olímpio, 137 - José Bonifácio","bairro":"José Bonifácio","alcance":"7,5 mil","lat":-3.7386497,"lng":-38.5253273},{"mub":"038","code":"42007","name":"Av. Eng. Santana Júnior | Habibs","addr":"Avenida Engenheiro Santana Júnior, 1901 - Cocó","bairro":"Cocó","alcance":"21,2 mil","lat":-3.7423998,"lng":-38.4863944},{"mub":"039","code":"42008","name":"Av. Dom Luís | Lopes Imóveis","addr":"Avenida Dom Luís, 230 - Meireles","bairro":"Meireles","alcance":"13,2 mil","lat":-3.7591632,"lng":-38.5048039},{"mub":"044","code":"42506","name":"Av. João Pessoa | Cometa Supermercado","addr":"Avenida João Pessoa, 5099 - Damas","bairro":"Damas","alcance":"63,9 mil","lat":-3.7566847,"lng":-38.5529618},{"mub":"049","code":"42237","name":"Av. Sargento Hermínio | Polo de Lazer","addr":"Avenida Sargento Hermínio Sampaio, 2056 - Monte Castelo","bairro":"Monte Castelo","alcance":"41,7 mil","lat":-3.7259895,"lng":-38.5592892},{"mub":"050","code":"42251","name":"Av. Expedicionários | Assaí Supermercado","addr":"Avenida dos Expedicionários, 4364 - Jardim América","bairro":"Jardim América","alcance":"6,9 mil","lat":-3.7556039,"lng":-38.5392724},{"mub":"051","code":"42299","name":"Av. Jovita Feitosa | Igreja Redonda","addr":"Avenida Jovita Feitosa, 2733 - Amadeu Furtado","bairro":"Amadeu Furtado","alcance":"13,8 mil","lat":-3.7409932,"lng":-38.5612192},{"mub":"052","code":"42370","name":"Av. Mister Hull | Varejão da Fórmica","addr":"Avenida Mister Hull, 4035 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"24,5 mil","lat":-3.7381788,"lng":-38.5805808},{"mub":"053","code":"42376","name":"Estação Couto Fernandes","addr":"Avenida José Bastos, 4675 - Bela Vista","bairro":"Bela Vista","alcance":"5,8 mil","lat":-3.7575107,"lng":-38.5577096},{"mub":"054","code":"42377","name":"Av. Silas Munguba | Frente GBarbosa","addr":"Avenida Dedé Brasil, 450 - Parangaba","bairro":"Parangaba","alcance":"45,6 mil","lat":-3.8326984,"lng":-38.5641174},{"mub":"055","code":"42400","name":"Assembleia Legislativa","addr":"Avenida Pontes Vieira, 2101 - Tauape","bairro":"Tauape","alcance":"13,2 mil","lat":-3.7510764,"lng":-38.5027657},{"mub":"057","code":"42417","name":"Carneiro Prime","addr":"Avenida Godofredo Maciel, 1155 - Parangaba","bairro":"Parangaba","alcance":"30,7 mil","lat":-3.785741,"lng":-38.5661577},{"mub":"058","code":"42425","name":"Av. Oliveira Paiva | Cometa Supermercado","addr":"Avenida Oliveira Paiva, 1735 - Parque Manibura","bairro":"Parque Manibura","alcance":"28,3 mil","lat":-3.79584,"lng":-38.49075},{"mub":"059","code":"42435","name":"Av. Domingos Olímpio | Faculdade Lourenço Filho","addr":"Avenida Domingos Olímpio, 1608 - José Bonifácio","bairro":"José Bonifácio","alcance":"18,6 mil","lat":-3.7346059,"lng":-38.5379368},{"mub":"060","code":"42436","name":"Av. Bernardo Manoel | Centerbox","addr":"Vila Três Américas, 10141 - Itaperi","bairro":"Itaperi","alcance":"18 mil","lat":-3.7887732,"lng":-38.5483887},{"mub":"062","code":"42457","name":"Av. Padre Ibiapina | Unifametro","addr":"Avenida Padre Ibiapina, 1313 - Jacarecanga","bairro":"Jacarecanga","alcance":"7 mil","lat":-3.7880124,"lng":-38.5666276},{"mub":"063","code":"42458","name":"Av. Aguanambi | Auto Escola Montenegro","addr":"Avenida Aguanambi, 1017 - Fátima","bairro":"Fátima","alcance":"Em estudo","lat":-3.745734,"lng":-38.5251239},{"mub":"064","code":"42459","name":"Av. Barão de Studart | Cobasi / Unimed","addr":"Avenida Barão de Studart, 800 - Aldeota","bairro":"Aldeota","alcance":"8,9 mil","lat":-3.7313547,"lng":-38.505835},{"mub":"065","code":"42462","name":"Av. Abolição | Igreja N. Sra. da Saúde","addr":"Avenida da Abolição, 3929 - Mucuripe","bairro":"Mucuripe","alcance":"10 mil","lat":-3.725081,"lng":-38.4838667},{"mub":"066","code":"42463","name":"Av. Borges de Melo | Rodoviária","addr":"Avenida Borges de Melo, 1630 - Fátima","bairro":"Fátima","alcance":"16,8 mil","lat":-3.7584688,"lng":-38.5297189},{"mub":"067","code":"42467","name":"Av. Raul Barbosa | Oposto Fellini","addr":"Avenida Governador Raul Barbosa, 1945 - Tauape","bairro":"Tauape","alcance":"19,7 mil","lat":-3.753352,"lng":-38.503881},{"mub":"068","code":"42468","name":"Av. Godofredo Maciel | Cometa Supermercado","addr":"Avenida Godofredo Maciel, 1945 - Maraponga","bairro":"Maraponga","alcance":"33 mil","lat":-3.7938268,"lng":-38.5687019},{"mub":"069","code":"42469","name":"Av. Presidente Juscelino Kubitschek | EMMTI","addr":"Avenida Juscelino Kubitschek, 3300 - Passaré","bairro":"Passaré","alcance":"45,7 mil","lat":-3.80855,"lng":-38.52606},{"mub":"070","code":"42493","name":"Av. Raul Barbosa | Shopping Ipiranga","addr":"Rua Floro Bartolomeu, 900 - Tauape","bairro":"Tauape","alcance":"72,3 mil","lat":-3.7598071,"lng":-38.5047585},{"mub":"072","code":"42511","name":"Av. Antônio Justa | Escola de Saúde do Ceará","addr":"Avenida Antônio Justa, 3113 - Meireles","bairro":"Meireles","alcance":"9,4 mil","lat":-3.7278557,"lng":-38.4929831},{"mub":"076","code":"42808","name":"Av. Desembargador Moreira, 1248","addr":"Avenida Desembargador Moreira, 1248 - Aldeota","bairro":"Aldeota","alcance":"26,3 mil","lat":-3.7378,"lng":-38.4975},{"mub":"077","code":"42809","name":"Av. Almirante Maximiniano da Fonseca","addr":"Av. Almirante Maximiniano da Fonseca, 1397 - Eng. Luciano Cavalcante","bairro":"Eng. Luciano Cavalcante","alcance":"21,7 mil","lat":-3.7711525,"lng":-38.4833182},{"mub":"078","code":"42811","name":"Av. Desembargador Moreira | Shopping Boulevard","addr":"Avenida Desembargador Moreira, 333 - Meireles","bairro":"Meireles","alcance":"4,4 mil","lat":-3.7298325,"lng":-38.4964054},{"mub":"079","code":"42810","name":"Av. Antônio Sales | Praça da Imprensa","addr":"Avenida Antônio Sales, 2442 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"17,0 mil","lat":-3.7456226,"lng":-38.5021165},{"mub":"080","code":"42813","name":"Av. Padre Antônio Tomás | Praça das Flores","addr":"Avenida Padre Antônio Tomás, 531 - Aldeota","bairro":"Aldeota","alcance":"20,6 mil","lat":-3.739,"lng":-38.498},{"mub":"081","code":"42845","name":"Av. Borges de Melo | Aeroporto CISP","addr":"Avenida Borges de Melo, 764 - Aeroporto","bairro":"Aeroporto","alcance":"18,5 mil","lat":-3.76064,"lng":-38.5259},{"mub":"083","code":"42862","name":"Av. Paulino Rocha | Morada dos Bosques","addr":"Avenida Deputado Paulino Rocha, 1001 - Cajazeiras","bairro":"Cajazeiras","alcance":"64 mil","lat":-3.8057303,"lng":-38.5077819},{"mub":"084","code":"42863","name":"Av. Coronel Carvalho","addr":"Avenida Coronel Carvalho, 2697 - Jardim Iracema","bairro":"Jardim Iracema","alcance":"17,5 mil","lat":-3.7267,"lng":-38.58562},{"mub":"085","code":"42905","name":"Av. Presidente Costa e Silva | Frotinha da Messejana","addr":"Avenida Presidente Costa e Silva, 1555 - Jangurussu","bairro":"Jangurussu","alcance":"Em estudo","lat":-3.8301669,"lng":-38.5090598},{"mub":"086","code":"42907","name":"Av. Gov. Parsifal Barroso | Parque Rachel de Queiroz","addr":"Avenida Governador Parsifal Barroso, 678 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"13,5 mil","lat":-3.73356,"lng":-38.56907},{"mub":"087","code":"42910","name":"Av. Senador Virgílio Távora | Esquina com a Anatel","addr":"Avenida Senador Virgílio Távora, 2454 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"17,7 mil","lat":-3.748067,"lng":-38.4968714},{"mub":"088","code":"43196","name":"Av. Senador Pompeu | Instituto José Frota","addr":"Avenida Senador Pompeu, 1810 - Centro","bairro":"Centro","alcance":"14,1 mil","lat":-3.73385,"lng":-38.53179},{"mub":"089","code":"43197","name":"Av. Vicente de Castro | Ed. Porto Jangada","addr":"Avenida Vicente de Castro, 4999 - Cais do Porto","bairro":"Cais do Porto","alcance":"7,2 mil","lat":-3.71932,"lng":-38.47557},{"mub":"090","code":"43211","name":"Av. Vicente de Castro | Grande Moinho Cearense","addr":"Avenida Vicente de Castro, 975 - Cais do Porto","bairro":"Cais do Porto","alcance":"6,7 mil","lat":-3.71477,"lng":-38.47411},{"mub":"091","code":"43212","name":"Av. Barão de Studart | Pracinha da Coelce","addr":"Avenida Barão de Studart, 2740 - Joaquim Távora","bairro":"Joaquim Távora","alcance":"8 mil","lat":-3.74773,"lng":-38.51074},{"mub":"092","code":"43213","name":"Av. 13 de Maio | Banco do Brasil","addr":"Avenida 13 de Maio, 1257 - Fátima","bairro":"Fátima","alcance":"23,9 mil","lat":-3.74858,"lng":-38.53015},{"mub":"093","code":"43214","name":"Av. Pontes Vieira | Ceará Motor","addr":"Avenida Pontes Vieira, 855 - Tauape","bairro":"Tauape","alcance":"26 mil","lat":-3.75311,"lng":-38.51624},{"mub":"094","code":"43218","name":"Av. Raul Barbosa | Pista de Skate do Cocó","addr":"Avenida Raul Barbosa, 6570 - Aerolândia","bairro":"Aerolândia","alcance":"80,3 mil","lat":-3.772289,"lng":-38.51201},{"mub":"095","code":"43219","name":"Rua José Hipólito | Shopping Giga Mall","addr":"Rua José Hipólito, 264 - Messejana","bairro":"Messejana","alcance":"34,5 mil","lat":-3.83296,"lng":-38.492439},{"mub":"096","code":"43260","name":"Av. Alberto Craveiro | Atacadão","addr":"Avenida Alberto Craveiro, 430 - Dias Macedo","bairro":"Dias Macedo","alcance":"90 mil","lat":-3.78161,"lng":-38.51613},{"mub":"101","code":"43458","name":"Av. Eng. Santana Júnior | Atacadão","addr":"Avenida Eng. Santana Júnior, 970 - Papicu","bairro":"Papicu","alcance":"19,3 mil","lat":-3.73675,"lng":-38.4826},{"mub":"102","code":"43459","name":"Av. Domingos Olímpio | Chevrolet Silcar","addr":"Avenida Domingos Olímpio, 1441 - Benfica","bairro":"Benfica","alcance":"32,7 mil","lat":-3.735396,"lng":-38.5362905},{"mub":"103","code":"43460","name":"Av. Santos Dumont | Loja Jeep","addr":"Avenida Santos Dumont, 7700 - Manoel Dias Branco","bairro":"Manoel Dias Branco","alcance":"22,3 mil","lat":-3.747519,"lng":-38.4645277},{"mub":"104","code":"43461","name":"Rua Bento Albuquerque | Praça do Colégio Alamar","addr":"Rua Bento Albuquerque, 2300 - Cocó","bairro":"Cocó","alcance":"29,2 mil","lat":-3.74844,"lng":-38.4689525},{"mub":"105","code":"43462","name":"Av. João Pessoa | Colégio Gustavo Braga","addr":"Avenida João Pessoa, 4680 - Damas","bairro":"Damas","alcance":"62,9 mil","lat":-3.7545475,"lng":-38.5512766},{"mub":"106","code":"43463","name":"Av. dos Expedicionários | Escola Filgueiras Lima","addr":"Avenida dos Expedicionários, 3910 - Jardim América","bairro":"Jardim América","alcance":"17,8 mil","lat":-3.7526023,"lng":-38.5376189},{"mub":"107","code":"43464","name":"Av. Mister Hull | Em frente à UFC","addr":"Avenida Mister Hull, 404 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"77,5 mil","lat":-3.7370961,"lng":-38.5725597},{"mub":"108","code":"43465","name":"Av. Sargento Hermínio | Padaria Espaço Gourmet","addr":"Avenida Sargento Hermínio, 880 - Monte Castelo","bairro":"Monte Castelo","alcance":"39,8 mil","lat":-3.7244245,"lng":-38.5487267},{"mub":"109","code":"43466","name":"Av. Monsenhor Tabosa | Frente à Movida","addr":"Avenida Monsenhor Tabosa, 1160 - Meireles","bairro":"Meireles","alcance":"28,5 mil","lat":-3.72428,"lng":-38.50877},{"mub":"110","code":"43520","name":"Av. Almirante Barroso | Carpa Hotel","addr":"Avenida Almirante Barroso, 727 - Praia de Iracema","bairro":"Praia de Iracema","alcance":"39,3 mil","lat":-3.72032,"lng":-38.51658},{"mub":"111","code":"43521","name":"Av. Desembargador Moreira | Caixa Econômica Federal","addr":"Avenida Desembargador Moreira, 115 - Meireles","bairro":"Meireles","alcance":"16,6 mil","lat":-3.7280589,"lng":-38.4953812},{"mub":"112","code":"43524","name":"Av. Desembargador Moreira | Pague Menos","addr":"Avenida Desembargador Moreira, 615 - Meireles","bairro":"Meireles","alcance":"8,4 mil","lat":-3.73172,"lng":-38.49688},{"mub":"113","code":"43525","name":"Av. Santos Dumont | Center Box","addr":"Avenida Santos Dumont, 6350 - Cocó","bairro":"Cocó","alcance":"15,3 mil","lat":-3.74348,"lng":-38.47604},{"mub":"114","code":"43588","name":"Av. Presidente Castelo Branco | Corpo de Bombeiros","addr":"Avenida Presidente Castelo Branco, 1000 - Moura Brasil","bairro":"Moura Brasil","alcance":"Em estudo","lat":-3.7178201,"lng":-38.5351306},{"mub":"115","code":"43589","name":"Av. Tristão Gonçalves | Igreja Universal","addr":"Avenida Tristão Gonçalves, 613 - Centro","bairro":"Centro","alcance":"9,8 mil","lat":-3.7275497,"lng":-38.5329822},{"mub":"116","code":"43611","name":"Av. Américo Barreira | Lagoa da Parangaba","addr":"Avenida Américo Barreira, 591 - Parangaba","bairro":"Parangaba","alcance":"38,2 mil","lat":-3.766754,"lng":-38.568374},{"mub":"117","code":"43612","name":"Av. Senador Fernandes Távora | Igreja dos Mórmons","addr":"Avenida Senador Fernandes Távora, 2200 - Autran Nunes","bairro":"Autran Nunes","alcance":"13,3 mil","lat":-3.75698,"lng":-38.59171},{"mub":"118","code":"43658","name":"Av. Almirante Barroso | Ministério Público do Trabalho","addr":"Avenida Almirante Barroso, 501 - Praia de Iracema","bairro":"Praia de Iracema","alcance":"34,3 mil","lat":-3.7206,"lng":-38.51868},{"mub":"119","code":"43659","name":"Av. Sargento Hermínio | Assaí Atacadista","addr":"Avenida Sargento Hermínio, 3100 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"54,6 mil","lat":-3.7276391,"lng":-38.56819},{"mub":"120","code":"43660","name":"Av. Dr. Theberge | RioMar Kennedy","addr":"Avenida Dr. Theberge, 2759 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"10,9 mil","lat":-3.7266198,"lng":-38.568569},{"mub":"121","code":"43661","name":"Av. Rogaciano Leite | Ed. Maison Verte","addr":"Avenida Rogaciano Leite, 200 - Jardim das Oliveiras","bairro":"Jardim das Oliveiras","alcance":"12,5 mil","lat":-3.7592627,"lng":-38.4922246},{"mub":"122","code":"43662","name":"Av. da Abolição | UBS Flávio Marcílio","addr":"Avenida da Abolição, 4599 - Meireles","bairro":"Meireles","alcance":"15,9 mil","lat":-3.72306,"lng":-38.4805608},{"mub":"123","code":"43663","name":"Av. Desembargador Moreira | Igreja Batista Manancial","addr":"Avenida Desembargador Moreira, 2669 - Aldeota","bairro":"Aldeota","alcance":"32,5 mil","lat":-3.74908,"lng":-38.5022172},{"mub":"124","code":"43664","name":"Av. Santos Dumont | Plaza Tower","addr":"Avenida Santos Dumont, 2500 - Aldeota","bairro":"Aldeota","alcance":"Em estudo","lat":-3.735096,"lng":-38.501979},{"mub":"125","code":"43665","name":"Av. Godofredo Maciel | Atacadão Supermercado","addr":"Avenida Godofredo Maciel, 3190 - Maraponga","bairro":"Maraponga","alcance":"30,3 mil","lat":-3.8035486,"lng":-38.5725082},{"mub":"126","code":"43666","name":"Av. Eng. Santana Júnior | Frangolândia","addr":"Avenida Eng. Santana Júnior, 3500 - Cocó","bairro":"Cocó","alcance":"19,8 mil","lat":-3.7499,"lng":-38.4906269},{"mub":"127","code":"43667","name":"Av. Desembargador Moreira | Hospital Militar","addr":"Avenida Desembargador Moreira, 1510 - Aldeota","bairro":"Aldeota","alcance":"40,8 mil","lat":-3.7393414,"lng":-38.499501},{"mub":"128","code":"43668","name":"Av. Pessoa Anta | Prédio Histórico","addr":"Avenida Pessoa Anta, 69 - Centro","bairro":"Centro","alcance":"33,6 mil","lat":-3.72106,"lng":-38.5222}];
-const BASE_H=[
-{"pid":"H001","code":"41153","name":"Av. Des. Moreira / Rua Maria Tomásia","addr":"Esquina Maria Tomásia - Pague Menos","bairro":"Aldeota","alcance":"7,2 mil","tamanho":"9,00 x 3,00 m","lat":-3.7350158,"lng":-38.4981503},
-{"pid":"H002","code":"41159","name":"Av. Washington Soares / Entrada Iguatemi","addr":"Shopping Iguatemi Miguel Dias","bairro":"Edson Queiroz","alcance":"31,8 mil","tamanho":"6,00 x 2,00 m","lat":-3.7576492,"lng":-38.4884538},
-{"pid":"H003","code":"41162","name":"Av. Sebastião de Abreu / Entrada Iguatemi","addr":"Sentido Unifor","bairro":"Edson Queiroz","alcance":"39,4 mil","tamanho":"9,00 x 3,00 m","lat":-3.7562737,"lng":-38.4835072},
-{"pid":"H004","code":"41164","name":"Av. Eng. Santana Jr. / Entrada Iguatemi","addr":"Sentido UNIFOR / FORUM","bairro":"Cocó","alcance":"39,4 mil","tamanho":"9,00 x 2,00 m","lat":-3.7546047,"lng":-38.4908371},
-{"pid":"H006","code":"41231","name":"Av. Rogaciano Leite / Farm. Pague Menos","addr":"Av. Rogaciano Leite - Salinas","bairro":"Salinas","alcance":"12,7 mil","tamanho":"6,00 x 2,00 m","lat":-3.7595659,"lng":-38.4924751},
-{"pid":"H008","code":"41229","name":"Av. Santos Dumont / Rua Cel. Jucá","addr":"BNB Clube","bairro":"Aldeota","alcance":"20,1 mil","tamanho":"9,00 x 3,00 m","lat":-3.738405,"lng":-38.491463},
-{"pid":"H009","code":"41228","name":"Av. Santos Dumont / Rua Mons. Catão","addr":"BNB Clube 2","bairro":"Aldeota","alcance":"19,1 mil","tamanho":"9,00 x 3,00 m","lat":-3.7388388,"lng":-38.4913},
-{"pid":"H010","code":"41227","name":"Av. Bezerra de Menezes / Colégio Master","addr":"Sentido Caucaia","bairro":"Presidente Kennedy","alcance":"2,6 mil","tamanho":"9,00 x 3,00 m","lat":-3.7343502,"lng":-38.5604027},
-{"pid":"H011","code":"41226","name":"Av. Washington Soares / Cons. Gomes de Freitas","addr":"Próx. Shopping Via Sul - Sentido Iguatemi","bairro":"Parque Manibura","alcance":"14,9 mil","tamanho":"9,00 x 3,00 m","lat":-3.7959424,"lng":-38.4797944},
-{"pid":"H012","code":"41225","name":"Av. Washington Soares / Próx. Shopping Via Sul","addr":"Sentido Iguatemi","bairro":"Parque Manibura","alcance":"14,9 mil","tamanho":"9,00 x 3,00 m","lat":-3.7962,"lng":-38.4800},
-{"pid":"H013","code":"41224","name":"Av. Washington Soares / Nissan","addr":"Sentido Iguatemi","bairro":"Edson Queiroz","alcance":"36,3 mil","tamanho":"9,00 x 3,00 m","lat":-3.7767381,"lng":-38.4812737},
-{"pid":"H014","code":"41223","name":"Av. Washington Soares / Jaysa","addr":"Sentido Iguatemi","bairro":"Edson Queiroz","alcance":"23,3 mil","tamanho":"9,00 x 3,00 m","lat":-3.7715683,"lng":-38.481729},
-{"pid":"H016","code":"41221","name":"Av. Dom Luís / Av. Virgílio Távora","addr":"Posto BR","bairro":"Meireles","alcance":"14,7 mil","tamanho":"6,00 x 2,00 m","lat":-3.7348592,"lng":-38.4927973},
-{"pid":"H018","code":"41219","name":"Av. Des. Moreira / Av. Ant. Sales","addr":"Colégio Santo Inácio","bairro":"Aldeota","alcance":"8,9 mil","tamanho":"9,00 x 3,00 m","lat":-3.7459948,"lng":-38.5013338},
-{"pid":"H019","code":"41218","name":"Av. Dom Luís / Rua Cel. Jucá","addr":"Próx. Pátio Do Luís","bairro":"Meireles","alcance":"17 mil","tamanho":"9,00 x 3,00 m","lat":-3.7355748,"lng":-38.4908163},
-{"pid":"H020","code":"41217","name":"Av. Júlio Ventura / Av. Barão de Studart","addr":"Sentido Centro","bairro":"Aldeota","alcance":"13,8 mil","tamanho":"9,00 x 3,00 m","lat":-3.7389617,"lng":-38.5081154},
-{"pid":"H021","code":"41374","name":"Av. Historiador Raimundo Girão","addr":"Ideal Club","bairro":"Meireles","alcance":"21,9 mil","tamanho":"9,00 x 3,00 m","lat":-3.7232408,"lng":-38.5058035},
-{"pid":"H022","code":"41216","name":"Av. Aguanambi / Hosp. Unimed","addr":"Frente BR 116","bairro":"Fátima","alcance":"18,6 mil","tamanho":"9,00 x 3,00 m","lat":-3.7570494,"lng":-38.5203441},
-{"pid":"H023","code":"41215","name":"Av. Duque de Caxias / Av. Visc. do Rio Branco","addr":"Faculdade Estácio","bairro":"Centro","alcance":"25,9 mil","tamanho":"9,00 x 3,00 m","lat":-3.733643,"lng":-38.524621},
-{"pid":"H088","code":"43654","name":"Av. Bezerra de Menezes, 216","addr":"Posto SP - José Bonifácio","bairro":"José Bonifácio","alcance":"21,1 mil","tamanho":"9,00 x 3,00 m","lat":-3.73135,"lng":-38.5423692},
-{"pid":"H098","code":"44253","name":"Av. Alberto Craveiro, 2300","addr":"Seminário São José - Dias Macedo","bairro":"Dias Macedo","alcance":"Em estudo","tamanho":"9,00 x 3,00 m","lat":-3.8003551,"lng":-38.5197126}
-];
-const BASE_V=[
-{"pid":"V017","code":"41901","name":"Av. Antônio Sales / Paroma Luminação","addr":"Av. Antônio Sales, Sentido Iguatemi - Dionísio Torres","bairro":"Dionísio Torres","alcance":"26 mil","tamanho":"3,00 x 5,00 m","lat":-3.7470757,"lng":-38.4981925},
-{"pid":"V024","code":"41254","name":"Av. Dom Luís - Ibyte Aldeota","addr":"Av. Dom Luís - Aldeota","bairro":"Aldeota","alcance":"14,3 mil","tamanho":"3,00 x 5,00 m","lat":-3.7321809,"lng":-38.5006227},
-{"pid":"V025","code":"41253","name":"Av. Washington Soares / Rest. Raiz","addr":"Av. Washington Soares, Sentido Eusébio - Edson Queiroz","bairro":"Edson Queiroz","alcance":"40,2 mil","tamanho":"3,00 x 5,00 m","lat":-3.7873163,"lng":-38.4807785},
-{"pid":"V026","code":"41252","name":"Av. Chanceler Edson Queiroz / 2M Autos","addr":"Av. Chanceler Edson Queiroz, Sentido Av. Rogaciano Leite","bairro":"Edson Queiroz","alcance":"39,5 mil","tamanho":"3,00 x 5,00 m","lat":-3.7673225,"lng":-38.4872234},
-{"pid":"V027","code":"41251","name":"Av. Dom Luís - Est. Manhattan","addr":"Av. Dom Luís - Meireles","bairro":"Meireles","alcance":"22,6 mil","tamanho":"4,00 x 7,00 m","lat":-3.7352598,"lng":-38.4912371},
-{"pid":"V028","code":"41250","name":"Av. Barão de Studart / Honda Nova Luz","addr":"Av. Barão de Studart, Sentido Beira Mar - Aldeota","bairro":"Aldeota","alcance":"15,3 mil","tamanho":"3,00 x 5,00 m","lat":-3.7269911,"lng":-38.5041196},
-{"pid":"V030","code":"41248","name":"Av. Engenheiro Santana Júnior - Terreno Manhattan","addr":"Av. Eng. Santana Júnior - Cocó","bairro":"Cocó","alcance":"13,9 mil","tamanho":"3,00 x 5,00 m","lat":-3.7475345,"lng":-38.4900983},
-{"pid":"V031","code":"41247","name":"Av. Santos Dumont - Outeiro Mall","addr":"Av. Santos Dumont - Aldeota","bairro":"Aldeota","alcance":"3,7 mil","tamanho":"3,00 x 5,00 m","lat":-3.7374181,"lng":-38.4949206},
-{"pid":"V032","code":"41246","name":"Av. Barão de Studart - Carmais","addr":"Av. Barão de Studart, Sentido Pontes Vieira - Aldeota","bairro":"Aldeota","alcance":"10,3 mil","tamanho":"3,00 x 5,00 m","lat":-3.7392889,"lng":-38.5083557},
-{"pid":"V033","code":"41245","name":"Rua Frei Mansueto - Arena BT 500","addr":"Rua Frei Mansueto - Aldeota","bairro":"Aldeota","alcance":"1 mil","tamanho":"3,00 x 5,00 m","lat":-3.7286724,"lng":-38.488907},
-{"pid":"V034","code":"41244","name":"Av. Pontes Vieira - Pague Menos","addr":"Av. Pontes Vieira - Tauape","bairro":"Tauape","alcance":"20,5 mil","tamanho":"3,00 x 5,00 m","lat":-3.7524621,"lng":-38.5108493},
-{"pid":"V035","code":"41243","name":"Av. Abolição - Pague Menos","addr":"Av. Abolição, Próx. Bradesco - Meireles","bairro":"Meireles","alcance":"15,7 mil","tamanho":"3,00 x 5,00 m","lat":-3.725041,"lng":-38.503},
-{"pid":"V036","code":"41242","name":"Av. Pe. Antônio Tomás / Rua Joaquim Nabuco","addr":"Av. Pe. Antônio Tomás / Rua Joaquim Nabuco - Aldeota","bairro":"Aldeota","alcance":"12,1 mil","tamanho":"3,00 x 5,00 m","lat":-3.73936,"lng":-38.502389},
-{"pid":"V037","code":"41241","name":"Av. Desembargador Moreira - Pague Menos","addr":"Av. Desembargador Moreira - Aldeota","bairro":"Aldeota","alcance":"18,4 mil","tamanho":"3,00 x 5,00 m","lat":-3.742971,"lng":-38.500446},
-{"pid":"V038","code":"41240","name":"Rua Ildefonso Albano - Pague Menos","addr":"Rua Ildefonso Albano, Próx. Praia de Iracema","bairro":"Praia de Iracema","alcance":"2 mil","tamanho":"3,00 x 5,00 m","lat":-3.7211207,"lng":-38.5095668},
-{"pid":"V039","code":"41239","name":"Av. Treze de Maio - Pague Menos","addr":"Av. Treze de Maio - Fátima","bairro":"Fátima","alcance":"23,8 mil","tamanho":"3,00 x 5,00 m","lat":-3.736084,"lng":-38.4897058},
-{"pid":"V040","code":"41375","name":"Av. Monsenhor Tabosa - Ideal Clube","addr":"Av. Monsenhor Tabosa - Meireles","bairro":"Meireles","alcance":"30,3 mil","tamanho":"3,00 x 5,00 m","lat":-3.7239426,"lng":-38.5062093},
-{"pid":"V041","code":"41238","name":"Av. Dom Luís - Pague Menos","addr":"Av. Dom Luís - Meireles","bairro":"Meireles","alcance":"21,8 mil","tamanho":"3,00 x 5,00 m","lat":-3.736084,"lng":-38.4897058},
-{"pid":"V042","code":"41237","name":"Av. Alberto Magno - Pague Menos","addr":"Av. Alberto Magno - Messejana","bairro":"Messejana","alcance":"20,6 mil","tamanho":"3,00 x 5,00 m","lat":-3.764883,"lng":-38.5504698},
-{"pid":"V043","code":"41236","name":"Av. Oliveira Paiva - Pague Menos","addr":"Av. Oliveira Paiva - Parque Manibura","bairro":"Parque Manibura","alcance":"72,6 mil","tamanho":"3,00 x 5,00 m","lat":-3.7984193,"lng":-38.5027098},
-{"pid":"V045","code":"41234","name":"Av. Silas Munguba - Cia Dos Móveis","addr":"Av. Silas Munguba - Passaré","bairro":"Passaré","alcance":"61 mil","tamanho":"3,00 x 5,00 m","lat":-3.7777071,"lng":-38.5611301},
-{"pid":"V048","code":"41213","name":"Av. Torres Câmara - Clínica Cláudio Melo","addr":"Av. Torres Câmara - Aldeota","bairro":"Aldeota","alcance":"32,9 mil","tamanho":"3,00 x 5,00 m","lat":-3.7363054,"lng":-38.5049772},
-{"pid":"V050","code":"41211","name":"Av. Santos Dumont - Res. Parque Santos Dumont","addr":"Av. Santos Dumont - Aldeota","bairro":"Aldeota","alcance":"19,2 mil","tamanho":"3,00 x 5,00 m","lat":-3.7381537,"lng":-38.4945},
-{"pid":"V051","code":"41210","name":"Av. Engenheiro Santana Jr. - Belfort","addr":"Av. Eng. Santana Jr. - Cocó","bairro":"Cocó","alcance":"334","tamanho":"3,00 x 5,00 m","lat":-3.7385166,"lng":-38.4837104},
-{"pid":"V054","code":"42371","name":"Iguatemi - Av. Eng. Santana Junior","addr":"Av. Eng. Santana Junior, Edson Queiroz - Sentido Aldeota","bairro":"Edson Queiroz","alcance":"31,8 mil","tamanho":"3,00 x 5,00 m","lat":-3.75350,"lng":-38.49067},
-{"pid":"V055","code":"42599","name":"Av. Bezerra de Menezes, 1665 - Auge Motos","addr":"Av. Bezerra de Menezes, 1665 - Presidente Kennedy","bairro":"Presidente Kennedy","alcance":"18,2 mil","tamanho":"3,00 x 5,00 m","lat":-3.7350044,"lng":-38.5594545},
-{"pid":"V056","code":"42728","name":"Av. Pontes Vieira, 2250 - Posto Jorge Vieira","addr":"Av. Pontes Vieira, 2250 - Tauape","bairro":"Tauape","alcance":"19,1 mil","tamanho":"3,00 x 5,00 m","lat":-3.7515237,"lng":-38.5018457},
-{"pid":"V057","code":"42739","name":"Av. Washington Soares, 611 - Posto Reis Magos II","addr":"Av. Washington Soares, 611 - Cocó","bairro":"Cocó","alcance":"9,9 mil","tamanho":"3,00 x 5,00 m","lat":-3.7580469,"lng":-38.4861667},
-{"pid":"V058","code":"42797","name":"Posto Pequeno Grande - Av. Aguanambi, 1579","addr":"Av. Aguanambi, 1579 - Fátima","bairro":"Fátima","alcance":"17,5 mil","tamanho":"3,00 x 5,00 m","lat":-3.75086,"lng":-38.523295},
-{"pid":"V059","code":"42799","name":"Posto Alfa - Av. Pres. Castelo Branco, 3100","addr":"Av. Pres. Castelo Branco, 3100 - Pirambu","bairro":"Pirambu","alcance":"12 mil","tamanho":"3,00 x 5,00 m","lat":-3.7112764,"lng":-38.5576729},
-{"pid":"V060","code":"42800","name":"Posto Santo - Av. Dr. Silas Munguba, 5555","addr":"Av. Dr. Silas Munguba, 5555 - Parangaba","bairro":"Parangaba","alcance":"51,7 mil","tamanho":"3,00 x 5,00 m","lat":-3.8030545,"lng":-38.5281848},
-{"pid":"V061","code":"42815","name":"Posto Campeão - Av. Maestro Lisboa, 1100","addr":"Av. Maestro Lisboa, 1100 - José de Alencar","bairro":"José de Alencar","alcance":"15,7 mil","tamanho":"3,00 x 5,00 m","lat":-3.8081602,"lng":-38.4698687},
-{"pid":"V062","code":"42887","name":"Av. Caminho do Sol - Pinheiro Supermercado","addr":"Av. Caminho do Sol, 3980 - Porto das Dunas - Aquiraz","bairro":"Porto das Dunas","alcance":"8 mil","tamanho":"3,00 x 5,00 m","lat":-3.8490763,"lng":-38.3958761},
-{"pid":"V063","code":"42892","name":"Av. Antônio Sales - Praça da Imprensa","addr":"Av. Antônio Sales, 2462 - Dionísio Torres","bairro":"Dionísio Torres","alcance":"17 mil","tamanho":"4,00 x 7,00 m","lat":-3.7457574,"lng":-38.5019905},
-{"pid":"V064","code":"42927","name":"Av. Dom Luís - Colégio Espaço Aberto","addr":"Av. Dom Luís, 780 - Aldeota","bairro":"Aldeota","alcance":"12,2 mil","tamanho":"3,00 x 5,00 m","lat":-3.73441149,"lng":-38.4943538},
-{"pid":"V065","code":"42928","name":"Av. Aguanambi - Hospital Uniclinic","addr":"Av. Aguanambi, 384 - José Bonifácio","bairro":"José Bonifácio","alcance":"39,7 mil","tamanho":"3,00 x 5,00 m","lat":-3.73973,"lng":-38.52481},
-{"pid":"V066","code":"42929","name":"Av. Juscelino Kubitschek - Hospital Sarah","addr":"Av. Juscelino Kubitschek, 4547 - Passaré","bairro":"Passaré","alcance":"20,6 mil","tamanho":"3,00 x 5,00 m","lat":-3.8218294,"lng":-38.5352029},
-{"pid":"V070","code":"43259","name":"Acal Home Center - Av. Godofredo Maciel","addr":"Av. Godofredo Maciel, 767 - Parangaba","bairro":"Parangaba","alcance":"4,7 mil","tamanho":"3,00 x 5,00 m","lat":-3.7832733,"lng":-38.5647709},
-{"pid":"V072","code":"43308","name":"Posto Aliança - Av. Júlio Ibiapina, 318","addr":"Av. Júlio Ibiapina, 318 - Meireles","bairro":"Meireles","alcance":"9,6 mil","tamanho":"3,00 x 5,00 m","lat":-3.7285686,"lng":-38.4910473},
-{"pid":"V073","code":"43309","name":"Pátio Cocó - Av. Eng. Santana Júnior","addr":"Av. Eng. Santana Júnior - Verd Mall - Cocó","bairro":"Cocó","alcance":"40,9 mil","tamanho":"3,00 x 5,00 m","lat":-3.74646,"lng":-38.489269},
-{"pid":"V074","code":"43321","name":"Av. Dom Luís - Petsanus","addr":"Av. Dom Luís, 55 - Meireles","bairro":"Meireles","alcance":"12,5 mil","tamanho":"3,00 x 5,00 m","lat":-3.7318494,"lng":-38.5007878},
-{"pid":"V075","code":"43359","name":"Av. Paulino Rocha - Posto SP","addr":"Av. Paulino Rocha, 1100 - Cajazeiras","bairro":"Cajazeiras","alcance":"64 mil","tamanho":"3,00 x 5,00 m","lat":-3.8057303,"lng":-38.5077819},
-{"pid":"V078","code":"43394","name":"Av. Santos Dumont - Unimed","addr":"Av. Santos Dumont, 1670 - Meireles","bairro":"Meireles","alcance":"Em estudo","tamanho":"3,00 x 5,00 m","lat":-3.732954,"lng":-38.5090519},
-{"pid":"V080","code":"43474","name":"Grand Shopping - Av. Frei Cirilo, 3840","addr":"Av. Frei Cirilo, 3840 - Messejana","bairro":"Messejana","alcance":"76,7 mil","tamanho":"3,00 x 5,00 m","lat":-3.8218294,"lng":-38.5352029},
-{"pid":"V099","code":"44254","name":"Av. Washington Soares, 2050 - Posto Via Sul","addr":"Av. Washington Soares, 2050 - Edson Queiroz","bairro":"Edson Queiroz","alcance":"Em estudo","tamanho":"3,00 x 5,00 m","lat":-3.7767278,"lng":-38.4819739},
-{"pid":"V100","code":"44262","name":"ProHospital - Av. Barão de Studart, 706","addr":"Av. Barão de Studart, 706 - Meireles","bairro":"Meireles","alcance":"Em estudo","tamanho":"3,00 x 5,00 m","lat":-3.7301169,"lng":-38.5052963},
-{"pid":"V102","code":"44266","name":"ProHospital - Av. Eusébio de Queiroz, 2152","addr":"Av. Eusébio de Queiroz, 2152 - Eusébio","bairro":"Eusébio","alcance":"Em estudo","tamanho":"3,00 x 5,00 m","lat":-3.8725703,"lng":-38.4654095},
-{"pid":"V104","code":"50799","name":"Imobiliária Ary - Av. Júlio Ibiapina, 50","addr":"Av. Júlio Ibiapina, 50 - Meireles","bairro":"Meireles","alcance":"Em estudo","tamanho":"3,00 x 5,00 m","lat":-3.7262363,"lng":-38.4915775},
-{"pid":"V105","code":"51036","name":"Ibyte Parangaba - Av. Germano Franck, 720","addr":"Av. Germano Franck, 720 - Parangaba","bairro":"Parangaba","alcance":"Em estudo","tamanho":"3,00 x 5,00 m","lat":-3.7773163,"lng":-38.5623757},
-{"pid":"V107","code":"59368","name":"Posto SP - Av. Dom Manuel, 1017","addr":"Av. Dom Manuel, 1017 - Centro","bairro":"Centro","alcance":"Em estudo","tamanho":"3,00 x 5,00 m","lat":-3.733036,"lng":-38.5225637}
-];
+// (Listas estáticas antigas BASE_DATA_RAW/BASE_H/BASE_V removidas: os painéis vêm do Firestore.)
 const PASS='urb@2025';
 /* ── Cidades e Modelos de painel agora vivem no Firestore (coleções "cidades" e
    "modelos"), geridos pela tela de Admin — nada disso precisa mais de alteração
@@ -1130,7 +1055,7 @@ function modelosList(){return modelosEfetivos().slice().sort(function(a,b){retur
 function modeloOptionsHtml(){
   var html='<option value="">Personalizado (preencher manualmente)</option>';
   modelosList().forEach(function(m){
-    html+='<option value="'+m._docId+'">'+m.label+' — '+(m.tamanho||'')+'</option>';
+    html+='<option value="'+escHtml(m._docId)+'">'+escHtml(m.label)+' — '+escHtml(m.tamanho||'')+'</option>';
   });
   html+='<option value="__novo__">+ Cadastrar novo modelo…</option>';
   return html;
@@ -1146,13 +1071,18 @@ function applyModeloPreset(prefix){
   document.getElementById(prefix+'-tempo').value=m.tempo||'';
 }
 let S={view:'grid',detailMub:null,sel:new Set(),terms:[],bairros:new Set(),adminMode:false,editMub:null,pendingPhoto:null,removePhoto:false,bairroPanelOpen:false,pracaPanelOpen:false,category:'abrigos',regiao:'Fortaleza',cidade:'Fortaleza',sortBy:'numero',searchScope:'category'}; // searchScope: 'category' (padrão) | 'praca' (todas categorias, praça atual) | 'catalog' (todo o catálogo, todas as praças)
-function lsGet(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}}
-function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){alert('Armazenamento do navegador está cheio (limite de ~5MB por site).\n\nAs fotos enviadas pelo editor ficam salvas no navegador, não em um servidor — por isso o espaço acaba.\n\nPara liberar espaço agora: abra o Console (F12), rode\nlocalStorage.removeItem(\'mub_photos\')\ne tente salvar de novo. Painéis originais voltam a usar a foto padrão da pasta fotos/.');return false;}}
 function isH(){return S.category==='horizontais';}
+/* ── Helpers adicionados na revisão ── */
+function escHtml(v){return (v==null?'':String(v)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+var _pIdxSrc=null,_pIdx=null;
+function panelById(id){var arr=window.PANELS_CACHE||[];if(arr!==_pIdxSrc){_pIdx=new Map();arr.forEach(function(p){_pIdx.set(p._docId,p);});_pIdxSrc=arr;}return _pIdx.get(id);}
+function numOf(p){var n=parseInt(String((p&&p.numero)||'').replace(/\D/g,''),10);return isNaN(n)?Infinity:n;}
+function cmpNum(a,b){var na=numOf(a),nb=numOf(b);if(na===nb)return 0;return na<nb?-1:1;}
+var CAT_ORD={abrigos:0,horizontais:1,verticais:2};
+function cmpCatNum(a,b){var oa=CAT_ORD[a._printCat],ob=CAT_ORD[b._printCat];if(oa==null)oa=9;if(ob==null)ob=9;if(oa!==ob)return oa-ob;return cmpNum(a,b);}
+function parseCoord(v){var n=parseFloat(String(v||'').trim().replace(',','.'));return isNaN(n)?0:n;}
 // Fonte de dados: window.PANELS_CACHE, mantido em tempo real pelo listener onSnapshot
-// definido no <script type="module"> no topo do <body>. BASE_DATA_RAW/BASE_H/BASE_V
-// (arrays estáticas originais, logo abaixo) foram mantidas apenas como referência
-// histórica — não são mais lidas por este app.
+// definido no <script type="module"> no topo do <body>.
 function activeBase(){
   return (window.PANELS_CACHE||[]).filter(function(p){
     if(S.searchScope==='catalog') return true; // todo o catálogo: ignora praça e categoria
@@ -1186,15 +1116,10 @@ function catLabelFull(p){
 function catTipo(p){return p.categoria==='horizontais'?'Painel':'MUB';}
 function panelKeyOf(p){return p._docId;}
 function photoSrc(key){
-  var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===key;});
-  if(p&&p.fotoUrl) return p.fotoUrl;
-  var numero=p?p.numero:key;
-  var cat=p?p.categoria:S.category;
-  if(cat==='horizontais') return 'fotos-h/painel-'+numero+'.jpg';
-  if(cat==='verticais') return 'fotos-v/painel-'+numero+'.jpg';
-  return 'fotos/mub-'+numero+'.jpg';
+  var p=panelById(key);
+  return (p&&p.fotoUrl) ? p.fotoUrl : ''; // só foto cadastrada no banco; sem busca em pastas do GitHub
 }
-function isInactive(key){var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===key;});return !!(p&&p.ativo===false);}
+function isInactive(key){var p=panelById(key);return !!(p&&p.ativo===false);}
 function setCategory(cat){
   closeDetail();
   S.category=cat;S.terms=[];S.bairros=new Set();S.searchScope='category';
@@ -1208,18 +1133,14 @@ function setCategory(cat){
   updateChips();updateSelUI();updateTabCounts();render();
 }
 function getPanel(key){
-  var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===key;})||{};
+  var p=panelById(key)||{};
   return Object.assign({}, p, {_origMub:key,_key:key,_isNew:p.origem==='admin'});
 }
 function dMub(p){return p.numero;}
 function getPanels(inclInactive=false){
   return activeBase().filter(function(p){
     return inclInactive || p.ativo!==false;
-  }).map(function(p){return getPanel(p._docId);}).sort(function(a,b){
-    var na=parseInt((dMub(a)||'').replace(/\D/g,''));
-    var nb=parseInt((dMub(b)||'').replace(/\D/g,''));
-    return na-nb;
-  });
+  }).map(function(p){return getPanel(p._docId);}).sort(cmpNum);
 }
 /* photoSrc agora em funções de categoria */
 function parseTerms(raw){return raw.split(/[\s,]+/).map(t=>t.trim().toLowerCase()).filter(t=>t.length>0);}
@@ -1256,12 +1177,12 @@ function renderPracaPanel(){
   pracaGroups().forEach(function(grp){
     var lista=grp.cidades.filter(function(c){return !q||c.nome.toLowerCase().includes(q);});
     if(!lista.length) return;
-    html+='<div class="bp-group-head">'+grp.grupo+'</div>';
+    html+='<div class="bp-group-head">'+escHtml(grp.grupo)+'</div>';
     lista.forEach(function(c){
       var active=(c.nome===S.cidade);
       html+='<div class="bp-row praca-row'+(active?' active':'')+'" onclick="setPraca(\''+(grp.grupo||'').replace(/'/g,"\\'")+'\',\''+c.nome.replace(/'/g,"\\'")+'\')">'+
         (active?'<svg class="bp-row-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':'<span style="width:14px;flex-shrink:0"></span>')+
-        '<span class="bp-row-name">'+c.nome+'</span></div>';
+        '<span class="bp-row-name">'+escHtml(c.nome)+'</span></div>';
     });
   });
   html+='<div class="bp-row praca-row" style="color:#2563eb;font-weight:600;border-top:1px solid #eef2f7;margin-top:6px;padding-top:10px" onclick="closePracaPanel();abrirGerenciarCidades();"><span style="width:14px;flex-shrink:0"></span><span class="bp-row-name">+ Gerenciar cidades</span></div>';
@@ -1302,16 +1223,16 @@ function setPraca(regiao,cidade){
 }
 function toggleBairroPanel(){S.bairroPanelOpen=!S.bairroPanelOpen;const panel=document.getElementById('bairro-panel');const btn=document.getElementById('btn-bairro');if(S.bairroPanelOpen){panel.classList.add('open');btn.classList.add('active');positionBairroPanel();renderBairroPanel();document.getElementById('bp-q').focus();}else{panel.classList.remove('open');btn.classList.remove('active');document.getElementById('bp-q').value='';}}
 function positionBairroPanel(){const btn=document.getElementById('btn-bairro');const rect=btn.getBoundingClientRect();const panel=document.getElementById('bairro-panel');panel.style.left=rect.left+'px';panel.style.top=(rect.bottom+6)+'px';}
-function renderBairroPanel(){const q=(document.getElementById('bp-q').value||'').toLowerCase();const panels=getPanels(true);const all=[...new Set(panels.map(p=>p.bairro))].sort();const vis=q?all.filter(b=>b.toLowerCase().includes(q)):all;document.getElementById('bp-list').innerHTML=vis.map(b=>{const n=getPanels(false).filter(p=>p.bairro===b).length;const chk=S.bairros.has(b)?'checked':'';const esc=b.replace(/\\/g,'\\\\').replace(/'/g,"\\'");return`<label class="bp-row"><input type="checkbox" ${chk} onchange="toggleBairro('${esc}',this.checked)"><span class="bp-row-name">${b}</span><span class="bp-row-cnt">${n}</span></label>`;}).join('');}
+function renderBairroPanel(){const q=(document.getElementById('bp-q').value||'').toLowerCase();const panels=getPanels(true);const all=[...new Set(panels.map(p=>p.bairro).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));const cnt={};getPanels(false).forEach(p=>{if(p.bairro)cnt[p.bairro]=(cnt[p.bairro]||0)+1;});const vis=q?all.filter(b=>b.toLowerCase().includes(q)):all;document.getElementById('bp-list').innerHTML=vis.map(b=>{const n=cnt[b]||0;const chk=S.bairros.has(b)?'checked':'';const esc=b.replace(/\\/g,'\\\\').replace(/'/g,"\\'");return`<label class="bp-row"><input type="checkbox" ${chk} onchange="toggleBairro('${escHtml(esc)}',this.checked)"><span class="bp-row-name">${escHtml(b)}</span><span class="bp-row-cnt">${n}</span></label>`;}).join('');}
 function toggleBairro(b,on){on?S.bairros.add(b):S.bairros.delete(b);updateChips();renderBairroPanel();render();}
 function clearBairros(){S.bairros.clear();if(document.getElementById('bp-q'))document.getElementById('bp-q').value='';updateChips();renderBairroPanel();render();}
-function updateChips(){const n=S.bairros.size;const badge=document.getElementById('bairro-badge');badge.textContent=n;badge.style.display=n>0?'inline':'none';const bar=document.getElementById('filter-bar');if(n===0){bar.style.display='none';return;}bar.style.display='flex';document.getElementById('chip-container').innerHTML=[...S.bairros].sort().map(b=>{const esc=b.replace(/\\/g,'\\\\').replace(/'/g,"\\'");return`<span class="chip">${b}<button onclick="toggleBairro('${esc}',false)">×</button></span>`;}).join('');}
-function selKey(origMub){return S.category+':'+origMub;}
+function updateChips(){const n=S.bairros.size;const badge=document.getElementById('bairro-badge');badge.textContent=n;badge.style.display=n>0?'inline':'none';const bar=document.getElementById('filter-bar');if(n===0){bar.style.display='none';return;}bar.style.display='flex';document.getElementById('chip-container').innerHTML=[...S.bairros].sort().map(b=>{const esc=b.replace(/\\/g,'\\\\').replace(/'/g,"\\'");return`<span class="chip">${escHtml(b)}<button onclick="toggleBairro('${escHtml(esc)}',false)">×</button></span>`;}).join('');}
+function selKey(origMub){return origMub;} // docId já é único entre categorias/cidades
 function toggleSel(origMub){var sk=selKey(origMub);S.sel.has(sk)?S.sel.delete(sk):S.sel.add(sk);updateSelUI();const card=document.getElementById('card-'+origMub);if(card){card.classList.toggle('sel',S.sel.has(sk));const chk=document.getElementById('chk-'+origMub);if(chk) chk.classList.toggle('on',S.sel.has(sk));}const cb=document.getElementById('cb-'+origMub);if(cb) cb.checked=S.sel.has(sk);if(S.detailMub===origMub){ updateDetailBtn(origMub); var dr=document.getElementById('asset-drawer-backdrop'); if(dr){var b=dr.querySelector('#d-sel-btn'); if(b){var on2=S.sel.has(selKey(origMub)); b.className='btn-d-sel '+(on2?'on':'off'); b.innerHTML=on2?'✓ Selecionado':'＋ Selecionar este painel';}} }}
 function clearSel(){S.sel.clear();updateSelUI();render();}
 function updateSelUI(){const n=S.sel.size;document.getElementById('sel-num').textContent=n;document.getElementById('btn-pdf').disabled=n===0;document.getElementById('btn-xlsx').disabled=n===0;document.getElementById('btn-pptx').disabled=n===0;document.getElementById('btn-clrsel').style.display=n>0?'block':'none';}
 function updateDetailBtn(origMub){const btn=document.getElementById('d-sel-btn');if(!btn) return;const on=S.sel.has(selKey(origMub));btn.className='btn-d-sel '+(on?'on':'off');btn.innerHTML=on?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="15" height="15"><polyline points="20 6 9 17 4 12"/></svg> Selecionado`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Selecionar este painel`;}
-function openLightbox(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+function openLightbox(src){if(!src) return;document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
 function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
 function setView(v){closeDetail();S.view=v;S.detailMub=null;document.getElementById('vb-grid').classList.toggle('active',v==='grid');document.getElementById('vb-list').classList.toggle('active',v==='list');render();}
 function openDetail(origMub){
@@ -1353,18 +1274,19 @@ function renderAssetDrawer(origMub){
 function openMapFortaleza(){window.open('https://www.google.com/maps/@-3.7721,-38.5229,12z','_blank');}
 function mapsUrl(p){return(p.lat&&Math.abs(p.lat)>0.5)?`https://maps.google.com?q=${p.lat},${p.lng}`:null;}
 function updateTabCounts(){
-  var savedCat=S.category;
+  var savedCat=S.category, savedScope=S.searchScope;
   try{
+    S.searchScope='category'; // contagem por aba não pode depender do escopo da busca
     ['abrigos','abrigo-amigo','horizontais','verticais'].forEach(function(cat){
       S.category=cat;
       var el=document.getElementById('cnt-'+cat);
       if(el) el.textContent=getPanels(false).length;
     });
-  } finally { S.category=savedCat; }
+  } finally { S.category=savedCat; S.searchScope=savedScope; }
 }
 function updateTotalAtivosBadge(){
   var el=document.getElementById('total-ativos-num');
-  if(el) el.textContent=(window.PANELS_CACHE||[]).length;
+  if(el) el.textContent=(window.PANELS_CACHE||[]).filter(function(p){return p.ativo!==false;}).length;
 }
 function render(){
   const list=filtered();const rb=document.getElementById('res-bar');const ct=document.getElementById('content');const m=document.getElementById('main');
@@ -1377,17 +1299,17 @@ function render(){
 }
 function phHtml(origMub,big=false){
   const src=photoSrc(origMub);
-  const p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===origMub;});
+  const p=panelById(origMub);
   const label=p?p.numero:origMub;
   const sz=big?48:28;
-  return `<img src="${src}" alt="Painel ${label}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph-fb" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="${sz}" height="${sz}"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span style="font-size:${big?13:10}px">${label}</span></div>`;
+  return `${src?`<img src="${src}" alt="Painel ${escHtml(label)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:''}<div class="ph-fb" style="display:${src?'none':'flex'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="${sz}" height="${sz}"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span style="font-size:${big?13:10}px">${escHtml(label)}</span></div>`;
 }
 function renderGrid(list){
   var idxDivisor=S.adminMode?list.findIndex(function(p){return isInactive(p._origMub);}):-1;
   return`<div class="grid">${list.map((p,idx)=>{
     const om=p._origMub;const sel=S.sel.has(selKey(om));const inact=isInactive(om);const url=mapsUrl(p);const dm=dMub(p);
     const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');
-    const alcHtml=estudo?`<span class="alcance-estudo-pill">Em estudo</span>`:`<div class="alcance-pill"><span class="a-num">${p.alcance}</span><span class="a-unit">pessoas</span></div>`;
+    const alcHtml=estudo?`<span class="alcance-estudo-pill">Em estudo</span>`:`<div class="alcance-pill"><span class="a-num">${escHtml(p.alcance)}</span><span class="a-unit">pessoas</span></div>`;
     const divisor=(idx===idxDivisor)?`<div class="grid-divisor"><span>Pausados</span></div>`:'';
     return`${divisor}<div class="card${sel?' sel':''}${inact?' inactive-card':''}" id="card-${om}">
       <div class="card-photo" onclick="openDetail('${om}')">
@@ -1396,14 +1318,14 @@ function renderGrid(list){
         <div class="card-chk${sel?' on':''}" id="chk-${om}" onclick="event.stopPropagation();toggleSel('${om}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         ${inact?'<div class="inactive-overlay">Inativo</div>':''}
         <div class="photo-info">
-          <span class="mub-label" style="white-space:nowrap">${catTipo(p)} ${dm}${p.code?" / "+p.code:""}</span>
+          <span class="mub-label" style="white-space:nowrap">${catTipo(p)} ${dm}${p.code?" / "+escHtml(p.code):""}</span>
           ${alcHtml}
         </div>
       </div>
       <div class="card-body">
-        <div class="card-name">${p.name}${(p.subtipo==='amigo'&&S.searchScope==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${S.searchScope!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${S.searchScope==='catalog'?`<span class="cat-badge">${p.cidade||'Fortaleza'}</span>`:''}</div>
-        <div class="card-addr">${p.addr}</div>
-        <span class="card-bairro">${p.bairro}</span>
+        <div class="card-name">${escHtml(p.name)}${(p.subtipo==='amigo'&&S.searchScope==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${S.searchScope!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${S.searchScope==='catalog'?`<span class="cat-badge">${escHtml(p.cidade||'Fortaleza')}</span>`:''}</div>
+        <div class="card-addr">${escHtml(p.addr)}</div>
+        <span class="card-bairro">${escHtml(p.bairro)}</span>
         <div class="card-actions">
           <button class="act-btn" onclick="event.stopPropagation();openDetail('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Ver ficha</button>
           ${url?`<div class="act-sep"></div><button class="act-btn" onclick="event.stopPropagation();window.open('${url}','_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Maps</button>`:''}
@@ -1422,12 +1344,12 @@ function renderList(list){
     return`${divisor}<div class="list-item${sel?' sel':''}${inact?' inactive-card':''}" id="card-${om}">
       <div class="list-thumb" onclick="openDetail('${om}')">${phHtml(om)}</div>
       <div class="list-body">
-        <div class="list-name">${p.name}${(p.subtipo==='amigo'&&S.searchScope==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${S.searchScope!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${S.searchScope==='catalog'?`<span class="cat-badge">${p.cidade||'Fortaleza'}</span>`:''}</div>
-        <div class="list-addr">${p.addr}</div>
+        <div class="list-name">${escHtml(p.name)}${(p.subtipo==='amigo'&&S.searchScope==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${S.searchScope!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${S.searchScope==='catalog'?`<span class="cat-badge">${escHtml(p.cidade||'Fortaleza')}</span>`:''}</div>
+        <div class="list-addr">${escHtml(p.addr)}</div>
         <div class="list-tags-row">
-          <span class="card-bairro">${p.bairro}</span>
-          ${!estudo?`<span class="list-alcance">${p.alcance} pessoas</span>`:'<span style="font-size:11px;color:#d97706">Em estudo</span>'}
-          <span class="list-code">· ${catTipo(p)} ${dm} · Cód. ${p.code}</span>
+          <span class="card-bairro">${escHtml(p.bairro)}</span>
+          ${!estudo?`<span class="list-alcance">${escHtml(p.alcance)} pessoas</span>`:'<span style="font-size:11px;color:#d97706">Em estudo</span>'}
+          <span class="list-code">· ${catTipo(p)} ${dm} · Cód. ${escHtml(p.code)}</span>
         </div>
       </div>
       <div class="list-actions">
@@ -1453,19 +1375,19 @@ function renderDetail(p){
       <div class="zoom-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg> Clique para ver foto completa</div>
     </div>
     <div class="detail-headline">
-      <div class="detail-name">${p.name}${p.subtipo==='amigo'?' <span class="badge-amigo">Abrigo Amigo</span>':''}</div>
-      <span class="detail-type">${tipo} ${dm}${p.code?' · '+p.code:''}</span>
+      <div class="detail-name">${escHtml(p.name)}${p.subtipo==='amigo'?' <span class="badge-amigo">Abrigo Amigo</span>':''}</div>
+      <span class="detail-type">${tipo} ${dm}${p.code?' · '+escHtml(p.code):''}</span>
     </div>
-    <div class="detail-addr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.addr}</div>
+    <div class="detail-addr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${escHtml(p.addr)}</div>
     <div class="stat-hero">
-      <div><div class="stat-hero-lbl">Alcance estimado</div>${estudo?`<div class="stat-hero-val" style="font-size:22px;color:#b45309">Em estudo</div>`:`<div class="stat-hero-val">${p.alcance||'—'}</div><div class="stat-hero-sub">pessoas</div>`}</div>
+      <div><div class="stat-hero-lbl">Alcance estimado</div>${estudo?`<div class="stat-hero-val" style="font-size:22px;color:#b45309">Em estudo</div>`:`<div class="stat-hero-val">${escHtml(p.alcance||'—')}</div><div class="stat-hero-sub">pessoas</div>`}</div>
       <svg class="stat-hero-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="38" height="38"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     </div>
     <div class="stat-grid">
-      <div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><div class="stat-card-lbl">Bairro</div><div class="stat-card-val">${p.bairro}</div></div>
-      ${p.tamanho?`<div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg><div class="stat-card-lbl">Tamanho do painel</div><div class="stat-card-val">${p.tamanho}${p.resolucao?' · '+p.resolucao+' pixels':''}</div></div>`:''}
-      ${p.tempo?`<div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><div class="stat-card-lbl">Tempo de exibição</div><div class="stat-card-val">${p.tempo} segundos</div></div>`:''}
-      <div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20.59 13.41 12 22l-9-9V4h9z"/><circle cx="7" cy="7" r="1.5"/></svg><div class="stat-card-lbl">${catTipo(p)} / Código</div><div class="stat-card-val">${dm} / ${p.code}</div></div>
+      <div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><div class="stat-card-lbl">Bairro</div><div class="stat-card-val">${escHtml(p.bairro)}</div></div>
+      ${p.tamanho?`<div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg><div class="stat-card-lbl">Tamanho do painel</div><div class="stat-card-val">${escHtml(p.tamanho)}${p.resolucao?' · '+escHtml(p.resolucao)+' pixels':''}</div></div>`:''}
+      ${p.tempo?`<div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><div class="stat-card-lbl">Tempo de exibição</div><div class="stat-card-val">${escHtml(p.tempo)} segundos</div></div>`:''}
+      <div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20.59 13.41 12 22l-9-9V4h9z"/><circle cx="7" cy="7" r="1.5"/></svg><div class="stat-card-lbl">${catTipo(p)} / Código</div><div class="stat-card-val">${dm} / ${escHtml(p.code)}</div></div>
       <div class="stat-card"><svg class="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M21 12h-3M12 21v-3M3 12h3"/></svg><div class="stat-card-lbl">Coordenadas GPS</div><div class="stat-card-val" title="${gps}">${gps}</div></div>
     </div>
     <div class="detail-actions">
@@ -1477,27 +1399,17 @@ function renderDetail(p){
     ${S.adminMode?`<div class="detail-admin-bar"><button class="btn-d-edit" onclick="openEdit('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar painel</button><button class="btn-d-pause" onclick="toggleInactive('${om}');closeDetail()">${inact?'Ativar painel':'Pausar painel'}</button></div>`:''}
   </div>`;
 }
-function buildPrint(panels){const today=new Date().toLocaleDateString('pt-BR');return panels.map(p=>{const url=mapsUrl(p);const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');const dm=dMub(p);return`<div class="pp"><div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Catálogo de Ativos URBMÍDIA Fortaleza</span><div class="pp-badge">${catTipo(p)} ${dm}</div></div><div class="pp-name">${p.name}</div><div class="pp-addr">${p.addr}</div><img src="${photoSrc(p._origMub)}" class="pp-photo" alt="MUB ${dm}" onerror="_pErr(this)"><div class="pp-grid"><div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">${p.bairro}</div></div><div class="pp-box"><div class="pp-label">Alcance estimado</div><div class="pp-val" style="color:#1d4ed8">${estudo?'Em estudo':p.alcance+' pessoas'}</div></div><div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">${p.code}</div></div></div><div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}${url?` · <a href="${url}" style="color:#2563eb">${url}</a>`:''}</div><div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:15px;vertical-align:middle;object-fit:contain"> — Catálogo de Ativos URBMÍDIA Fortaleza</span><span>Gerado em ${today}</span></div></div>`;}).join('');}
 var _panelsToPrint=null;
 function getSelectedPanelsSorted(withPhotoSrc){
   var panels=[];
-  S.sel.forEach(function(compound){
-    var sep=compound.indexOf(':');
-    var cat=compound.substring(0,sep);
-    var key=compound.substring(sep+1);
-    var savedCat=S.category;
-    S.category=cat;
+  S.sel.forEach(function(key){
+    if(!panelById(key)){ S.sel.delete(key); return; } // painel excluído depois de selecionado
     var p=getPanel(key);
     if(withPhotoSrc) p._printSrc=photoSrc(key);
-    p._printCat=cat;
+    p._printCat=p.categoria; // categoria real do painel (antes vinha da aba aberta no momento do clique)
     panels.push(p);
-    S.category=savedCat;
   });
-  panels.sort(function(a,b){
-    var ord={abrigos:0,horizontais:1,verticais:2};
-    if(ord[a._printCat]!==ord[b._printCat]) return ord[a._printCat]-ord[b._printCat];
-    return parseInt((dMub(a)||'').replace(/\D/g,''))-parseInt((dMub(b)||'').replace(/\D/g,''));
-  });
+  panels.sort(cmpCatNum);
   return panels;
 }
 function printSelected(){
@@ -1527,7 +1439,7 @@ async function exportExcelPanels(panels, nomeBase, btnEl){
     wb.created=new Date();
     var ws=wb.addWorksheet('Painéis',{views:[{state:'frozen',ySplit:2}]});
 
-    ws.mergeCells('A1:J1');
+    ws.mergeCells('A1:M1');
     var titleCell=ws.getCell('A1');
     var cidadesNaPlanilha=Array.from(new Set(panels.map(function(p){return p.cidade||'Fortaleza';}))).sort();
     var pracaLabelXlsx=cidadesNaPlanilha.length<=3?cidadesNaPlanilha.join(', '):(cidadesNaPlanilha.length+' praças');
@@ -1553,7 +1465,7 @@ async function exportExcelPanels(panels, nomeBase, btnEl){
 
     panels.forEach(function(p,i){
       var row=ws.addRow([
-        p.cidade||'Fortaleza', catLabel(p._printCat), dMub(p)||'', p.code||'', p.name||'', p.addr||'', p.bairro||'', p.alcance||'', p.tamanho||'', p.resolucao||'', p.tempo||'', p.lat||'', p.lng||''
+        p.cidade||'Fortaleza', catLabelFull(p)||catLabel(p._printCat), dMub(p)||'', p.code||'', p.name||'', p.addr||'', p.bairro||'', p.alcance||'', p.tamanho||'', p.resolucao||'', p.tempo||'', p.lat||'', p.lng||''
       ]);
       var fillColor=i%2===0?'FFF1F5F9':'FFFFFFFF';
       row.eachCell(function(cell){
@@ -1628,7 +1540,7 @@ function printAll(){
   showPrintModal(true);
 }
 function getAllPanels(cats){
-  var savedCat=S.category;
+  var savedCat=S.category, savedScope=S.searchScope; S.searchScope='category';
   var out=[];
   cats.forEach(function(cat){
     S.category=cat;
@@ -1638,12 +1550,8 @@ function getAllPanels(cats){
       out.push(p);
     });
   });
-  S.category=savedCat;
-  out.sort(function(a,b){
-    var ord={abrigos:0,horizontais:1,verticais:2};
-    if(ord[a._printCat]!==ord[b._printCat]) return ord[a._printCat]-ord[b._printCat];
-    return parseInt((dMub(a)||'').replace(/\D/g,''))-parseInt((dMub(b)||'').replace(/\D/g,''));
-  });
+  S.category=savedCat; S.searchScope=savedScope;
+  out.sort(cmpCatNum);
   return out;
 }
 function openCatalogChoice(){
@@ -1662,10 +1570,10 @@ function openCatalogChoice(){
 function renderCcCidadeList(selecionadas){
   var html='';
   pracaGroups().forEach(function(grp){
-    html+='<div class="bp-group-head">'+grp.grupo+'</div>';
+    html+='<div class="bp-group-head">'+escHtml(grp.grupo)+'</div>';
     grp.cidades.forEach(function(c){
       var checked=selecionadas.indexOf(c.nome)!==-1?' checked':'';
-      html+='<label class="cc-cat-row"><input type="checkbox" class="cc-cidade-chk" value="'+c.nome.replace(/"/g,'&quot;')+'" onchange="atualizarCcNota()"'+checked+'> '+c.nome+'</label>';
+      html+='<label class="cc-cat-row"><input type="checkbox" class="cc-cidade-chk" value="'+escHtml(c.nome)+'" onchange="atualizarCcNota()"'+checked+'> '+escHtml(c.nome)+'</label>';
     });
   });
   document.getElementById('cc-cidade-list').innerHTML=html;
@@ -1715,11 +1623,7 @@ function getAllPanelsForCidades(cats, cidades){
     });
   });
   S.category=savedCat;
-  out.sort(function(a,b){
-    var ord={abrigos:0,horizontais:1,verticais:2};
-    if(ord[a._printCat]!==ord[b._printCat]) return ord[a._printCat]-ord[b._printCat];
-    return parseInt((dMub(a)||'').replace(/\D/g,''))-parseInt((dMub(b)||'').replace(/\D/g,''));
-  });
+  out.sort(cmpCatNum);
   return out;
 }
 function chooseFullCatalog(){
@@ -1905,7 +1809,7 @@ function closeGerenciarCidades(){
 }
 function atualizarDatalistGrupos(){
   var grupos=[...new Set(cidadesList().map(function(c){return c.grupo||'';}).filter(Boolean))];
-  document.getElementById('dl-grupos').innerHTML=grupos.map(function(g){return '<option value="'+g+'">';}).join('');
+  document.getElementById('dl-grupos').innerHTML=grupos.map(function(g){return '<option value="'+escHtml(g)+'">';}).join('');
 }
 function cancelarEdicaoCidade(){
   gcEditId=null;
@@ -1930,7 +1834,7 @@ function renderGerenciarCidadesList(){
     html+=lista.map(function(c){
       var cats=(c.categorias||[]).map(function(x){return x==='abrigos'?'Abrigos':x==='horizontais'?'Horizontais':'Verticais';}).join(', ')||'—';
       var qtd=(window.PANELS_CACHE||[]).filter(function(p){return p.cidade===c.nome;}).length;
-      return '<div class="gc-row"><div class="gc-row-main"><b>'+c.nome+'</b><span class="gc-row-sub">'+(c.grupo||'')+' · '+cats+' · '+qtd+' painel(is)</span></div>'+
+      return '<div class="gc-row"><div class="gc-row-main"><b>'+escHtml(c.nome)+'</b><span class="gc-row-sub">'+escHtml(c.grupo||'')+' · '+cats+' · '+qtd+' painel(is)</span></div>'+
         '<div class="gc-row-actions"><button onclick="editarCidade(\''+c._docId+'\')">Editar</button><button class="btn-excluir" onclick="excluirCidade(\''+c._docId+'\',\''+c.nome.replace(/'/g,"\\'")+'\','+qtd+')">Excluir</button></div></div>';
     }).join('');
   }
@@ -1957,8 +1861,19 @@ async function salvarCidade(){
   if(document.getElementById('gc-cat-verticais').checked) cats.push('verticais');
   if(!cats.length){alert('Selecione pelo menos uma categoria de painel pra essa cidade.');return;}
   var docId=gcEditId||citySlug(nome);
+  var antiga=gcEditId?cidadesList().find(function(x){return x._docId===gcEditId;}):null;
+  var nomeAntigo=antiga?antiga.nome:null;
+  var afetados=(nomeAntigo&&nomeAntigo!==nome)?(window.PANELS_CACHE||[]).filter(function(p){return (p.cidade||'Fortaleza')===nomeAntigo;}):[];
+  if(afetados.length && !confirm('Renomear "'+nomeAntigo+'" para "'+nome+'" também vai atualizar '+afetados.length+' painel(is) dessa cidade. Continuar?')) return;
   try{
     await window.FB.setDoc(window.FB.doc(window.FB.db,'cidades',docId), {nome:nome, grupo:grupo, categorias:cats}, {merge:true});
+    var falhasRen=0;
+    for(var ri=0;ri<afetados.length;ri++){
+      try{ await window.FB.updateDoc(window.FB.doc(window.FB.db,'paineis',afetados[ri]._docId), {cidade:nome, regiao:grupo, atualizadoEm:window.FB.serverTimestamp()}); }
+      catch(e2){ falhasRen++; console.error('Erro ao mover painel '+afetados[ri]._docId+':', e2); }
+    }
+    if(falhasRen) alert(falhasRen+' painel(is) não foram atualizados para o novo nome (veja o console F12).');
+    if(nomeAntigo && S.cidade===nomeAntigo){ S.cidade=nome; document.getElementById('praca-label').textContent=nome; }
     cancelarEdicaoCidade();
     renderGerenciarCidadesList();
   }catch(e){ alert('Erro ao salvar cidade: '+e.message); }
@@ -2008,7 +1923,7 @@ function renderGerenciarModelosList(){
     html+='<div class="gc-empty">Nenhum modelo cadastrado ainda.</div>';
   }else{
     html+=lista.map(function(m){
-      return '<div class="gc-row"><div class="gc-row-main"><b>'+m.label+'</b><span class="gc-row-sub">'+(m.tamanho||'')+' · '+(m.resolucao||'')+' · '+(m.tempo||'?')+'s</span></div>'+
+      return '<div class="gc-row"><div class="gc-row-main"><b>'+escHtml(m.label)+'</b><span class="gc-row-sub">'+escHtml(m.tamanho||'')+' · '+escHtml(m.resolucao||'')+' · '+escHtml(m.tempo||'?')+'s</span></div>'+
         '<div class="gc-row-actions"><button onclick="editarModelo(\''+m._docId+'\')">Editar</button><button class="btn-excluir" onclick="excluirModelo(\''+m._docId+'\',\''+m.label.replace(/'/g,"\\'")+'\')">Excluir</button></div></div>';
     }).join('');
   }
@@ -2794,7 +2709,6 @@ async function saveEdit(){
   var newDm=document.getElementById('e-mub').value.trim();
   var newCidade=document.getElementById('e-cidade').value;
   var updates={
-    numero:newDm||undefined,
     cidade:newCidade,
     regiao:pracaRegiaoDaCidade(newCidade),
     code:document.getElementById('e-code').value.trim(),
@@ -2802,10 +2716,12 @@ async function saveEdit(){
     addr:document.getElementById('e-addr').value.trim(),
     bairro:document.getElementById('e-bairro').value.trim(),
     alcance:document.getElementById('e-alcance').value.trim(),
-    lat:parseFloat(document.getElementById('e-lat').value)||0,
-    lng:parseFloat(document.getElementById('e-lng').value)||0,
+    lat:parseCoord(document.getElementById('e-lat').value),
+    lng:parseCoord(document.getElementById('e-lng').value),
     atualizadoEm: window.FB.serverTimestamp()
   };
+  // Firestore rejeita campos "undefined": só grava o número se foi preenchido
+  if(newDm) updates.numero=newDm;
   if(p0.categoria==='abrigos'){
     updates.subtipo = document.getElementById('e-abrigo-amigo').checked ? 'amigo' : null;
   }
@@ -2956,6 +2872,9 @@ function executePrint() {
 
   panels.forEach(function(p, i) {
     var om = p._origMub;
+    var pName = escHtml(p.name||''), pAddr = escHtml(p.addr||''), pBairro = escHtml(p.bairro||''), pCode = escHtml(p.code||'—'), pAlc = escHtml(p.alcance||'—');
+    var tipoLbl = p.categoria==='horizontais' ? 'PAINEL HORIZONTAL' : p.categoria==='verticais' ? 'PAINEL VERTICAL' : 'MUB - ABRIGO';
+    var tipoCurto = catTipo(p);
     var dm = dMub(p);
     var url = mapsUrl(p);
     var estudo = p.alcance && p.alcance.toLowerCase().includes('estudo');
@@ -2966,16 +2885,16 @@ function executePrint() {
       html += '<div style="page-break-after:' + (isLast?'avoid':'always') + ';font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#fff;overflow:hidden">' +
         // Cabeçalho
         '<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 32px 9px;border-bottom:2.5px solid #1d4ed8;height:50px;box-sizing:border-box">' +
-          '<div style="font-size:11px;color:#94a3b8;font-weight:500">Cat\u00e1logo de Ativos URBM\u00cdDIA ' + (p.cidade||'Fortaleza') + '</div>' +
+          '<div style="font-size:11px;color:#94a3b8;font-weight:500">Cat\u00e1logo de Ativos URBM\u00cdDIA ' + escHtml(p.cidade||'Fortaleza') + '</div>' +
         '</div>' +
         // Título + endereço
         '<div style="padding:12px 32px 10px;height:76px;box-sizing:border-box;overflow:hidden">' +
-          '<div style="font-size:20px;font-weight:900;color:#0f172a;text-transform:uppercase;letter-spacing:-.3px;margin-bottom:5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.name.toUpperCase() + '</div>' +
-          '<div style="font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:.6px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.addr.toUpperCase() + '</div>' +
+          '<div style="font-size:20px;font-weight:900;color:#0f172a;text-transform:uppercase;letter-spacing:-.3px;margin-bottom:5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + pName.toUpperCase() + '</div>' +
+          '<div style="font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:.6px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + pAddr.toUpperCase() + '</div>' +
         '</div>' +
         // Foto - height calculado para caber na página
         '<div style="width:100%;height:592px;overflow:hidden;background:#f1f5f9">' +
-          '<img src="' + src + '" style="width:100%;height:100%;object-fit:cover;display:block" onerror="_pErr(this)">' +
+          (src ? '<img src="' + src + '" style="width:100%;height:100%;object-fit:cover;display:block" onerror="_pErr(this)">' : '') +
         '</div>' +
         // Rodapé com boxes
         '<div style="display:flex;align-items:stretch;height:75px;box-sizing:border-box">' +
@@ -2993,14 +2912,14 @@ function executePrint() {
             '<div>' +
               '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.75;margin-bottom:3px">ALCANCE:</div>' +
               '<div style="font-size:16px;font-weight:900;text-transform:uppercase;letter-spacing:.2px">' +
-                (estudo ? 'EM ESTUDO' : p.alcance.replace(' mil','').replace(' MIL','').toUpperCase() + ' MIL') +
+                (estudo ? 'EM ESTUDO' : pAlc.toUpperCase()) +
               '</div>' +
             '</div>' +
           '</div>' +
           // Box escuro - MUB + Código
           '<div style="background:#0f172a;color:#fff;padding:0 22px;display:flex;align-items:center;justify-content:center;min-width:160px">' +
             '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;line-height:1.8">' +
-              'MUB - ABRIGO: ' + dm + '<br>C&Oacute;DIGO: ' + p.code +
+              tipoLbl + ': ' + escHtml(dm||'') + '<br>C&Oacute;DIGO: ' + pCode +
             '</div>' +
           '</div>' +
           // Logo
@@ -3013,18 +2932,18 @@ function executePrint() {
         } else {
       // Portrait (mesmo formato atual mas mantendo capa antes)
       html += '<div class="pp' + (isLast ? ' last-pp' : '') + '">' +
-        '<div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Cat\u00e1logo de Ativos URBM\u00cdDIA ' + (p.cidade||'Fortaleza') + '</span><div class="pp-badge">MUB ' + dm + '</div></div>' +
-        '<div class="pp-name">' + p.name + '</div><div class="pp-addr">' + p.addr + '</div>' +
-        '<img src="' + src + '" class="pp-photo" alt="MUB ' + dm + '" onerror="_pErr(this)">' +
+        '<div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Cat\u00e1logo de Ativos URBM\u00cdDIA ' + escHtml(p.cidade||'Fortaleza') + '</span><div class="pp-badge">' + tipoCurto + ' ' + escHtml(dm||'') + '</div></div>' +
+        '<div class="pp-name">' + pName + '</div><div class="pp-addr">' + pAddr + '</div>' +
+        (src ? '<img src="' + src + '" class="pp-photo" alt="" onerror="_pErr(this)">' : '<div class="pp-photo" style="background:#f1f5f9"></div>') +
         '<div class="pp-grid">' +
-          '<div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">' + p.bairro + '</div></div>' +
-          '<div class="pp-box"><div class="pp-label">Alcance estimado</div><div class="pp-val" style="color:#1d4ed8">' + (estudo ? 'Em estudo' : p.alcance + ' pessoas') + '</div></div>' +
-          '<div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">' + p.code + '</div></div>' +
+          '<div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">' + pBairro + '</div></div>' +
+          '<div class="pp-box"><div class="pp-label">Alcance estimado</div><div class="pp-val" style="color:#1d4ed8">' + (estudo ? 'Em estudo' : pAlc + ' pessoas') + '</div></div>' +
+          '<div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">' + pCode + '</div></div>' +
         '</div>' +
         '<div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
         (p.lat && Math.abs(p.lat) > 0.5 ? p.lat + ', ' + p.lng : 'Em atualização') +
         (url ? ' · <a href="' + url + '" style="color:#2563eb">' + url + '</a>' : '') + '</div>' +
-        '<div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:16px;vertical-align:middle;object-fit:contain"> — Cat\u00e1logo de Ativos URBM\u00cdDIA ' + (p.cidade||'Fortaleza') + '</span><span>Gerado em ' + today + '</span></div>' +
+        '<div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:16px;vertical-align:middle;object-fit:contain"> — Cat\u00e1logo de Ativos URBM\u00cdDIA ' + escHtml(p.cidade||'Fortaleza') + '</span><span>Gerado em ' + today + '</span></div>' +
       '</div>';
     }
   });
@@ -3053,9 +2972,9 @@ function selectNPCat(cat){
 function pracaOptionsHtml(selected){
   var html='';
   pracaGroups().forEach(function(grp){
-    html+='<optgroup label="'+grp.grupo+'">';
+    html+='<optgroup label="'+escHtml(grp.grupo)+'">';
     grp.cidades.forEach(function(c){
-      html+='<option value="'+c.nome+'"'+(c.nome===selected?' selected':'')+'>'+c.nome+'</option>';
+      html+='<option value="'+escHtml(c.nome)+'"'+(c.nome===selected?' selected':'')+'>'+escHtml(c.nome)+'</option>';
     });
     html+='</optgroup>';
   });
@@ -3118,8 +3037,8 @@ async function saveNewPanel(){
   var tamanho=document.getElementById('np-tamanho').value.trim();
   var resolucao=document.getElementById('np-resolucao').value.trim();
   var tempo=document.getElementById('np-tempo').value.trim();
-  var lat=parseFloat(document.getElementById('np-lat').value)||0;
-  var lng=parseFloat(document.getElementById('np-lng').value)||0;
+  var lat=parseCoord(document.getElementById('np-lat').value);
+  var lng=parseCoord(document.getElementById('np-lng').value);
 
   var cidade=document.getElementById('np-cidade').value||S.cidade;
   var regiao=pracaRegiaoDaCidade(cidade);
@@ -3130,6 +3049,11 @@ async function saveNewPanel(){
   // Prefixo da cidade no docId evita colisão entre painéis de mesma categoria/número em cidades diferentes
   // (ex: verticais_1 em Aquiraz e em Eusébio seriam o mesmo documento sem isso).
   var docId = citySlug(cidade)+'_'+npCat+'_'+numero;
+  var jaExiste = panelById(docId);
+  if(jaExiste){
+    alert('Já existe um painel cadastrado com esse número nessa praça/categoria ("'+(jaExiste.name||docId)+'").\n\nSe quer alterar esse painel, use o botão Editar nele. Se é outro painel, use um número diferente.');
+    return;
+  }
 
   var newPanel={
     categoria:npCat, cidade:cidade, regiao:regiao, numero:numero, code:code, name:name, addr:addr, bairro:bairro,
@@ -3231,6 +3155,7 @@ if((window.PANELS_CACHE||[]).length){ window.__onPanelsUpdate(); }
   <span class="mob-sel-txt" id="mob-sel-txt">0 painéis</span>
   <button class="mob-sel-pdf" onclick="printSelected()">PDF</button>
   <button class="mob-sel-pdf" onclick="exportSelectedExcel()" style="background:rgba(21,128,61,.6)">Excel</button>
+  <button class="mob-sel-pdf" onclick="generatePPTSelected()" style="background:rgba(217,119,6,.6)">PPT</button>
   <button class="mob-sel-x" onclick="clearSel()">×</button>
 </div>
 
