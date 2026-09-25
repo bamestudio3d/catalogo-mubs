@@ -554,8 +554,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .last-pp{page-break-after:avoid!important}
 
 /* ABAS DE CATEGORIA */
-#cat-tabs{display:flex;gap:0;background:#fff;border-bottom:1px solid #e9eef5;padding:0 20px;flex-shrink:0}
-.cat-tab{padding:10px 18px;font-size:13px;font-weight:500;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;font-family:inherit;white-space:nowrap}
+#cat-tabs{display:flex;gap:0;background:#fff;border-bottom:1px solid #e9eef5;padding:0 20px;flex-shrink:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+#cat-tabs::-webkit-scrollbar{display:none}
+@media (max-width:768px){
+  #cat-tabs{padding:0 2px}
+  #cat-tabs .cat-tab{padding:10px 6px;font-size:12px}
+  #cat-tabs .cat-cnt{margin-left:3px;padding:1px 5px;font-size:10.5px}
+  #cat-tabs.has-more{-webkit-mask-image:linear-gradient(to right,#000 85%,transparent);mask-image:linear-gradient(to right,#000 85%,transparent)}
+  #cat-tabs .tab-pre{display:none}
+}
+.cat-tab{flex-shrink:0;padding:10px 18px;font-size:13px;font-weight:500;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;font-family:inherit;white-space:nowrap}
 .cat-tab:hover{color:#475569}
 .cat-tab.active{color:#2563eb;border-bottom-color:#2563eb}
 .cat-cnt{font-size:11px;background:#f1f5f9;padding:1px 6px;border-radius:10px;margin-left:5px;font-weight:600}
@@ -850,10 +858,10 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
     Abrigo Amigo <span class="cat-cnt" id="cnt-abrigo-amigo">…</span>
   </button>
   <button class="cat-tab" id="tab-horizontais" onclick="setCategory('horizontais')">
-    Painéis Horizontais <span class="cat-cnt" id="cnt-horizontais">…</span>
+    <span class="tab-pre">Painéis </span>Horizontais <span class="cat-cnt" id="cnt-horizontais">…</span>
   </button>
   <button class="cat-tab" id="tab-verticais" onclick="setCategory('verticais')">
-    Painéis Verticais <span class="cat-cnt" id="cnt-verticais">…</span>
+    <span class="tab-pre">Painéis </span>Verticais <span class="cat-cnt" id="cnt-verticais">…</span>
   </button>
 </div>
 
@@ -1135,6 +1143,7 @@ function setCategory(cat){
   document.getElementById('tab-abrigo-amigo').classList.toggle('active',cat==='abrigo-amigo');
   document.getElementById('tab-horizontais').classList.toggle('active',cat==='horizontais');
   document.getElementById('tab-verticais').classList.toggle('active',cat==='verticais');
+  var tabAtiva=document.getElementById('tab-'+cat); if(tabAtiva&&tabAtiva.scrollIntoView){ try{tabAtiva.scrollIntoView({inline:'nearest',block:'nearest',behavior:'smooth'});}catch(e){} }
   document.getElementById('search-input').value='';
   updateSearchScopeUI();
   updateChips();updateSelUI();updateTabCounts();render();
@@ -1308,7 +1317,7 @@ function render(){
   if(S.view==='detail'&&S.detailMub){S.view='grid';}
   m.classList.remove('detail-bg');
   var scopeLbl = S.searchScope==='catalog' ? ' (todo o catálogo)' : S.searchScope==='praca' ? ' (todas as categorias)' : (S.category==='horizontais'?' (Painéis Horizontais)':S.category==='verticais'?' (Painéis Verticais)':' (Abrigos)');
-  rb.textContent=(S.searchScope!=='catalog'&&S.cidade!=='Fortaleza'?S.cidade+' · ':'') + `${list.length} painel${list.length!==1?'is':''} encontrado${list.length!==1?'s':''}` + scopeLbl;
+  rb.textContent=(S.searchScope!=='catalog'&&S.cidade!=='Fortaleza'?S.cidade+' · ':'') + `${list.length} ${list.length!==1?'painéis':'painel'} encontrado${list.length!==1?'s':''}` + scopeLbl;
   if(!list.length){ct.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>Nenhum painel encontrado.</p></div>`;return;}
   ct.innerHTML=S.view==='grid'?renderGrid(list):renderList(list);
 }
@@ -3122,6 +3131,7 @@ window.__onPanelsUpdate = function(){
   checkMigracaoPendente();
   updateTotalAtivosBadge();
   render();
+  atualizarDicaAbas();
 };
 window.__onCidadesUpdate = function(){
   applyCategoryVisibility();
@@ -3139,6 +3149,9 @@ window.__onPanelsError = function(err){
   document.getElementById('res-bar').textContent = '';
   document.getElementById('content').innerHTML = '<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>Não foi possível carregar o catálogo (' + err.message + '). Verifique sua conexão e tente recarregar a página.</p></div>';
 };
+// Abas no celular: indica com um degradê quando há mais abas para o lado
+function atualizarDicaAbas(){var t=document.getElementById('cat-tabs');if(!t)return;t.classList.toggle('has-more',t.scrollWidth-t.clientWidth-t.scrollLeft>4);}
+(function(){var t=document.getElementById('cat-tabs');if(t){t.addEventListener('scroll',atualizarDicaAbas,{passive:true});}window.addEventListener('resize',atualizarDicaAbas);setTimeout(atualizarDicaAbas,0);})();
 // Aviso extra se o carregamento passar de 12s (conexão lenta)
 setTimeout(function(){ if(!window.__catLoaded){ var s=document.getElementById('cat-loading-s'); if(s) s.textContent='Está demorando mais que o normal. Se continuar assim, verifique a conexão e recarregue a página.'; } }, 12000);
 // Se os dados já chegaram antes deste script terminar de carregar, renderiza já.
