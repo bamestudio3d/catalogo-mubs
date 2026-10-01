@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo MUBs — Urbmídia Fortaleza</title>
+<title>Catálogo LED — Urbmídia Fortaleza</title>
 <style>
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -977,7 +977,7 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
       <div class="fg full" id="e-origem-wrap" style="display:none"><label>Origem do cadastro</label><div id="e-origem-txt" style="font-size:12px;color:#64748b;padding:6px 0"></div></div>
       <div class="fg full" id="e-abrigo-amigo-wrap" style="display:none"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="e-abrigo-amigo" style="width:16px;height:16px"> É um Abrigo Amigo?</label></div>
       <div class="fg full"><label>Praça / Cidade</label><select id="e-cidade" onchange="onCidadeSelectChange('e')"></select></div>
-      <div class="fg"><label>Número MUB</label><input type="text" id="e-mub"></div>
+      <div class="fg"><label>Número LED</label><input type="text" id="e-mub"></div>
       <div class="fg"><label>Código</label><input type="text" id="e-code"></div>
       <div class="fg full"><label>Nome do ponto</label><input type="text" id="e-name"></div>
       <div class="fg full"><label>Endereço completo</label><input type="text" id="e-addr"></div>
@@ -1188,7 +1188,11 @@ function catLabelFull(p){
   if(p.categoria==='verticais') return 'Painel Vertical';
   return p.categoria||'';
 }
-function catTipo(p){return p.categoria==='horizontais'?'Painel':'MUB';}
+function catTipo(p){return 'LED';}
+// Número sem prefixo "LED"/"MUB" que às vezes já vem gravado no próprio número (ex.: verticais "LED 024").
+function numLimpo(num){return String(num==null?'':num).trim().replace(/^(LED|MUB)\s*[-:]?\s*/i,'');}
+// Rótulo para exibir: "LED 024", "LED 108", "Painel H001" — nunca repete o tipo.
+function rotuloAtivo(p,num){var n=numLimpo(num===undefined?dMub(p):num);var t=catTipo(p);return (t+' '+n).trim();}
 function panelKeyOf(p){return p._docId;}
 function photoSrc(key){
   var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===key;});
@@ -1401,7 +1405,7 @@ function renderGrid(list){
         <div class="card-chk${sel?' on':''}" id="chk-${om}" onclick="event.stopPropagation();toggleSel('${om}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         ${inact?'<div class="inactive-overlay">Inativo</div>':''}
         <div class="photo-info">
-          <span class="mub-label" style="white-space:nowrap">${catTipo(p)} ${dm}${p.code?" / "+p.code:""}</span>
+          <span class="mub-label" style="white-space:nowrap">${rotuloAtivo(p,dm)}${p.code?" / "+p.code:""}</span>
           ${alcHtml}
         </div>
       </div>
@@ -1432,7 +1436,7 @@ function renderList(list){
         <div class="list-tags-row">
           <span class="card-bairro">${p.bairro}</span>
           ${!estudo?`<span class="list-alcance">${p.alcance} pessoas</span>`:'<span style="font-size:11px;color:#d97706">Em estudo</span>'}
-          <span class="list-code">· ${catTipo(p)} ${dm} · Cód. ${p.code}</span>
+          <span class="list-code">· ${rotuloAtivo(p,dm)} · Cód. ${p.code}</span>
         </div>
       </div>
       <div class="list-actions">
@@ -1459,7 +1463,7 @@ function renderDetail(p){
     </div>
     <div class="detail-headline">
       <div class="detail-name">${p.name}${p.subtipo==='amigo'?' <span class="badge-amigo">Abrigo Amigo</span>':''}</div>
-      <span class="detail-type">${tipo} ${dm}${p.code?' · '+p.code:''}</span>
+      <span class="detail-type">${rotuloAtivo(p,dm)}${p.code?' · '+p.code:''}</span>
     </div>
     <div class="detail-addr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.addr}</div>
     <div class="stat-hero">
@@ -1482,7 +1486,7 @@ function renderDetail(p){
     ${S.adminMode?`<div class="detail-admin-bar"><button class="btn-d-edit" onclick="openEdit('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar painel</button><button class="btn-d-pause" onclick="toggleInactive('${om}');closeDetail()">${inact?'Ativar painel':'Pausar painel'}</button></div>`:''}
   </div>`;
 }
-function buildPrint(panels){const today=new Date().toLocaleDateString('pt-BR');return panels.map(p=>{const url=mapsUrl(p);const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');const dm=dMub(p);return`<div class="pp"><div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Catálogo de Ativos URBMÍDIA Fortaleza</span><div class="pp-badge">${catTipo(p)} ${dm}</div></div><div class="pp-name">${p.name}</div><div class="pp-addr">${p.addr}</div><img src="${photoSrc(p._origMub)}" class="pp-photo" alt="MUB ${dm}" onerror="_pErr(this)"><div class="pp-grid"><div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">${p.bairro}</div></div><div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">${estudo?'Em estudo':p.alcance+' pessoas'}</div></div><div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">${p.code}</div></div></div><div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}${url?` · <a href="${url}" style="color:#2563eb">${url}</a>`:''}</div><div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:15px;vertical-align:middle;object-fit:contain"> — Catálogo de Ativos URBMÍDIA Fortaleza</span><span>Gerado em ${today}</span></div></div>`;}).join('');}
+function buildPrint(panels){const today=new Date().toLocaleDateString('pt-BR');return panels.map(p=>{const url=mapsUrl(p);const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');const dm=dMub(p);return`<div class="pp"><div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Catálogo de Ativos URBMÍDIA Fortaleza</span><div class="pp-badge">${rotuloAtivo(p,dm)}</div></div><div class="pp-name">${p.name}</div><div class="pp-addr">${p.addr}</div><img src="${photoSrc(p._origMub)}" class="pp-photo" alt="${rotuloAtivo(p,dm)}" onerror="_pErr(this)"><div class="pp-grid"><div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">${p.bairro}</div></div><div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">${estudo?'Em estudo':p.alcance+' pessoas'}</div></div><div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">${p.code}</div></div></div><div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}${url?` · <a href="${url}" style="color:#2563eb">${url}</a>`:''}</div><div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:15px;vertical-align:middle;object-fit:contain"> — Catálogo de Ativos URBMÍDIA Fortaleza</span><span>Gerado em ${today}</span></div></div>`;}).join('');}
 var _panelsToPrint=null;
 function getSelectedPanelsSorted(withPhotoSrc){
   var panels=[];
@@ -1511,7 +1515,7 @@ function printSelected(){
   _panelsToPrint=panels;
   showPrintModal(false);
 }
-function catLabel(cat){return cat==='horizontais'?'Painel Horizontal':cat==='verticais'?'Painel Vertical':'Abrigo (MUB)';}
+function catLabel(cat){return cat==='horizontais'?'Painel Horizontal':cat==='verticais'?'Painel Vertical':'Abrigo (LED)';}
 async function exportSelectedExcel(){
   var panels=getSelectedPanelsSorted(false);
   if(!panels.length) return;
@@ -2091,7 +2095,7 @@ function origemLabel(o){
   if(o==='admin') return '✍️ Cadastrado manualmente no Admin';
   return null;
 }
-function openEdit(key){S.editMub=key;S.pendingPhoto=null;S.removePhoto=false;const p=getPanel(key);var dm=dMub(p)||key;document.getElementById('edit-h3').textContent='Editar — '+(p._isNew?'Novo Painel':'MUB')+' '+dm;var origemTxt=origemLabel(p.origem);document.getElementById('e-origem-wrap').style.display=origemTxt?'block':'none';document.getElementById('e-origem-txt').textContent=origemTxt||'';document.getElementById('e-abrigo-amigo-wrap').style.display=(p.categoria==='abrigos')?'block':'none';document.getElementById('e-abrigo-amigo').checked=(p.subtipo==='amigo');document.getElementById('e-cidade').innerHTML=pracaOptionsHtml(p.cidade||S.cidade);document.getElementById('e-cidade').setAttribute('data-anterior', p.cidade||S.cidade);document.getElementById('e-modelo').innerHTML=modeloOptionsHtml();document.getElementById('e-modelo').value='';document.getElementById('e-mub').value=dMub(p)||key;document.getElementById('e-code').value=p.code||'';document.getElementById('e-name').value=p.name||'';document.getElementById('e-addr').value=p.addr||'';document.getElementById('e-bairro').value=p.bairro||'';document.getElementById('e-alcance').value=p.alcance||'';document.getElementById('e-tamanho').value=p.tamanho||'';document.getElementById('e-resolucao').value=p.resolucao||'';document.getElementById('e-tempo').value=p.tempo||'';document.getElementById('e-lat').value=p.lat||'';document.getElementById('e-lng').value=p.lng||'';document.getElementById('photo-input').value='';showUploadPreview(photoSrc(key));document.getElementById('edit-overlay').classList.add('open');}
+function openEdit(key){S.editMub=key;S.pendingPhoto=null;S.removePhoto=false;const p=getPanel(key);var dm=dMub(p)||key;document.getElementById('edit-h3').textContent='Editar — '+(p._isNew?'Novo Painel '+numLimpo(dm):rotuloAtivo(p,dm));var origemTxt=origemLabel(p.origem);document.getElementById('e-origem-wrap').style.display=origemTxt?'block':'none';document.getElementById('e-origem-txt').textContent=origemTxt||'';document.getElementById('e-abrigo-amigo-wrap').style.display=(p.categoria==='abrigos')?'block':'none';document.getElementById('e-abrigo-amigo').checked=(p.subtipo==='amigo');document.getElementById('e-cidade').innerHTML=pracaOptionsHtml(p.cidade||S.cidade);document.getElementById('e-cidade').setAttribute('data-anterior', p.cidade||S.cidade);document.getElementById('e-modelo').innerHTML=modeloOptionsHtml();document.getElementById('e-modelo').value='';document.getElementById('e-mub').value=dMub(p)||key;document.getElementById('e-code').value=p.code||'';document.getElementById('e-name').value=p.name||'';document.getElementById('e-addr').value=p.addr||'';document.getElementById('e-bairro').value=p.bairro||'';document.getElementById('e-alcance').value=p.alcance||'';document.getElementById('e-tamanho').value=p.tamanho||'';document.getElementById('e-resolucao').value=p.resolucao||'';document.getElementById('e-tempo').value=p.tempo||'';document.getElementById('e-lat').value=p.lat||'';document.getElementById('e-lng').value=p.lng||'';document.getElementById('photo-input').value='';showUploadPreview(photoSrc(key));document.getElementById('edit-overlay').classList.add('open');}
 function closeEdit(){document.getElementById('edit-overlay').classList.remove('open');S.editMub=null;S.pendingPhoto=null;S.removePhoto=false;}
 function showUploadPreview(src){const img=document.getElementById('uz-img');const empty=document.getElementById('uz-empty');const chg=document.getElementById('uz-change');const rem=document.getElementById('uz-remove');if(!src){img.style.display='none';empty.style.display='block';chg.style.display='none';rem.style.display='none';return;}img.onload=()=>{img.style.display='block';empty.style.display='none';chg.style.display='block';rem.style.display='block';};img.onerror=()=>{img.style.display='none';empty.style.display='block';chg.style.display='none';rem.style.display='none';};img.src=src;}
 function showUploadPreviewNP(src){const img=document.getElementById('np-uz-img');const empty=document.getElementById('np-uz-empty');const chg=document.getElementById('np-uz-change');const rem=document.getElementById('np-uz-remove');if(!src){img.style.display='none';empty.style.display='block';chg.style.display='none';rem.style.display='none';return;}img.onload=()=>{img.style.display='block';empty.style.display='none';chg.style.display='block';rem.style.display='block';};img.onerror=()=>{img.style.display='none';empty.style.display='block';chg.style.display='none';rem.style.display='none';};img.src=src;}
@@ -2516,7 +2520,7 @@ function parseVH(wb){
   var atualizar=[], novosLinhas=[];
   linhas.forEach(function(l){
     var pMatch = l.codigo ? mapaPorCodigo[String(l.codigo).trim()] : null;
-    if(pMatch) atualizar.push({painel:pMatch, linha:l, label:(l.categoria==='horizontais'?'Painel':'MUB')+' cód. '+l.codigo+' — '+l.nome});
+    if(pMatch) atualizar.push({painel:pMatch, linha:l, label:'LED cód. '+l.codigo+' — '+l.nome});
     else novosLinhas.push(l);
   });
 
@@ -2551,7 +2555,7 @@ function parseVH(wb){
     var modeloBatido=modelosList().find(function(m){return (m.resolucao||'').replace(/\s+/g,' ').trim()===n.resolucao.replace(/\s+/g,' ').trim();});
     return {
       docId: citySlug(n.cidade)+'_'+n.categoria+'_'+numero,
-      label:(n.categoria==='horizontais'?'Painel':'MUB')+' '+numero+' (cód. '+n.codigo+') — '+n.nome,
+      label:'LED '+numLimpo(numero)+' (cód. '+n.codigo+') — '+n.nome,
       payload:{
         categoria:n.categoria, cidade:n.cidade, regiao:pracaRegiaoDaCidade(n.cidade), numero:numero,
         code:n.codigo, name:n.nome, addr:n.addr, bairro:n.bairro,
@@ -2651,7 +2655,7 @@ function abrirPreviewImportacao(){
     });
   }
   _impRowsPausar = (modo==='novos') ? [] : (plano.pausar||[]).map(function(p,idx){
-    return {id:'pausa-'+idx, painel:p, label:(p.categoria==='horizontais'?'Painel':'MUB')+' '+(p.numero||'')+' — '+(p.name||'')+(p.subtipo==='amigo'?' (Abrigo Amigo)':'')};
+    return {id:'pausa-'+idx, painel:p, label:rotuloAtivo(p,p.numero||'')+' — '+(p.name||'')+(p.subtipo==='amigo'?' (Abrigo Amigo)':'')};
   });
 
   var chips='<span class="imp-chip novo">'+plano.novos.length+' novo(s)</span>'+
@@ -3021,10 +3025,10 @@ function executePrint() {
               '</div>' +
             '</div>' +
           '</div>' +
-          // Box escuro - MUB + Código
+          // Box escuro - LED + Código
           '<div style="background:#0f172a;color:#fff;padding:0 22px;display:flex;align-items:center;justify-content:center;min-width:160px">' +
             '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;line-height:1.8">' +
-              'MUB - ABRIGO: ' + dm + '<br>C&Oacute;DIGO: ' + p.code +
+              (p.categoria==='abrigos' ? 'LED - ABRIGO: ' + numLimpo(dm) : rotuloAtivo(p,dm).toUpperCase()) + '<br>C&Oacute;DIGO: ' + p.code +
             '</div>' +
           '</div>' +
           // Logo
@@ -3037,9 +3041,9 @@ function executePrint() {
         } else {
       // Portrait (mesmo formato atual mas mantendo capa antes)
       html += '<div class="pp' + (isLast ? ' last-pp' : '') + '">' +
-        '<div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Cat\u00e1logo de Ativos URBM\u00cdDIA ' + (p.cidade||'Fortaleza') + '</span><div class="pp-badge">MUB ' + dm + '</div></div>' +
+        '<div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Cat\u00e1logo de Ativos URBM\u00cdDIA ' + (p.cidade||'Fortaleza') + '</span><div class="pp-badge">' + rotuloAtivo(p,dm) + '</div></div>' +
         '<div class="pp-name">' + p.name + '</div><div class="pp-addr">' + p.addr + '</div>' +
-        '<img src="' + src + '" class="pp-photo" alt="MUB ' + dm + '" onerror="_pErr(this)">' +
+        '<img src="' + src + '" class="pp-photo" alt="' + rotuloAtivo(p,dm) + '" onerror="_pErr(this)">' +
         '<div class="pp-grid">' +
           '<div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">' + p.bairro + '</div></div>' +
           '<div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">' + (estudo ? 'Em estudo' : p.alcance + ' pessoas') + '</div></div>' +
