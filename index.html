@@ -1188,11 +1188,11 @@ function catLabelFull(p){
   if(p.categoria==='verticais') return 'Painel Vertical';
   return p.categoria||'';
 }
-function catTipo(p){return 'LED';}
+function catTipo(p){if(p&&p.categoria==='abrigos') return p.subtipo==='amigo'?'ABRIGO AMIGO':'ABRIGO'; return 'LED';}
 // Número sem prefixo "LED"/"MUB" que às vezes já vem gravado no próprio número (ex.: verticais "LED 024").
-function numLimpo(num){return String(num==null?'':num).trim().replace(/^(LED|MUB)\s*[-:]?\s*/i,'');}
-// Rótulo para exibir: "LED 024", "LED 108", "Painel H001" — nunca repete o tipo.
-function rotuloAtivo(p,num){var n=numLimpo(num===undefined?dMub(p):num);var t=catTipo(p);return (t+' '+n).trim();}
+function numLimpo(num){return String(num==null?'':num).trim().replace(/^(LED|MUB|ABRIGO(\s+AMIGO)?)\s*[-:]?\s*/i,'');}
+// Rótulo para exibir: "ABRIGO - 139", "ABRIGO AMIGO - 153", "LED - 024" — nunca repete o tipo.
+function rotuloAtivo(p,num){var n=numLimpo(num===undefined?dMub(p):num);var t=catTipo(p);return n?(t+' - '+n):t;}
 function panelKeyOf(p){return p._docId;}
 function photoSrc(key){
   var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===key;});
@@ -3028,7 +3028,7 @@ function executePrint() {
           // Box escuro - LED + Código
           '<div style="background:#0f172a;color:#fff;padding:0 22px;display:flex;align-items:center;justify-content:center;min-width:160px">' +
             '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;line-height:1.8">' +
-              (p.categoria==='abrigos' ? 'LED - ABRIGO: ' + numLimpo(dm) : rotuloAtivo(p,dm).toUpperCase()) + '<br>C&Oacute;DIGO: ' + p.code +
+              rotuloAtivo(p,dm).toUpperCase() + '<br>C&Oacute;DIGO: ' + p.code +
             '</div>' +
           '</div>' +
           // Logo
