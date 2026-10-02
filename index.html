@@ -1168,14 +1168,16 @@ function isH(){return S.category==='horizontais';}
 // histórica — não são mais lidas por este app.
 // Verticais Lampion = painéis verticais de 1,60 x 2,50 m (de todas as cidades).
 // Não é uma categoria gravada no banco: é uma vitrine. O ponto continua em "Painéis Verticais" e na cidade dele.
-// Praças do Ceará: Fortaleza, Região Metropolitana e grupos com "Ceará"/"Interior" no nome.
-// Outros estados (ex.: "Outras Capitais") ficam de fora da Lampion.
+// Praças do Ceará = todas, MENOS as de outros estados (grupo "Outras Capitais" ou as capitais abaixo).
+// Assim nenhuma cidade do Ceará fica de fora por causa do nome do grupo (ex.: Sobral, Juazeiro, Granja).
+var CIDADES_FORA_DO_CEARA=['belem','manaus','sao luis','teresina'];
 function isCidadeCeara(nome){
   nome=nome||'Fortaleza';
   if(nome==='Fortaleza') return true;
+  function n(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
+  if(CIDADES_FORA_DO_CEARA.indexOf(n(nome))!==-1) return false;
   var c=getCidadeInfo(nome);
-  var g=String((c&&c.grupo)||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  return g.indexOf('fortaleza')!==-1||g.indexOf('ceara')!==-1||g.indexOf('interior')!==-1;
+  return n(c&&c.grupo).indexOf('outras capitais')===-1;
 }
 function isLampion(p){
   if(!p||p.categoria!=='verticais') return false;
