@@ -805,11 +805,11 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
     </div>
     <div id="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="search-input" type="text" placeholder="Buscar painel, bairro, código… (espaço = ou)" oninput="onSearchInput()">
+      <input id="search-input" type="text" placeholder="Buscar em todo o catálogo: nome, endereço, bairro, código, número…" oninput="onSearchInput()">
       <select id="search-scope-select" onchange="setSearchScope(this.value)" title="Onde buscar">
-        <option value="category">Nesta categoria</option>
-        <option value="praca">Nesta praça</option>
         <option value="catalog">Todo o catálogo</option>
+        <option value="praca">Nesta praça</option>
+        <option value="category">Nesta aba</option>
       </select>
     </div>
     <div class="spacer"></div>
@@ -853,6 +853,12 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
   </button>
   <button class="cat-tab" id="tab-verticais" onclick="setCategory('verticais')">
     Painéis Verticais <span class="cat-cnt" id="cnt-verticais">50</span>
+  </button>
+  <button class="cat-tab" id="tab-empenas" onclick="setCategory('empenas')" style="display:none">
+    Empenas <span class="cat-cnt" id="cnt-empenas">0</span>
+  </button>
+  <button class="cat-tab" id="tab-lampion" onclick="setCategory('lampion')">
+    Verticais Lampion <span class="cat-cnt" id="cnt-lampion">0</span>
   </button>
 </div>
 
@@ -1113,7 +1119,7 @@ function cidadesEfetivas(){
 }
 function cidadesList(){return cidadesEfetivas().slice().sort(function(a,b){return (a.nome||'').localeCompare(b.nome||'','pt-BR');});}
 function getCidadeInfo(nome){return cidadesEfetivas().find(function(c){return c.nome===nome;});}
-function categoriasDaCidade(nome){var c=getCidadeInfo(nome);return (c&&c.categorias&&c.categorias.length)?c.categorias:['verticais'];}
+function categoriasDaCidade(nome){var c=getCidadeInfo(nome);var cats=(c&&c.categorias&&c.categorias.length)?c.categorias.slice():['verticais'];if(nome==='Fortaleza'&&cats.indexOf('empenas')===-1) cats.push('empenas');return cats;}
 function pracaRegiaoDaCidade(nome){var c=getCidadeInfo(nome);return c?(c.grupo||'Fortaleza'):'Fortaleza';}
 function pracaGroups(){
   var groups={},order=[];
@@ -1150,7 +1156,7 @@ function applyModeloPreset(prefix){
   document.getElementById(prefix+'-resolucao').value=m.resolucao||'';
   document.getElementById(prefix+'-tempo').value=m.tempo||'';
 }
-let S={view:'grid',detailMub:null,sel:new Set(),terms:[],bairros:new Set(),adminMode:false,editMub:null,pendingPhoto:null,removePhoto:false,bairroPanelOpen:false,pracaPanelOpen:false,category:'abrigos',regiao:'Fortaleza',cidade:'Fortaleza',sortBy:'numero',searchScope:'category'}; // searchScope: 'category' (padrão) | 'praca' (todas categorias, praça atual) | 'catalog' (todo o catálogo, todas as praças)
+let S={view:'grid',detailMub:null,sel:new Set(),terms:[],bairros:new Set(),adminMode:false,editMub:null,pendingPhoto:null,removePhoto:false,bairroPanelOpen:false,pracaPanelOpen:false,category:'abrigos',regiao:'Fortaleza',cidade:'Fortaleza',sortBy:'numero',searchScope:'catalog'}; // searchScope: 'category' (padrão) | 'praca' (todas categorias, praça atual) | 'catalog' (todo o catálogo, todas as praças)
 function lsGet(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){alert('Armazenamento do navegador está cheio (limite de ~5MB por site).\n\nAs fotos enviadas pelo editor ficam salvas no navegador, não em um servidor — por isso o espaço acaba.\n\nPara liberar espaço agora: abra o Console (F12), rode\nlocalStorage.removeItem(\'mub_photos\')\ne tente salvar de novo. Painéis originais voltam a usar a foto padrão da pasta fotos/.');return false;}}
 function isH(){return S.category==='horizontais';}
@@ -1158,12 +1164,26 @@ function isH(){return S.category==='horizontais';}
 // definido no <script type="module"> no topo do <body>. BASE_DATA_RAW/BASE_H/BASE_V
 // (arrays estáticas originais, logo abaixo) foram mantidas apenas como referência
 // histórica — não são mais lidas por este app.
+// Verticais Lampion = painéis verticais de 1,60 x 2,50 m (de todas as cidades).
+// Não é uma categoria gravada no banco: é uma vitrine. O ponto continua em "Painéis Verticais" e na cidade dele.
+function isLampion(p){
+  if(!p||p.categoria!=='verticais') return false;
+  var nums=String(p.tamanho||'').replace(/,/g,'.').match(/\d+(\.\d+)?/g);
+  if(!nums||nums.length<2) return false;
+  var a=parseFloat(nums[0]),b=parseFloat(nums[1]);
+  function eq(x,y){return Math.abs(x-y)<0.011;}
+  return (eq(a,1.6)&&eq(b,2.5))||(eq(a,2.5)&&eq(b,1.6));
+}
+// Escopo da busca só vale enquanto há algo digitado; sem busca, cada aba mostra o seu conteúdo.
+function scopeEf(){return (S.terms&&S.terms.length)?S.searchScope:'category';}
 function activeBase(){
+  var scope=scopeEf();
   return (window.PANELS_CACHE||[]).filter(function(p){
-    if(S.searchScope==='catalog') return true; // todo o catálogo: ignora praça e categoria
+    if(scope==='catalog') return true; // todo o catálogo: ignora praça e categoria
+    if(scope==='category' && S.category==='lampion') return isLampion(p); // todas as cidades
     var cid=p.cidade||'Fortaleza'; // painéis antigos sem cidade cadastrada contam como Fortaleza
     if(cid!==S.cidade) return false;
-    if(S.searchScope==='praca') return true; // ignora a categoria, mantém só a praça/cidade
+    if(scope==='praca') return true; // ignora a categoria, mantém só a praça/cidade
     if(S.category==='abrigo-amigo') return p.categoria==='abrigos' && p.subtipo==='amigo';
     if(S.category==='abrigos') return p.categoria==='abrigos' && p.subtipo!=='amigo';
     return p.categoria===S.category;
@@ -1186,9 +1206,10 @@ function catLabelFull(p){
   if(p.categoria==='abrigos') return p.subtipo==='amigo'?'Abrigo Amigo':'Abrigo';
   if(p.categoria==='horizontais') return 'Painel Horizontal';
   if(p.categoria==='verticais') return 'Painel Vertical';
+  if(p.categoria==='empenas') return 'Empena';
   return p.categoria||'';
 }
-function catTipo(p){if(p&&p.categoria==='abrigos') return p.subtipo==='amigo'?'ABRIGO AMIGO':'ABRIGO'; return 'LED';}
+function catTipo(p){if(p&&p.categoria==='abrigos') return p.subtipo==='amigo'?'ABRIGO AMIGO':'ABRIGO'; if(p&&p.categoria==='empenas') return 'EMPENA'; return 'LED';}
 // Número sem prefixo "LED"/"MUB" que às vezes já vem gravado no próprio número (ex.: verticais "LED 024").
 function numLimpo(num){return String(num==null?'':num).trim().replace(/^(LED|MUB|ABRIGO(\s+AMIGO)?)\s*[-:]?\s*/i,'');}
 // Rótulo para exibir: "ABRIGO - 139", "ABRIGO AMIGO - 153", "LED - 024" — nunca repete o tipo.
@@ -1201,17 +1222,16 @@ function photoSrc(key){
   var cat=p?p.categoria:S.category;
   if(cat==='horizontais') return 'fotos-h/painel-'+numero+'.jpg';
   if(cat==='verticais') return 'fotos-v/painel-'+numero+'.jpg';
+  if(cat==='empenas') return 'fotos-e/empena-'+numero+'.jpg';
   return 'fotos/mub-'+numero+'.jpg';
 }
 function isInactive(key){var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===key;});return !!(p&&p.ativo===false);}
+function marcarAbaAtiva(){['abrigos','abrigo-amigo','horizontais','verticais','empenas','lampion'].forEach(function(c){var el=document.getElementById('tab-'+c);if(el) el.classList.toggle('active',S.category===c);});}
 function setCategory(cat){
   closeDetail();
-  S.category=cat;S.terms=[];S.bairros=new Set();S.searchScope='category';
+  S.category=cat;S.terms=[];S.bairros=new Set();S.searchScope='catalog';
   S.view='grid';S.detailMub=null;S.bairroPanelOpen=false;
-  document.getElementById('tab-abrigos').classList.toggle('active',cat==='abrigos');
-  document.getElementById('tab-abrigo-amigo').classList.toggle('active',cat==='abrigo-amigo');
-  document.getElementById('tab-horizontais').classList.toggle('active',cat==='horizontais');
-  document.getElementById('tab-verticais').classList.toggle('active',cat==='verticais');
+  marcarAbaAtiva();
   document.getElementById('search-input').value='';
   updateSearchScopeUI();
   updateChips();updateSelUI();updateTabCounts();render();
@@ -1232,10 +1252,22 @@ function getPanels(inclInactive=false){
 }
 /* photoSrc agora em funções de categoria */
 function parseTerms(raw){return raw.split(/[\s,]+/).map(t=>t.trim().toLowerCase()).filter(t=>t.length>0);}
-function matchTerms(p,terms){if(!terms.length) return true;const hay=`${p.name} ${p.addr} ${p.bairro} ${p.code} ${dMub(p)} ${p._origMub} ${p.subtipo==='amigo'?'abrigo amigo':''}`.toLowerCase();return terms.some(t=>hay.includes(t));}
+function normTxt(v){return String(v==null?'':v).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+// Busca: vírgula separa buscas diferentes (OU). Dentro de cada busca, palavras precisam aparecer todas (E),
+// exceto quando são só números/códigos ("41153 41254"), que continuam funcionando como OU. Ignora acentos.
+function matchTerms(p,terms){
+  if(!terms.length) return true;
+  var hay=normTxt([p.name,p.addr,p.bairro,p.code,dMub(p),numLimpo(dMub(p)),rotuloAtivo(p,dMub(p)),catLabelFull(p),p.cidade||'Fortaleza',p.subtipo==='amigo'?'abrigo amigo':'',isLampion(p)?'lampion':''].join(' | '));
+  return terms.some(function(grupo){
+    var ws=normTxt(grupo).split(/\s+/).filter(Boolean);
+    if(!ws.length) return false;
+    var soNumeros=ws.every(function(w){return /^\d+$/.test(w);});
+    return soNumeros ? ws.some(function(w){return hay.indexOf(w)!==-1;}) : ws.every(function(w){return hay.indexOf(w)!==-1;});
+  });
+}
 function onSearchInput(){
   var v=document.getElementById('search-input').value.trim().toLowerCase();
-  S.terms = v ? v.split(/\s+/) : [];
+  S.terms = v ? v.split(',').map(function(t){return t.trim();}).filter(Boolean) : [];
   render();
 }
 function filtered(){
@@ -1290,22 +1322,20 @@ function applyCategoryVisibility(){
   document.getElementById('tab-abrigo-amigo').style.display = temAmigo?'':'none';
   document.getElementById('tab-horizontais').style.display = cats.indexOf('horizontais')!==-1?'':'none';
   document.getElementById('tab-verticais').style.display = cats.indexOf('verticais')!==-1?'':'none';
-  var validas=cats.slice(); if(temAmigo) validas.push('abrigo-amigo');
+  document.getElementById('tab-empenas').style.display = cats.indexOf('empenas')!==-1?'':'none';
+  var validas=cats.slice(); if(temAmigo) validas.push('abrigo-amigo'); validas.push('lampion');
   if(validas.indexOf(S.category)===-1){ S.category=cats[0]||'verticais'; }
 }
 function setPraca(regiao,cidade){
   closeDetail();
   S.regiao=regiao;S.cidade=cidade;
-  S.terms=[];S.bairros=new Set();S.view='grid';S.detailMub=null;S.searchScope='category';
+  S.terms=[];S.bairros=new Set();S.view='grid';S.detailMub=null;S.searchScope='catalog';
   document.getElementById('praca-label').textContent=cidade;
   document.getElementById('search-input').value='';
   updateSearchScopeUI();
   document.getElementById('btn-bairro').style.display=(cidade==='Fortaleza')?'flex':'none';
   applyCategoryVisibility();
-  document.getElementById('tab-abrigos').classList.toggle('active',S.category==='abrigos');
-  document.getElementById('tab-abrigo-amigo').classList.toggle('active',S.category==='abrigo-amigo');
-  document.getElementById('tab-horizontais').classList.toggle('active',S.category==='horizontais');
-  document.getElementById('tab-verticais').classList.toggle('active',S.category==='verticais');
+  marcarAbaAtiva();
   closePracaPanel();
   updateChips();updateSelUI();updateTabCounts();render();
 }
@@ -1315,7 +1345,7 @@ function renderBairroPanel(){const q=(document.getElementById('bp-q').value||'')
 function toggleBairro(b,on){on?S.bairros.add(b):S.bairros.delete(b);updateChips();renderBairroPanel();render();}
 function clearBairros(){S.bairros.clear();if(document.getElementById('bp-q'))document.getElementById('bp-q').value='';updateChips();renderBairroPanel();render();}
 function updateChips(){const n=S.bairros.size;const badge=document.getElementById('bairro-badge');badge.textContent=n;badge.style.display=n>0?'inline':'none';const bar=document.getElementById('filter-bar');if(n===0){bar.style.display='none';return;}bar.style.display='flex';document.getElementById('chip-container').innerHTML=[...S.bairros].sort().map(b=>{const esc=b.replace(/\\/g,'\\\\').replace(/'/g,"\\'");return`<span class="chip">${b}<button onclick="toggleBairro('${esc}',false)">×</button></span>`;}).join('');}
-function selKey(origMub){return S.category+':'+origMub;}
+function selKey(origMub){var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===origMub;});var c=p?(p.categoria==='abrigos'&&p.subtipo==='amigo'?'abrigo-amigo':p.categoria):(S.category==='lampion'?'verticais':S.category);return c+':'+origMub;}
 function toggleSel(origMub){var sk=selKey(origMub);S.sel.has(sk)?S.sel.delete(sk):S.sel.add(sk);updateSelUI();const card=document.getElementById('card-'+origMub);if(card){card.classList.toggle('sel',S.sel.has(sk));const chk=document.getElementById('chk-'+origMub);if(chk) chk.classList.toggle('on',S.sel.has(sk));}const cb=document.getElementById('cb-'+origMub);if(cb) cb.checked=S.sel.has(sk);if(S.detailMub===origMub){ updateDetailBtn(origMub); var dr=document.getElementById('asset-drawer-backdrop'); if(dr){var b=dr.querySelector('#d-sel-btn'); if(b){var on2=S.sel.has(selKey(origMub)); b.className='btn-d-sel '+(on2?'on':'off'); b.innerHTML=on2?'✓ Selecionado':'＋ Selecionar este painel';}} }}
 function clearSel(){S.sel.clear();updateSelUI();render();}
 function updateSelUI(){const n=S.sel.size;document.getElementById('sel-num').textContent=n;document.getElementById('btn-pdf').disabled=n===0;document.getElementById('btn-xlsx').disabled=n===0;document.getElementById('btn-pptx').disabled=n===0;document.getElementById('btn-clrsel').style.display=n>0?'block':'none';}
@@ -1362,14 +1392,15 @@ function renderAssetDrawer(origMub){
 function openMapFortaleza(){window.open('https://www.google.com/maps/@-3.7721,-38.5229,12z','_blank');}
 function mapsUrl(p){return(p.lat&&Math.abs(p.lat)>0.5)?`https://maps.google.com?q=${p.lat},${p.lng}`:null;}
 function updateTabCounts(){
-  var savedCat=S.category;
+  var savedCat=S.category, savedTerms=S.terms;
   try{
-    ['abrigos','abrigo-amigo','horizontais','verticais'].forEach(function(cat){
+    S.terms=[];
+    ['abrigos','abrigo-amigo','horizontais','verticais','empenas','lampion'].forEach(function(cat){
       S.category=cat;
       var el=document.getElementById('cnt-'+cat);
       if(el) el.textContent=getPanels(false).length;
     });
-  } finally { S.category=savedCat; }
+  } finally { S.category=savedCat; S.terms=savedTerms; }
 }
 function updateTotalAtivosBadge(){
   var el=document.getElementById('total-ativos-num');
@@ -1379,8 +1410,9 @@ function render(){
   const list=filtered();const rb=document.getElementById('res-bar');const ct=document.getElementById('content');const m=document.getElementById('main');
   if(S.view==='detail'&&S.detailMub){S.view='grid';}
   m.classList.remove('detail-bg');
-  var scopeLbl = S.searchScope==='catalog' ? ' (todo o catálogo)' : S.searchScope==='praca' ? ' (todas as categorias)' : (S.category==='horizontais'?' (Painéis Horizontais)':S.category==='verticais'?' (Painéis Verticais)':' (Abrigos)');
-  rb.textContent=(S.searchScope!=='catalog'&&S.cidade!=='Fortaleza'?S.cidade+' · ':'') + `${list.length} painel${list.length!==1?'is':''} encontrado${list.length!==1?'s':''}` + scopeLbl;
+  var _sc=scopeEf(), _abaLbl={'abrigos':'Abrigos','abrigo-amigo':'Abrigo Amigo','horizontais':'Painéis Horizontais','verticais':'Painéis Verticais','empenas':'Empenas','lampion':'Verticais Lampion — todas as cidades'};
+  var scopeLbl = _sc==='catalog' ? ' (todo o catálogo)' : _sc==='praca' ? ' (todas as categorias)' : ' ('+(_abaLbl[S.category]||'Abrigos')+')';
+  rb.textContent=(_sc!=='catalog'&&S.category!=='lampion'&&S.cidade!=='Fortaleza'?S.cidade+' · ':'') + `${list.length} ${list.length!==1?'pontos encontrados':'ponto encontrado'}` + scopeLbl;
   if(!list.length){ct.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>Nenhum painel encontrado.</p></div>`;return;}
   ct.innerHTML=S.view==='grid'?renderGrid(list):renderList(list);
 }
@@ -1389,14 +1421,14 @@ function phHtml(origMub,big=false){
   const p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===origMub;});
   const label=p?p.numero:origMub;
   const sz=big?48:28;
-  return `<img src="${src}" alt="Painel ${label}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph-fb" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="${sz}" height="${sz}"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span style="font-size:${big?13:10}px">${label}</span></div>`;
+  return `<img src="${src}" alt="Painel ${label}" style="width:100%;height:100%;object-fit:cover;display:block" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ph-fb" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="${sz}" height="${sz}"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span style="font-size:${big?13:10}px">${label}</span></div>`;
 }
 function renderGrid(list){
   var idxDivisor=S.adminMode?list.findIndex(function(p){return isInactive(p._origMub);}):-1;
   return`<div class="grid">${list.map((p,idx)=>{
     const om=p._origMub;const sel=S.sel.has(selKey(om));const inact=isInactive(om);const url=mapsUrl(p);const dm=dMub(p);
     const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');
-    const alcHtml=estudo?`<span class="alcance-estudo-pill">Em estudo</span>`:`<div class="alcance-pill"><span class="a-num">${p.alcance}</span><span class="a-unit">pessoas</span></div>`;
+    const alcHtml=estudo?`<span class="alcance-estudo-pill">Em estudo</span>`:`<div class="alcance-pill"><span class="a-num">${p.alcance}</span><span class="a-unit">impactos semanais</span></div>`;
     const divisor=(idx===idxDivisor)?`<div class="grid-divisor"><span>Pausados</span></div>`:'';
     return`${divisor}<div class="card${sel?' sel':''}${inact?' inactive-card':''}" id="card-${om}">
       <div class="card-photo" onclick="openDetail('${om}')">
@@ -1410,7 +1442,7 @@ function renderGrid(list){
         </div>
       </div>
       <div class="card-body">
-        <div class="card-name">${p.name}${(p.subtipo==='amigo'&&S.searchScope==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${S.searchScope!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${S.searchScope==='catalog'?`<span class="cat-badge">${p.cidade||'Fortaleza'}</span>`:''}</div>
+        <div class="card-name">${p.name}${(p.subtipo==='amigo'&&scopeEf()==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${scopeEf()!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${(scopeEf()==='catalog'||(scopeEf()==='category'&&S.category==='lampion'))?`<span class="cat-badge">${p.cidade||'Fortaleza'}</span>`:''}</div>
         <div class="card-addr">${p.addr}</div>
         <span class="card-bairro">${p.bairro}</span>
         <div class="card-actions">
@@ -1431,11 +1463,11 @@ function renderList(list){
     return`${divisor}<div class="list-item${sel?' sel':''}${inact?' inactive-card':''}" id="card-${om}">
       <div class="list-thumb" onclick="openDetail('${om}')">${phHtml(om)}</div>
       <div class="list-body">
-        <div class="list-name">${p.name}${(p.subtipo==='amigo'&&S.searchScope==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${S.searchScope!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${S.searchScope==='catalog'?`<span class="cat-badge">${p.cidade||'Fortaleza'}</span>`:''}</div>
+        <div class="list-name">${p.name}${(p.subtipo==='amigo'&&scopeEf()==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${scopeEf()!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${(scopeEf()==='catalog'||(scopeEf()==='category'&&S.category==='lampion'))?`<span class="cat-badge">${p.cidade||'Fortaleza'}</span>`:''}</div>
         <div class="list-addr">${p.addr}</div>
         <div class="list-tags-row">
           <span class="card-bairro">${p.bairro}</span>
-          ${!estudo?`<span class="list-alcance">${p.alcance} pessoas</span>`:'<span style="font-size:11px;color:#d97706">Em estudo</span>'}
+          ${!estudo?`<span class="list-alcance">${p.alcance} impactos semanais</span>`:'<span style="font-size:11px;color:#d97706">Em estudo</span>'}
           <span class="list-code">· ${rotuloAtivo(p,dm)} · Cód. ${p.code}</span>
         </div>
       </div>
@@ -1467,7 +1499,7 @@ function renderDetail(p){
     </div>
     <div class="detail-addr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.addr}</div>
     <div class="stat-hero">
-      <div><div class="stat-hero-lbl">Impactos Semanais</div>${estudo?`<div class="stat-hero-val" style="font-size:22px;color:#b45309">Em estudo</div>`:`<div class="stat-hero-val">${p.alcance||'—'}</div><div class="stat-hero-sub">pessoas</div>`}</div>
+      <div><div class="stat-hero-lbl">Impactos Semanais</div>${estudo?`<div class="stat-hero-val" style="font-size:22px;color:#b45309">Em estudo</div>`:`<div class="stat-hero-val">${p.alcance||'—'}</div>`}</div>
       <svg class="stat-hero-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="38" height="38"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     </div>
     <div class="stat-grid">
@@ -1486,7 +1518,7 @@ function renderDetail(p){
     ${S.adminMode?`<div class="detail-admin-bar"><button class="btn-d-edit" onclick="openEdit('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar painel</button><button class="btn-d-pause" onclick="toggleInactive('${om}');closeDetail()">${inact?'Ativar painel':'Pausar painel'}</button></div>`:''}
   </div>`;
 }
-function buildPrint(panels){const today=new Date().toLocaleDateString('pt-BR');return panels.map(p=>{const url=mapsUrl(p);const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');const dm=dMub(p);return`<div class="pp"><div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Catálogo de Ativos URBMÍDIA Fortaleza</span><div class="pp-badge">${rotuloAtivo(p,dm)}</div></div><div class="pp-name">${p.name}</div><div class="pp-addr">${p.addr}</div><img src="${photoSrc(p._origMub)}" class="pp-photo" alt="${rotuloAtivo(p,dm)}" onerror="_pErr(this)"><div class="pp-grid"><div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">${p.bairro}</div></div><div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">${estudo?'Em estudo':p.alcance+' pessoas'}</div></div><div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">${p.code}</div></div></div><div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}${url?` · <a href="${url}" style="color:#2563eb">${url}</a>`:''}</div><div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:15px;vertical-align:middle;object-fit:contain"> — Catálogo de Ativos URBMÍDIA Fortaleza</span><span>Gerado em ${today}</span></div></div>`;}).join('');}
+function buildPrint(panels){const today=new Date().toLocaleDateString('pt-BR');return panels.map(p=>{const url=mapsUrl(p);const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');const dm=dMub(p);return`<div class="pp"><div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Catálogo de Ativos URBMÍDIA Fortaleza</span><div class="pp-badge">${rotuloAtivo(p,dm)}</div></div><div class="pp-name">${p.name}</div><div class="pp-addr">${p.addr}</div><img src="${photoSrc(p._origMub)}" class="pp-photo" alt="${rotuloAtivo(p,dm)}" onerror="_pErr(this)"><div class="pp-grid"><div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">${p.bairro}</div></div><div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">${estudo?'Em estudo':p.alcance}</div></div><div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">${p.code}</div></div></div><div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}${url?` · <a href="${url}" style="color:#2563eb">${url}</a>`:''}</div><div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:15px;vertical-align:middle;object-fit:contain"> — Catálogo de Ativos URBMÍDIA Fortaleza</span><span>Gerado em ${today}</span></div></div>`;}).join('');}
 var _panelsToPrint=null;
 function getSelectedPanelsSorted(withPhotoSrc){
   var panels=[];
@@ -1503,7 +1535,7 @@ function getSelectedPanelsSorted(withPhotoSrc){
     S.category=savedCat;
   });
   panels.sort(function(a,b){
-    var ord={abrigos:0,horizontais:1,verticais:2};
+    var ord={abrigos:0,'abrigo-amigo':0,horizontais:1,verticais:2,empenas:3};
     if(ord[a._printCat]!==ord[b._printCat]) return ord[a._printCat]-ord[b._printCat];
     return parseInt((dMub(a)||'').replace(/\D/g,''))-parseInt((dMub(b)||'').replace(/\D/g,''));
   });
@@ -1515,7 +1547,7 @@ function printSelected(){
   _panelsToPrint=panels;
   showPrintModal(false);
 }
-function catLabel(cat){return cat==='horizontais'?'Painel Horizontal':cat==='verticais'?'Painel Vertical':'Abrigo (LED)';}
+function catLabel(cat){return cat==='horizontais'?'Painel Horizontal':cat==='verticais'?'Painel Vertical':cat==='empenas'?'Empena':'Abrigo (LED)';}
 async function exportSelectedExcel(){
   var panels=getSelectedPanelsSorted(false);
   if(!panels.length) return;
@@ -1633,11 +1665,12 @@ async function buildPPT(panels, nomeBase, btnEl){
   }
 }
 function printAll(){
-  _panelsToPrint=getAllPanels(['abrigos','horizontais','verticais']);
+  _panelsToPrint=getAllPanels(['abrigos','horizontais','verticais','empenas']);
   showPrintModal(true);
 }
 function getAllPanels(cats){
-  var savedCat=S.category;
+  var savedCat=S.category, savedTerms=S.terms;
+  S.terms=[];
   var out=[];
   cats.forEach(function(cat){
     S.category=cat;
@@ -1647,9 +1680,9 @@ function getAllPanels(cats){
       out.push(p);
     });
   });
-  S.category=savedCat;
+  S.category=savedCat; S.terms=savedTerms;
   out.sort(function(a,b){
-    var ord={abrigos:0,horizontais:1,verticais:2};
+    var ord={abrigos:0,'abrigo-amigo':0,horizontais:1,verticais:2,empenas:3};
     if(ord[a._printCat]!==ord[b._printCat]) return ord[a._printCat]-ord[b._printCat];
     return parseInt((dMub(a)||'').replace(/\D/g,''))-parseInt((dMub(b)||'').replace(/\D/g,''));
   });
@@ -1710,7 +1743,7 @@ function setCcFormat(f){
 function closeCatalogChoice(){document.getElementById('catalog-choice-overlay').classList.remove('open');}
 function showCategoryPicker(){document.getElementById('cc-cats-box').style.display='block';}
 function getAllPanelsForCidades(cats, cidades){
-  var savedCat=S.category;
+  var savedCat=S.category, savedTerms=S.terms;
   var out=[];
   cats.forEach(function(cat){
     S.category=cat;
@@ -1723,9 +1756,9 @@ function getAllPanelsForCidades(cats, cidades){
       out.push(p);
     });
   });
-  S.category=savedCat;
+  S.category=savedCat; S.terms=savedTerms;
   out.sort(function(a,b){
-    var ord={abrigos:0,horizontais:1,verticais:2};
+    var ord={abrigos:0,'abrigo-amigo':0,horizontais:1,verticais:2,empenas:3};
     if(ord[a._printCat]!==ord[b._printCat]) return ord[a._printCat]-ord[b._printCat];
     return parseInt((dMub(a)||'').replace(/\D/g,''))-parseInt((dMub(b)||'').replace(/\D/g,''));
   });
@@ -1734,7 +1767,7 @@ function getAllPanelsForCidades(cats, cidades){
 function chooseFullCatalog(){
   var cidades=ccCidadesSelecionadas();
   if(!cidades.length){ alert('Marque ao menos uma praça.'); return; }
-  var panels=getAllPanelsForCidades(['abrigos','horizontais','verticais'], cidades);
+  var panels=getAllPanelsForCidades(['abrigos','horizontais','verticais','empenas'], cidades);
   if(!panels.length){ alert('Nenhum painel encontrado para essa(s) praça(s).'); return; }
   closeCatalogChoice();
   gerarNoFormatoEscolhido(panels, cidades);
@@ -2760,19 +2793,73 @@ async function confirmarImportacao(){
 function iniciarMigracaoFotos(){
   document.getElementById('foto-migra-input').click();
 }
+/* ── FOTOS EM ALTA ──
+   Fotos novas: até 1920px, JPEG 0,88. Vão para o Firebase Storage e o banco guarda só o link.
+   Se o Storage recusar (regras/permissão), cai para uma versão média (1280px) guardada no próprio registro,
+   como era antes — nunca perde a foto. */
+var FOTO_MAX_W=1920, FOTO_MAX_H=1920, FOTO_QUALIDADE=0.88, FOTO_MAX_BYTES=2.5*1024*1024;
+var _avisoFotoMedia=false;
+function reduzirDataUrl(b64,maxLado,maxBytes){
+  return new Promise(function(resolve){
+    var img=new Image();
+    img.onload=function(){
+      var w=img.width,h=img.height,k=Math.min(1,maxLado/Math.max(w,h));w=Math.round(w*k);h=Math.round(h*k);
+      var c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(img,0,0,w,h);
+      var q=0.85,out=c.toDataURL('image/jpeg',q);
+      while(out.length>maxBytes&&q>0.45){q-=0.05;out=c.toDataURL('image/jpeg',q);}
+      resolve(out);
+    };
+    img.onerror=function(){resolve(b64);};
+    img.src=b64;
+  });
+}
+async function prepararFotoParaSalvar(b64,docId){
+  try{
+    if(!window.FB||!window.FB.storage||!window.FB.ref||!window.FB.uploadString) throw new Error('Storage indisponível');
+    var caminho='fotos-hd/'+String(docId).replace(/[^\w.-]/g,'_')+'_'+Date.now()+'.jpg';
+    var r=window.FB.ref(window.FB.storage,caminho);
+    await window.FB.uploadString(r,b64,'data_url',{contentType:'image/jpeg',cacheControl:'public,max-age=31536000'});
+    return await window.FB.getDownloadURL(r);
+  }catch(e){
+    console.warn('Storage recusou a foto, salvando versão média no registro:',e);
+    if(!_avisoFotoMedia){_avisoFotoMedia=true;alert('Aviso: o armazenamento de fotos do Firebase recusou o envio ('+(e.code||e.message)+').\n\nA foto foi salva mesmo assim, em qualidade média (melhor que antes). Para ficar em alta, é preciso liberar o Storage nas regras do Firebase.');}
+    return await reduzirDataUrl(b64,1280,320*1024);
+  }
+}
+/* Realce de nitidez para as fotos antigas (já gravadas pequenas): aplicado só na ficha e na foto ampliada.
+   Não recupera detalhe que foi perdido, mas deixa a imagem visivelmente mais nítida. */
+var _realceCache=new Map();
+function realcarFoto(img){
+  try{
+    if(!img||img.dataset.realcado) return;
+    var src=img.getAttribute('src')||'';
+    if(src.indexOf('data:image')!==0) return; // só fotos antigas guardadas no banco
+    img.dataset.realcado='1';
+    if(_realceCache.has(src)){img.src=_realceCache.get(src);return;}
+    var w=img.naturalWidth,h=img.naturalHeight; if(!w||!h||w>2200) return;
+    var c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.drawImage(img,0,0);
+    var id=x.getImageData(0,0,w,h),d=id.data,o=new Uint8ClampedArray(d),amt=0.55,row=w*4;
+    for(var y=1;y<h-1;y++){for(var xx=1;xx<w-1;xx++){var i=(y*w+xx)*4;
+      for(var ch=0;ch<3;ch++){var v=o[i+ch];var lap=4*v-o[i+ch-4]-o[i+ch+4]-o[i+ch-row]-o[i+ch+row];d[i+ch]=v+amt*lap;}}}
+    x.putImageData(id,0,0);
+    var out=c.toDataURL('image/jpeg',0.95);
+    _realceCache.set(src,out); img.src=out;
+  }catch(e){ /* se falhar, fica a foto original */ }
+}
 function resizeFileToBase64(file){
   return new Promise(function(resolve,reject){
     var img=new Image();
     var canvas=document.createElement('canvas');
     var ctx=canvas.getContext('2d');
     img.onload=function(){
-      var maxW=900,maxH=675,w=img.width,h=img.height;
+      var maxW=FOTO_MAX_W,maxH=FOTO_MAX_H,w=img.width,h=img.height;
       if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
       if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
       canvas.width=w;canvas.height=h;
+      ctx.imageSmoothingQuality='high';
       ctx.drawImage(img,0,0,w,h);
-      var q=0.75,b64=canvas.toDataURL('image/jpeg',q);
-      while(b64.length>150*1024 && q>0.35){ q-=0.1; b64=canvas.toDataURL('image/jpeg',q); }
+      var q=FOTO_QUALIDADE,b64=canvas.toDataURL('image/jpeg',q);
+      while(b64.length>FOTO_MAX_BYTES && q>0.5){ q-=0.05; b64=canvas.toDataURL('image/jpeg',q); }
       resolve(b64);
     };
     img.onerror=function(){reject(new Error('não foi possível ler a imagem'));};
@@ -2806,7 +2893,8 @@ async function onFotosMigradasSelecionadas(input){
     if(btn) btn.textContent='Migrando fotos… '+(i+1)+'/'+candidatos.length;
     try{
       var b64=await resizeFileToBase64(f);
-      await window.FB.setDoc(window.FB.doc(window.FB.db,'paineis',p._docId), {fotoUrl:b64, atualizadoEm:window.FB.serverTimestamp()}, {merge:true});
+      var fotoFinal=await prepararFotoParaSalvar(b64,p._docId);
+      await window.FB.setDoc(window.FB.doc(window.FB.db,'paineis',p._docId), {fotoUrl:fotoFinal, atualizadoEm:window.FB.serverTimestamp()}, {merge:true});
       ok++;
     }catch(e){ falhas++; console.error('Erro ao migrar foto de '+p._docId+':', e); }
   }
@@ -2814,8 +2902,8 @@ async function onFotosMigradasSelecionadas(input){
   input.value='';
   alert('Migração de fotos concluída.\nFotos migradas: '+ok+(falhas?'\nFalhas: '+falhas+' (veja o console F12 para detalhes)':''));
 }
-function onPhotoChange(input){const file=input.files[0];if(!file) return;S.removePhoto=false;if(file.size>5*1024*1024){alert('Arquivo muito grande. Máximo 5MB.');input.value='';return;}const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');const img=new Image();img.onload=()=>{const maxW=900,maxH=675;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}canvas.width=w;canvas.height=h;ctx.drawImage(img,0,0,w,h);let q=0.75,b64=canvas.toDataURL('image/jpeg',q);while(b64.length>150*1024&&q>0.35){q-=0.1;b64=canvas.toDataURL('image/jpeg',q);}S.pendingPhoto=b64;showUploadPreview(b64);};img.src=URL.createObjectURL(file);}
-function onPhotoChangeNP(input){const file=input.files[0];if(!file) return;if(file.size>5*1024*1024){alert('Arquivo muito grande. Máximo 5MB.');input.value='';return;}const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');const img=new Image();img.onload=()=>{const maxW=900,maxH=675;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}canvas.width=w;canvas.height=h;ctx.drawImage(img,0,0,w,h);let q=0.75,b64=canvas.toDataURL('image/jpeg',q);while(b64.length>150*1024&&q>0.35){q-=0.1;b64=canvas.toDataURL('image/jpeg',q);}S.npPendingPhoto=b64;showUploadPreviewNP(b64);};img.src=URL.createObjectURL(file);}
+function onPhotoChange(input){const file=input.files[0];if(!file) return;S.removePhoto=false;if(file.size>25*1024*1024){alert('Arquivo muito grande. Máximo 25MB.');input.value='';return;}const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');const img=new Image();img.onload=()=>{const maxW=FOTO_MAX_W,maxH=FOTO_MAX_H;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}canvas.width=w;canvas.height=h;ctx.drawImage(img,0,0,w,h);ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,w,h);let q=FOTO_QUALIDADE,b64=canvas.toDataURL('image/jpeg',q);while(b64.length>FOTO_MAX_BYTES&&q>0.5){q-=0.05;b64=canvas.toDataURL('image/jpeg',q);}S.pendingPhoto=b64;showUploadPreview(b64);};img.src=URL.createObjectURL(file);}
+function onPhotoChangeNP(input){const file=input.files[0];if(!file) return;if(file.size>25*1024*1024){alert('Arquivo muito grande. Máximo 25MB.');input.value='';return;}const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');const img=new Image();img.onload=()=>{const maxW=FOTO_MAX_W,maxH=FOTO_MAX_H;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}canvas.width=w;canvas.height=h;ctx.drawImage(img,0,0,w,h);ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,w,h);let q=FOTO_QUALIDADE,b64=canvas.toDataURL('image/jpeg',q);while(b64.length>FOTO_MAX_BYTES&&q>0.5){q-=0.05;b64=canvas.toDataURL('image/jpeg',q);}S.npPendingPhoto=b64;showUploadPreviewNP(b64);};img.src=URL.createObjectURL(file);}
 async function saveEdit(){
   var key=S.editMub;if(!key) return;
   var p0=getPanel(key);
@@ -2846,12 +2934,12 @@ async function saveEdit(){
   // Foto: sem Storage por enquanto (modo de teste). Guardamos o JPEG comprimido
   // como texto base64 direto no campo fotoUrl do documento no Firestore
   // (cabe tranquilo no limite de 1MB por documento).
-  if(S.pendingPhoto){ updates.fotoUrl = S.pendingPhoto; }
-  else if(S.removePhoto){ updates.fotoUrl = null; }
+  if(S.removePhoto && !S.pendingPhoto){ updates.fotoUrl = null; }
 
   var btn=document.querySelector('#edit-overlay .btn-save');
   if(btn){btn.disabled=true;btn.textContent='Salvando...';}
   try{
+    if(S.pendingPhoto){ if(btn) btn.textContent='Enviando foto...'; updates.fotoUrl = await prepararFotoParaSalvar(S.pendingPhoto, key); if(btn) btn.textContent='Salvando...'; }
     await window.FB.updateDoc(window.FB.doc(window.FB.db,'paineis',key), updates);
     closeEdit();
   }catch(e){
@@ -2905,7 +2993,7 @@ function _pErr(el){el.style.opacity='0.3';el.onerror=null;}
 function executePrint() {
   var panels;
   if(S_printAll){
-    panels=_panelsToPrint||getAllPanels(['abrigos','horizontais','verticais']);
+    panels=_panelsToPrint||getAllPanels(['abrigos','horizontais','verticais','empenas']);
     _panelsToPrint=null;
   } else {
     panels=_panelsToPrint||getPanels(false).filter(function(x){return S.sel.has(selKey(x._origMub));});
@@ -3046,7 +3134,7 @@ function executePrint() {
         '<img src="' + src + '" class="pp-photo" alt="' + rotuloAtivo(p,dm) + '" onerror="_pErr(this)">' +
         '<div class="pp-grid">' +
           '<div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">' + p.bairro + '</div></div>' +
-          '<div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">' + (estudo ? 'Em estudo' : p.alcance + ' pessoas') + '</div></div>' +
+          '<div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">' + (estudo ? 'Em estudo' : p.alcance) + '</div></div>' +
           '<div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">' + p.code + '</div></div>' +
         '</div>' +
         '<div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
@@ -3069,7 +3157,7 @@ function executePrint() {
 var npCat='abrigos';
 function selectNPCat(cat){
   npCat=cat;
-  ['abrigos','horizontais','verticais'].forEach(function(c2){
+  ['abrigos','horizontais','verticais','empenas'].forEach(function(c2){
     document.getElementById('npc-'+c2).classList.toggle('on',c2===cat);
   });
   document.getElementById('np-tamanho-wrap').style.display='flex';
@@ -3102,14 +3190,14 @@ function onCidadeSelectChange(prefix){
   if(prefix==='np') onNPCidadeChange();
 }
 function openNewPanel(){
-  npCat=(S.category==='abrigo-amigo')?'abrigos':S.category;
+  npCat=(S.category==='abrigo-amigo')?'abrigos':(S.category==='lampion')?'verticais':S.category;
   S.npPendingPhoto=null;
   document.getElementById('np-photo-input').value='';
   showUploadPreviewNP(null);
   document.getElementById('np-cidade').innerHTML=pracaOptionsHtml(S.cidade);
   document.getElementById('np-cidade').setAttribute('data-anterior', S.cidade);
   applyNPCategoriaVisibility(S.cidade);
-  ['abrigos','horizontais','verticais'].forEach(function(c2){
+  ['abrigos','horizontais','verticais','empenas'].forEach(function(c2){
     document.getElementById('npc-'+c2).classList.toggle('on',c2===npCat);
   });
   selectNPCat(npCat);
@@ -3129,6 +3217,7 @@ function applyNPCategoriaVisibility(cidade){
   document.getElementById('npc-abrigos').style.display=cats.indexOf('abrigos')!==-1?'':'none';
   document.getElementById('npc-horizontais').style.display=cats.indexOf('horizontais')!==-1?'':'none';
   document.getElementById('npc-verticais').style.display=cats.indexOf('verticais')!==-1?'':'none';
+  document.getElementById('npc-empenas').style.display=cats.indexOf('empenas')!==-1?'':'none';
   if(cats.indexOf(npCat)===-1){ selectNPCat(cats[0]||'verticais'); }
 }
 function onNPCidadeChange(){
@@ -3154,7 +3243,7 @@ async function saveNewPanel(){
 
   if(!id||!name){alert('Número/ID e Nome são obrigatórios.');return;}
 
-  var numero = npCat==='abrigos' ? id : (id.toUpperCase().startsWith(npCat==='horizontais'?'H':'V')?id:(npCat==='horizontais'?'H':'V')+id);
+  var numero = (npCat==='abrigos'||npCat==='empenas') ? id : (id.toUpperCase().startsWith(npCat==='horizontais'?'H':'V')?id:(npCat==='horizontais'?'H':'V')+id);
   // Prefixo da cidade no docId evita colisão entre painéis de mesma categoria/número em cidades diferentes
   // (ex: verticais_1 em Aquiraz e em Eusébio seriam o mesmo documento sem isso).
   var docId = citySlug(cidade)+'_'+npCat+'_'+numero;
@@ -3162,7 +3251,7 @@ async function saveNewPanel(){
   var newPanel={
     categoria:npCat, cidade:cidade, regiao:regiao, numero:numero, code:code, name:name, addr:addr, bairro:bairro,
     alcance:alcance, tamanho:tamanho, resolucao:resolucao, tempo:tempo, lat:lat, lng:lng,
-    ativo:true, fotoUrl:S.npPendingPhoto||null, origem:'admin',
+    ativo:true, fotoUrl:null, origem:'admin',
     criadoEm: window.FB.serverTimestamp(), atualizadoEm: window.FB.serverTimestamp()
   };
   if(npCat==='abrigos' && document.getElementById('np-abrigo-amigo').checked){
@@ -3172,6 +3261,7 @@ async function saveNewPanel(){
   var btn=document.querySelector('#new-panel-overlay .btn-save');
   if(btn){btn.disabled=true;btn.textContent='Cadastrando...';}
   try{
+    if(S.npPendingPhoto){ if(btn) btn.textContent='Enviando foto...'; newPanel.fotoUrl = await prepararFotoParaSalvar(S.npPendingPhoto, docId); }
     await window.FB.setDoc(window.FB.doc(window.FB.db,'paineis',docId), newPanel);
     closeNewPanel();
     if(S.cidade!==cidade){ S.cidade=cidade; S.regiao=regiao; document.getElementById('praca-label').textContent=cidade; document.getElementById('btn-bairro').style.display=(cidade==='Fortaleza')?'flex':'none'; }
@@ -3386,6 +3476,7 @@ if((window.PANELS_CACHE||[]).length){ window.__onPanelsUpdate(); }
       <button class="np-cat-btn on" id="npc-abrigos" onclick="selectNPCat('abrigos')">Abrigos</button>
       <button class="np-cat-btn" id="npc-horizontais" onclick="selectNPCat('horizontais')">Horizontais</button>
       <button class="np-cat-btn" id="npc-verticais" onclick="selectNPCat('verticais')">Verticais</button>
+      <button class="np-cat-btn" id="npc-empenas" onclick="selectNPCat('empenas')" style="display:none">Empenas</button>
     </div>
     <div class="upload-zone">
       <input type="file" accept="image/*" id="np-photo-input" onchange="onPhotoChangeNP(this)">
