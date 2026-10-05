@@ -736,6 +736,9 @@ const fbApp = initializeApp(firebaseConfig);
 const db = getFirestore(fbApp);
 const auth = getAuth(fbApp);
 const storage = getStorage(fbApp);
+// Sem isso o envio de foto fica tentando por até 10 minutos quando o Storage não responde.
+storage.maxUploadRetryTime = 15000;
+storage.maxOperationRetryTime = 15000;
 
 // Exposto globalmente para o script clássico (não-módulo) mais abaixo usar.
 window.FB = { db, auth, storage, collection, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, serverTimestamp, signInAnonymously, ref, uploadString, getDownloadURL };
@@ -2814,7 +2817,8 @@ function iniciarMigracaoFotos(){
    Se o Storage recusar (regras/permissão), cai para uma versão média (1280px) guardada no próprio registro,
    como era antes — nunca perde a foto. */
 var FOTO_MAX_W=1920, FOTO_MAX_H=1920, FOTO_QUALIDADE=0.88, FOTO_MAX_BYTES=2.5*1024*1024;
-var _avisoFotoMedia=false;
+var _avisoFotoMedia=false, _storageIndisponivel=false;
+function comLimiteDeTempo(promessa,ms){return Promise.race([promessa,new Promise(function(_,rej){setTimeout(function(){var e=new Error('tempo esgotado ('+Math.round(ms/1000)+'s) sem resposta do Storage');e.code='timeout';rej(e);},ms);})]);}
 function reduzirDataUrl(b64,maxLado,maxBytes){
   return new Promise(function(resolve){
     var img=new Image();
@@ -2831,14 +2835,16 @@ function reduzirDataUrl(b64,maxLado,maxBytes){
 }
 async function prepararFotoParaSalvar(b64,docId){
   try{
+    if(_storageIndisponivel) throw new Error('Storage indisponível nesta sessão');
     if(!window.FB||!window.FB.storage||!window.FB.ref||!window.FB.uploadString) throw new Error('Storage indisponível');
     var caminho='fotos-hd/'+String(docId).replace(/[^\w.-]/g,'_')+'_'+Date.now()+'.jpg';
     var r=window.FB.ref(window.FB.storage,caminho);
-    await window.FB.uploadString(r,b64,'data_url',{contentType:'image/jpeg',cacheControl:'public,max-age=31536000'});
-    return await window.FB.getDownloadURL(r);
+    await comLimiteDeTempo(window.FB.uploadString(r,b64,'data_url',{contentType:'image/jpeg',cacheControl:'public,max-age=31536000'}),25000);
+    return await comLimiteDeTempo(window.FB.getDownloadURL(r),10000);
   }catch(e){
+    _storageIndisponivel=true; // não faz o usuário esperar de novo nas próximas fotos
     console.warn('Storage recusou a foto, salvando versão média no registro:',e);
-    if(!_avisoFotoMedia){_avisoFotoMedia=true;alert('Aviso: o armazenamento de fotos do Firebase recusou o envio ('+(e.code||e.message)+').\n\nA foto foi salva mesmo assim, em qualidade média (melhor que antes). Para ficar em alta, é preciso liberar o Storage nas regras do Firebase.');}
+    if(!_avisoFotoMedia){_avisoFotoMedia=true;alert('Aviso: o armazenamento de fotos do Firebase recusou o envio ('+(e.code||e.message)+').\n\nSem problema: a foto vai ser salva mesmo assim, em qualidade média (melhor que antes). Para ficar em alta, é preciso liberar o Storage nas regras do Firebase.');}
     return await reduzirDataUrl(b64,1280,320*1024);
   }
 }
