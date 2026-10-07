@@ -227,6 +227,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .asset-drawer .zoom-hint{bottom:12px;left:auto;right:12px;transform:none;background:rgba(15,23,42,.72);padding:7px 10px;font-size:10px}
 .asset-drawer .detail-headline{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:4px}
 .asset-drawer .detail-name{font-size:28px;line-height:1.18;color:#0f172a;margin:0;letter-spacing:-.35px}
+.detail-type-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.dl-wrap{position:relative}
+.btn-d-download{height:28px;display:inline-flex;align-items:center;gap:6px;border-radius:7px;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;cursor:pointer;padding:0 9px;font-size:11px;font-weight:700;font-family:inherit;white-space:nowrap;transition:all .15s}
+.btn-d-download:hover,.dl-wrap.open .btn-d-download{background:#2563eb;border-color:#2563eb;color:#fff}
+.btn-d-download .dl-chev{transition:transform .15s}
+.dl-wrap.open .dl-chev{transform:rotate(180deg)}
+.dl-menu{display:none;position:absolute;right:0;top:calc(100% + 6px);z-index:50;background:#fff;border:1px solid #e2e8f0;border-radius:11px;box-shadow:0 12px 32px rgba(15,23,42,.16);padding:5px;min-width:250px}
+.dl-wrap.open .dl-menu{display:block}
+.dl-menu button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;border:none;background:none;text-align:left;padding:9px 11px;border-radius:8px;cursor:pointer;font-family:inherit}
+.dl-menu button:hover{background:#f1f5f9}
+.dl-menu button:disabled{opacity:.5;cursor:wait}
+.dl-menu b{font-size:12.5px;color:#0f172a}
+.dl-menu span{font-size:11px;color:#64748b;font-weight:500}
 .asset-drawer .detail-type{font-size:11px;font-weight:700;color:#475569;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:7px;padding:5px 7px;white-space:nowrap}
 .asset-drawer .detail-addr{font-size:14px;color:#64748b;margin:0 0 20px}
 .asset-drawer .detail-addr svg{color:#64748b}
@@ -339,7 +352,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-cancel-login:hover{color:#64748b}
 
 /* EDIT OVERLAY */
-#edit-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:400;align-items:center;justify-content:center}
+#edit-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:520;align-items:center;justify-content:center}
 #edit-overlay.open{display:flex}
 .edit-modal{background:#fff;border-radius:18px;width:92%;max-width:510px;max-height:90vh;overflow-y:auto;padding:26px;box-shadow:0 25px 60px rgba(0,0,0,.15)}
 .edit-modal h3{font-size:16px;font-weight:700;color:#0f172a;margin-bottom:18px;letter-spacing:-.3px}
@@ -584,7 +597,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-del-confirm:hover{background:#dc2626}
 #catalog-choice-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.65);z-index:600;align-items:center;justify-content:center}
 #catalog-choice-overlay.open{display:flex}
-.cc-modal{background:#fff;border-radius:16px;padding:28px;width:90%;max-width:400px;box-shadow:0 25px 60px rgba(0,0,0,.2)}
+.cc-close{position:absolute;top:14px;right:14px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid #e2e8f0;background:#fff;color:#64748b;border-radius:9px;cursor:pointer;padding:0;transition:all .15s}
+.cc-close:hover{background:#f1f5f9;color:#0f172a;border-color:#cbd5e1}
+.cc-modal{position:relative;background:#fff;border-radius:16px;padding:28px;width:90%;max-width:400px;box-shadow:0 25px 60px rgba(0,0,0,.2)}
 .cc-modal h3{font-size:17px;font-weight:800;color:#0f172a;margin-bottom:8px;text-align:center}
 .cc-modal p{font-size:13px;color:#64748b;margin-bottom:20px;line-height:1.6;text-align:center}
 .cc-actions{display:flex;flex-direction:column;gap:10px}
@@ -643,6 +658,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .dup-item input{margin-top:3px;flex-shrink:0}
 .dup-item-info{font-size:12px;color:#0f172a;line-height:1.5}
 .dup-item-sub{color:#94a3b8;font-size:11px}
+/* Atualizar fotos em lote */
+#fl-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:400;align-items:center;justify-content:center;padding:20px}
+#fl-overlay.open{display:flex}
+.fl-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:#64748b}
+.fl-tools button{background:none;border:1px solid #e2e8f0;border-radius:6px;padding:4px 10px;font-size:11px;color:#334155;cursor:pointer;font-family:inherit;font-weight:600}
+.fl-tools button:hover{background:#f8fafc}
+.fl-row{display:grid;grid-template-columns:22px 1fr 1fr 1.3fr;gap:10px;align-items:center;border:1px solid #e2e8f0;border-radius:10px;padding:8px 10px;margin-bottom:8px}
+.fl-row.off{opacity:.5}
+.fl-img{position:relative;aspect-ratio:4/3;background:#f1f5f9;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:11px;color:#94a3b8}
+.fl-img img{width:100%;height:100%;object-fit:cover;display:block}
+.fl-img span.fl-tag{position:absolute;left:4px;top:4px;background:rgba(15,23,42,.7);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.3px}
+.fl-info{font-size:12px;color:#0f172a;line-height:1.5;min-width:0}
+.fl-info b{font-weight:700}
+.fl-info .fl-sub{color:#94a3b8;font-size:11px;word-break:break-all}
+.fl-info select{margin-top:4px;max-width:100%;font-size:11px;font-family:inherit;padding:3px 4px;border:1px solid #cbd5e1;border-radius:6px}
+.fl-badge{display:inline-block;background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;margin-left:4px}
+.fl-badge.warn{background:#fee2e2;color:#991b1b}
+.fl-extra{font-size:11px;color:#64748b;margin-top:10px;border-top:1px solid #e2e8f0;padding-top:8px;max-height:110px;overflow-y:auto}
+@media (max-width:640px){.fl-row{grid-template-columns:22px 1fr 1fr}.fl-info{grid-column:2 / span 2}}
 #imp-scope-overlay,#imp-preview-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:400;align-items:center;justify-content:center;padding:20px}
 #imp-scope-overlay.open,#imp-preview-overlay.open{display:flex}
 .imp-step-label{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin:14px 0 8px}
@@ -713,13 +747,274 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .asset-drawer-logo{height:24px;width:auto;object-fit:contain;display:block}
 @media(max-width:700px){.asset-drawer-logo{height:18px}.asset-drawer-head-right{gap:10px}}
 @media(max-width:480px){.asset-drawer-kicker{display:none}}
+.btn-mapa{width:100%;margin-top:10px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:9px;padding:9px 0;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-mapa svg{width:14px;height:14px}
+.btn-mapa:hover{background:#2563eb;border-color:#2563eb;color:#fff}
+#mapa-overlay{display:none;position:fixed;inset:0;z-index:450;background:rgba(7,15,30,.58);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);padding:24px;box-sizing:border-box}
+#mapa-overlay.open{display:flex}
+.mapa-box{flex:1;display:flex;flex-direction:column;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.34)}
+.mapa-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;border-bottom:1px solid #e7ebf0;flex-wrap:wrap}
+.mapa-head-l{display:flex;align-items:center;gap:11px}
+.mapa-head-ico{width:34px;height:30px;object-fit:contain}
+.mapa-tit{font-size:15px;font-weight:800;color:#0f172a}
+.mapa-sub{font-size:11.5px;color:#64748b;margin-top:1px}
+.mapa-head-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mapa-fundo{display:flex;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;height:32px}
+.mapa-fundo-btn{border:none;background:#fff;color:#64748b;font-size:12px;font-weight:600;padding:0 11px;cursor:pointer;font-family:inherit}
+.mapa-fundo-btn+.mapa-fundo-btn{border-left:1px solid #e2e8f0}
+.mapa-fundo-btn.on{background:#0f172a;color:#fff}
+#mapa-praca{height:32px;border:1px solid #e2e8f0;border-radius:8px;padding:0 10px;font-size:12px;font-weight:600;color:#0f172a;background:#fff;font-family:inherit;cursor:pointer}
+.mapa-chips{display:flex;gap:6px;flex-wrap:wrap}
+.mapa-chip{height:32px;padding:0 11px;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#94a3b8;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:line-through}
+.mapa-chip b{font-weight:800;margin-left:2px}
+.mapa-chip.on{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8;text-decoration:none}
+.mapa-close{width:34px;height:34px;border-radius:9px;border:1px solid #e2e8f0;background:#fff;color:#64748b;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.mapa-close:hover{background:#f1f5f9;color:#0f172a}
+#mapa-canvas{flex:1;position:relative;background:#eef2f7}
+.mapa-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:13px;text-align:center;padding:20px}
+.mapa-area{flex:1;position:relative;display:flex}
+.mapa-area #mapa-canvas{flex:1}
+.mapa-cfg{width:34px;height:34px;border-radius:9px;border:1px solid #e2e8f0;background:#fff;color:#64748b;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.mapa-cfg:hover{background:#f1f5f9;color:#0f172a}
+.mapa-gps-link{color:#b45309;font-weight:700;text-decoration:none}
+.mapa-gps-link:hover{text-decoration:underline}
+.mapa-gps{display:none;position:absolute;top:12px;left:12px;z-index:1000;width:340px;max-height:calc(100% - 24px);background:#fff;border-radius:12px;box-shadow:0 12px 34px rgba(15,23,42,.22);flex-direction:column;overflow:hidden;font-family:Inter,Arial,sans-serif}
+.mapa-gps.open{display:flex}
+.mapa-gps-head{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid #eef2f7;font-size:13px;color:#b45309}
+.mapa-gps-head button{border:none;background:none;font-size:20px;line-height:1;color:#94a3b8;cursor:pointer}
+.mapa-gps-txt{font-size:11px;color:#64748b;padding:9px 13px;background:#fffbeb;line-height:1.45}
+.mapa-gps-lista{overflow:auto}
+.mapa-gps-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 13px;border-bottom:1px solid #f1f5f9}
+.mapa-gps-nome{font-size:12px;font-weight:700;color:#0f172a}
+.mapa-gps-mot{font-size:10.5px;color:#b45309;margin-top:2px}
+.mapa-gps-item button{flex-shrink:0;height:28px;padding:0 10px;border-radius:7px;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.gm-style .urb-pop{width:256px}
+.gm-style-iw-c{padding:0!important;border-radius:12px!important}
+.gm-style-iw-d{overflow:hidden!important;padding:0!important}
+.gm-style-iw-chr{position:absolute;right:0;top:0;z-index:2}
+.urb-pin-wrap{background:none;border:none}
+.urb-pin{position:relative;width:40px;height:50px;filter:drop-shadow(0 3px 4px rgba(15,23,42,.35));transition:transform .15s}
+.urb-pin:hover{transform:translateY(-3px) scale(1.06)}
+.urb-pin-body{fill:#1d4ed8;stroke:#fff;stroke-width:2}
+.urb-pin.pausado .urb-pin-body{fill:#94a3b8}
+.urb-pin-logo{position:absolute;left:7px;top:6px;width:26px;height:26px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.urb-pin-logo img{width:19px;height:17px;object-fit:contain}
+.urb-cluster-wrap{background:none;border:none}
+.urb-cluster{border-radius:50%;background:#1d4ed8;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 0 0 5px rgba(29,78,216,.25),0 4px 10px rgba(15,23,42,.3);font-family:Inter,Arial,sans-serif}
+.urb-popup .leaflet-popup-content-wrapper{border-radius:12px;padding:0;overflow:hidden}
+.urb-popup .leaflet-popup-content{margin:0;width:260px!important}
+.urb-pop-foto{position:relative;height:130px;background:#e2e8f0}
+.urb-pop-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.urb-pop-foto span{position:absolute;left:8px;bottom:8px;background:rgba(15,23,42,.78);color:#fff;font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:6px}
+.urb-pop-body{padding:10px 12px 12px;font-family:Inter,Arial,sans-serif}
+.urb-pop-nome{font-size:13.5px;font-weight:800;color:#0f172a;line-height:1.25}
+.urb-pop-nome em{font-style:normal;font-size:10px;color:#b45309;background:#fef3c7;padding:1px 6px;border-radius:5px;margin-left:4px}
+.urb-pop-end{font-size:11px;color:#64748b;margin-top:3px}
+.urb-pop-imp{font-size:11px;color:#475569;margin-top:7px}
+.urb-pop-imp b{color:#1d4ed8;font-size:13px}
+.urb-pop-acoes{display:flex;gap:6px;margin-top:10px}
+.urb-pop-acoes button,.urb-pop-acoes a{flex:1;height:30px;border-radius:7px;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;font-family:inherit}
+.urb-pop-acoes button{background:#1d4ed8;color:#fff;border:none}
+.urb-pop-acoes a{background:#fff;color:#1d4ed8!important;border:1px solid #bfdbfe}
+@media(max-width:700px){#mapa-overlay{padding:8px}.mapa-head{padding:10px 12px}}
+
+/* ═══════════ NOVO VISUAL 2026 ═══════════ */
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F4F6FA}
+#nav-rail{display:none!important}
+#sidebar{display:none!important}
+#mobile-sel-bar{display:none!important}
+
+/* topo */
+#topbar{gap:12px;padding:12px 28px;border-bottom:1px solid #E6EAF0;min-height:68px;box-sizing:border-box}
+#topbar .tb-logo img{height:26px!important}
+#topbar .btn-bairro,#topbar .tb-btn{height:42px;padding:0 15px;border-radius:12px;border:1px solid #E2E8F0;background:#fff;color:#334155;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s,border-color .15s}
+#topbar .btn-bairro:hover,#topbar .tb-btn:hover{background:#F8FAFC;border-color:#CBD5E1}
+#topbar .btn-bairro svg,#topbar .tb-btn svg{width:16px;height:16px;flex-shrink:0}
+#topbar .btn-bairro .chev{width:13px;height:13px;color:#64748B}
+#btn-praca,#btn-praca:hover,#btn-praca.active{background:#fff;border-color:#E2E8F0;color:#0F172A;font-weight:700}
+#btn-praca svg:first-child{color:#1D4ED8}
+#btn-praca.active{border-color:#93C5FD;background:#EFF6FF}
+#topbar .tb-primary{background:#0C1847;border-color:#0C1847;color:#fff;font-weight:700}
+#topbar .tb-primary:hover{background:#1E2A6B;border-color:#1E2A6B}
+#search-box{max-width:none;flex:1 1 360px;height:42px;border-radius:12px;background:#F1F4F9;border-color:transparent;padding:0 8px 0 15px}
+#search-box svg{color:#64748B;width:16px;height:16px}
+#search-input{font-size:14px;font-family:inherit;min-width:0}
+#search-input::placeholder{color:#64748B}
+#search-scope-select{font-size:11.5px;padding:5px 9px;border-radius:9px}
+#mode-badge{display:none}
+#mode-badge.admin{display:inline-flex;align-items:center;height:30px;padding:0 11px;border-radius:999px;font-size:12px}
+#topbar .tb-conta{width:42px;height:42px;padding:0;border-radius:50%;justify-content:center;border:1px solid #E2E8F0;color:#334155}
+#topbar .tb-conta svg{width:18px;height:18px}
+.bairro-cnt{background:#2563EB}
+
+/* categorias como chips */
+#cat-tabs{gap:8px;padding:14px 28px 4px;background:transparent;border-bottom:none}
+.cat-tab{height:38px;padding:0 15px;border-radius:999px;border:1px solid #E2E8F0;background:#fff;color:#334155;font-size:13.5px;font-weight:700;margin:0;display:flex;align-items:center;gap:7px;font-family:inherit}
+.cat-tab:hover{color:#0F172A;border-color:#CBD5E1}
+.cat-tab.active{background:#0C1847;border-color:#0C1847;color:#fff}
+.cat-cnt{background:#F1F5F9;color:#475569;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:999px}
+.cat-tab.active .cat-cnt{background:rgba(255,255,255,.18);color:#fff}
+
+#admin-bar{margin:10px 28px 0;border-radius:12px;border:1px solid #FDE68A}
+#filter-bar{margin:10px 28px 0;border-radius:12px;border:1px solid #E6EAF0}
+
+/* área principal */
+#main{padding:14px 28px 120px;background:#F4F6FA}
+.res-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.res-bar{font-size:13px;color:#475569;margin:0;font-weight:500}
+.res-tools{display:flex;align-items:center;gap:10px}
+#total-ativos-badge{display:inline;height:auto;padding:0;margin:0;background:none;color:#64748B;font-size:12.5px;font-weight:500}
+#total-ativos-num{font-size:12.5px;font-weight:800;color:#0F172A}
+.total-ativos-label{opacity:1;font-size:12.5px}
+.view-btns{background:#fff;border-color:#E2E8F0;border-radius:11px;padding:3px}
+.vb{height:30px;width:32px;color:#94A3B8;border-radius:8px}
+.vb.sb{font-size:12px}
+.vb.active{background:#0C1847;color:#fff;box-shadow:none}
+
+/* cards */
+.grid{grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+.card{border-radius:16px;box-shadow:0 1px 2px rgba(15,23,42,.06),0 4px 14px rgba(15,23,42,.05);transition:box-shadow .2s}
+.card:hover{transform:none;box-shadow:0 2px 4px rgba(15,23,42,.06),0 12px 28px rgba(15,23,42,.10)}
+.card.sel{outline:none;box-shadow:0 0 0 2.5px #2563EB,0 10px 24px rgba(37,99,235,.18)}
+.card-photo{height:auto;aspect-ratio:16/10}
+.card:hover .card-photo img{transform:scale(1.03)}
+.card-chk{top:10px;left:10px;width:34px;height:34px;border-radius:50%;background:rgba(15,23,42,.28);border:2px solid #fff;opacity:1;padding:0;cursor:pointer;backdrop-filter:blur(2px)}
+.card-chk:hover{background:rgba(37,99,235,.6)}
+.card-chk.on{background:#2563EB;border-color:#fff}
+.card-chk svg{width:16px;height:16px;stroke:#fff;stroke-width:3.2;fill:none}
+.card-tag{position:absolute;left:10px;bottom:10px;background:rgba(12,24,71,.86);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.02em;padding:5px 9px;border-radius:8px;white-space:nowrap;max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis}
+.inactive-overlay{top:12px;right:12px;font-size:10px;padding:4px 8px;border-radius:7px;background:#B91C1C}
+.card-body{padding:14px 16px 15px;gap:0}
+.card-name{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:4px}
+.card-addr{font-size:12.5px;color:#475569;margin-bottom:0;line-height:1.4}
+.card-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:12px}
+.card-bairro{font-size:11.5px;font-weight:700;color:#1D4ED8;background:#EEF3FF;padding:4px 10px;border-radius:999px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%}
+.card-imp{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#475569;white-space:nowrap}
+.card-imp svg{width:15px;height:15px;color:#1D4ED8;flex-shrink:0}
+.card-imp b{color:#0F172A;font-weight:800}
+.card-imp.estudo{color:#B45309;font-weight:700}
+.cat-badge{font-size:10.5px;padding:2px 7px}
+.card-admin-bar{display:flex;align-items:center;gap:8px;padding:12px 0 0;margin-top:12px;border-top:1px solid #F1F5F9}
+.btn-card-edit{flex:1;height:36px;background:#EEF3FF;color:#1D4ED8;border-radius:10px;font-size:12.5px;font-weight:700}
+.card-kebab{position:relative}
+.btn-card-more{width:36px;height:36px;border-radius:10px;border:1px solid #E2E8F0;background:#fff;color:#475569;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.btn-card-more svg{width:16px;height:16px}
+.card-menu{display:none;position:absolute;right:0;bottom:44px;min-width:170px;background:#fff;border-radius:12px;box-shadow:0 14px 34px rgba(15,23,42,.18);padding:5px;z-index:20}
+.card-kebab.open .card-menu{display:block}
+.card-menu button{display:block;width:100%;text-align:left;padding:10px 12px;border:none;background:none;border-radius:8px;font-size:13px;font-weight:600;color:#0F172A;cursor:pointer;font-family:inherit}
+.card-menu button:hover{background:#F1F5F9}
+.card-menu button.danger{color:#B91C1C}
+.card-admin-bar .badge-novo{margin-left:auto}
+
+/* lista */
+.list-item{border-radius:14px}
+
+/* barra flutuante de seleção */
+#sel-float{display:none;position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:300;align-items:center;gap:8px;padding:8px 8px 8px 20px;background:#0C1847;color:#fff;border-radius:18px;box-shadow:0 18px 44px rgba(12,24,71,.35);max-width:calc(100% - 32px);box-sizing:border-box;font-family:inherit}
+#sel-float.show{display:flex;animation:sfIn .22s ease}
+@keyframes sfIn{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+@media (prefers-reduced-motion:reduce){#sel-float.show{animation:none}}
+.sf-info{display:flex;flex-direction:column;margin-right:10px;line-height:1.25}
+.sf-count{font-size:14px;font-weight:700;white-space:nowrap}
+.sf-count b{font-size:16px}
+.sf-imp{font-size:11.5px;color:#A5B4FC;white-space:nowrap}
+.sf-imp:empty{display:none}
+.sf-btn{height:44px;display:flex;align-items:center;gap:8px;padding:0 16px;border-radius:12px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.sf-btn svg{width:16px;height:16px}
+.sf-btn .chev{width:13px;height:13px}
+.sf-ghost{border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff}
+.sf-ghost:hover{background:rgba(255,255,255,.08)}
+.sf-primary{border:none;background:#2563EB;color:#fff}
+.sf-primary:hover{background:#1D4ED8}
+.sf-exp-wrap{position:relative}
+.sf-menu{display:none;position:absolute;right:0;bottom:54px;width:260px;background:#fff;border-radius:14px;box-shadow:0 16px 40px rgba(15,23,42,.24);padding:6px}
+#sel-float.menu-open .sf-menu{display:block}
+.sf-menu button{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:10px 11px;border:none;background:#fff;border-radius:10px;cursor:pointer;font-family:inherit;color:#0F172A}
+.sf-menu button:hover{background:#F1F5F9}
+.sf-menu b{display:block;font-size:13.5px}
+.sf-menu small{display:block;font-size:11.5px;color:#475569;margin-top:1px}
+.sf-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.sf-pdf{background:#FEE2E2;color:#B91C1C}.sf-ppt{background:#FFEDD5;color:#9A3412}.sf-xls{background:#DCFCE7;color:#166534}
+.sf-x{width:44px;height:44px;border-radius:12px;border:none;background:transparent;color:#CBD5E1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sf-x:hover{background:rgba(255,255,255,.08);color:#fff}
+.sf-x svg{width:18px;height:18px}
+
+/* foco visível */
+.card-chk:focus-visible,.sf-btn:focus-visible,.sf-x:focus-visible,.cat-tab:focus-visible,#topbar button:focus-visible,.bn-btn:focus-visible{outline:2.5px solid #93C5FD;outline-offset:2px}
+
+/* tablet */
+@media (min-width:769px) and (max-width:1100px){
+  #topbar{padding:12px 18px;flex-wrap:wrap}
+  #topbar .tb-btn .tb-txt{display:none}
+  #cat-tabs{padding:12px 18px 4px}
+  #main{padding:14px 18px 120px}
+}
+
+/* celular */
+@media (max-width:768px){
+  #topbar{padding:10px 14px;gap:8px;min-height:0;flex-wrap:wrap}
+  #topbar .tb-logo{order:1}
+  #topbar .tb-logo img{height:22px!important}
+  #btn-praca{order:2;margin-left:auto;height:40px;padding:0 12px}
+  #topbar .tb-conta{order:3;width:40px;height:40px}
+  #mode-badge.admin{order:3}
+  #search-box{order:10;flex:1 1 0;height:44px;margin-top:2px}
+  #btn-bairro{order:11;height:44px;width:44px;padding:0;justify-content:center;margin-top:2px}
+  #btn-bairro .tb-lbl{display:none}
+  #btn-bairro .bairro-cnt{position:absolute;margin:-26px 0 0 26px}
+  #btn-bairro{position:relative}
+  .tb-hide-m{display:none!important}
+  #search-scope-select{max-width:96px}
+  #cat-tabs{padding:10px 12px 4px;gap:8px}
+  .cat-tab{height:36px;padding:0 13px;font-size:13px}
+  #admin-bar,#filter-bar{margin:8px 12px 0}
+  #main{padding:10px 12px 96px}
+  .res-tools #total-ativos-badge{display:none}
+  .grid{grid-template-columns:1fr;gap:14px}
+  .card-photo{height:auto;aspect-ratio:16/9}
+  .card-chk{width:44px;height:44px;top:8px;left:8px}
+  .card-chk svg{width:19px;height:19px}
+  .card-name{font-size:16px}
+  .card-addr{font-size:13px}
+  .btn-card-edit,.btn-card-more{height:44px}
+  .btn-card-more{width:44px}
+  #bottom-nav{background:#fff;border-top:1px solid #E6EAF0;height:64px;box-shadow:0 -4px 16px rgba(15,23,42,.05)}
+  .bn-btn{color:#475569;min-height:48px}
+  .bn-btn.active{color:#1D4ED8;background:none}
+  .bn-btn svg{width:22px;height:22px}
+  .bn-label{font-size:11px;font-weight:700}
+  #sel-float{left:10px;right:10px;transform:none;bottom:calc(72px + env(safe-area-inset-bottom));max-width:none;padding:7px 7px 7px 14px;gap:6px}
+  #sel-float.show{animation:none}
+  .sf-ghost span{display:none}
+  .sf-ghost{width:44px;padding:0;justify-content:center}
+  .sf-info{margin-right:auto}
+  .sf-primary{padding:0 14px}
+  .sf-menu{position:fixed;left:10px;right:10px;bottom:calc(140px + env(safe-area-inset-bottom));width:auto}
+  .asset-drawer-backdrop{padding:0!important}
+  .asset-drawer{width:100vw!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important}
+}
+#search-box{min-width:0}
+#search-input{width:0;min-width:0}
+.list-code{color:#64748B}
+@media (max-width:768px){
+  .asset-drawer .detail-headline{flex-direction:column;align-items:flex-start;gap:10px}
+  .res-row{gap:8px}
+}
+@media (max-width:768px){#search-box{flex:1 1 calc(100% - 60px)}}
+@media (max-width:768px){
+  #mode-badge.admin{display:none}
+  #admin-bar{flex-wrap:wrap;gap:8px;padding:10px}
+  #admin-bar .ab-text{display:none}
+  #adv-tools-group{flex-wrap:wrap}
+}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
@@ -741,7 +1036,7 @@ storage.maxUploadRetryTime = 10000;
 storage.maxOperationRetryTime = 10000;
 
 // Exposto globalmente para o script clássico (não-módulo) mais abaixo usar.
-window.FB = { db, auth, storage, collection, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, serverTimestamp, signInAnonymously, ref, uploadString, getDownloadURL };
+window.FB = { db, auth, storage, collection, doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, onSnapshot, serverTimestamp, signInAnonymously, ref, uploadString, getDownloadURL };
 window.PANELS_CACHE = window.PANELS_CACHE || [];
 window.CIDADES_CACHE = window.CIDADES_CACHE || [];
 window.MODELOS_CACHE = window.MODELOS_CACHE || [];
@@ -786,7 +1081,7 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
   <button class="nr-btn active" id="nr-cat" title="Catálogo" onclick="setView('grid')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
   </button>
-  <button class="nr-btn" title="Mapa de Fortaleza" onclick="openMapFortaleza()">
+  <button class="nr-btn" title="Mapa dos ativos" onclick="abrirMapaAtivos()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
   </button>
   <button class="nr-btn" title="Exportar catálogo completo" onclick="openCatalogChoice()">
@@ -803,14 +1098,13 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
 <div id="main-wrap">
   <div id="topbar">
     <div class="tb-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqQAAACLCAYAAAC3I4tjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA0VpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDEwLjAtYzAwMCA3OS5kMjBlNDY2MzAsIDIwMjUvMTIvMDktMDI6MTE6MjMgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyNy4xMSAoMjAyNjA4MTcubS4zNjQwIGNiZWY3MTcpICAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3MTZCOTY4Nzk4QTgxMUYxOUU4RUY3NjUzMkM5MjIzNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3MTZCOTY4ODk4QTgxMUYxOUU4RUY3NjUzMkM5MjIzNSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjcxNkI5Njg1OThBODExRjE5RThFRjc2NTMyQzkyMjM1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjcxNkI5Njg2OThBODExRjE5RThFRjc2NTMyQzkyMjM1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hw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" style="height:22px;object-fit:contain;object-position:left"></div>
-    <div id="total-ativos-badge" title="Total de ativos cadastrados no catálogo">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      <span id="total-ativos-num">0</span>
-      <span class="total-ativos-label">ativos</span>
-    </div>
+    <button class="btn-bairro tb-praca" id="btn-praca" onclick="togglePracaPanel()" title="Trocar de praça">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span id="praca-label">Fortaleza</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
     <div id="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="search-input" type="text" placeholder="Buscar em todo o catálogo: nome, endereço, bairro, código, número…" oninput="onSearchInput()">
+      <input id="search-input" type="text" placeholder="Buscar ponto, endereço, bairro ou código" oninput="onSearchInput()">
       <select id="search-scope-select" onchange="setSearchScope(this.value)" title="Onde buscar">
         <option value="catalog">Todo o catálogo</option>
         <option value="praca">Nesta praça</option>
@@ -818,32 +1112,15 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
       </select>
     </div>
     <div class="spacer"></div>
-    <button class="btn-bairro" id="btn-praca" onclick="togglePracaPanel()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span id="praca-label">Fortaleza</span>
-    </button>
-    <button class="btn-bairro" id="btn-bairro" onclick="toggleBairroPanel()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-      Bairros
+    <button class="btn-bairro" id="btn-bairro" onclick="toggleBairroPanel()" title="Filtrar por bairro">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+      <span class="tb-lbl">Bairros</span>
       <span class="bairro-cnt" id="bairro-badge" style="display:none">0</span>
     </button>
-    <div class="view-btns" id="sort-btns" title="Ordenar por">
-      <button class="vb sb active" id="sb-numero" onclick="setSort('numero')" title="Ordenar pelo número do painel">Nº</button>
-      <button class="vb sb" id="sb-code" onclick="setSort('code')" title="Ordenar pelo código">Cód.</button>
-    </div>
-    <div class="view-btns">
-      <button class="vb active" id="vb-grid" onclick="setView('grid')" title="Grade">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      </button>
-      <button class="vb" id="vb-list" onclick="setView('list')" title="Lista">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-      </button>
-    </div>
+    <button class="tb-btn tb-hide-m" onclick="abrirMapaAtivos()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Mapa</button>
+    <button class="tb-btn tb-primary tb-hide-m" onclick="openCatalogChoice()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Catálogo completo</button>
     <div id="mode-badge">Modo cliente</div>
-    <button class="btn-admin-open" onclick="openAdminLogin()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Admin
-    </button>
+    <button class="btn-admin-open tb-conta" onclick="openAdminLogin()" title="Entrar como admin" aria-label="Entrar como admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></button>
   </div>
 
 <div id="cat-tabs">
@@ -878,6 +1155,8 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
     <div id="adv-tools-group">
     <button class="btn-add-painel" id="btn-migrar-cidades" style="display:none;background:#7c3aed" onclick="migrarCidadesInline()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Migrar painéis antigos p/ Fortaleza</button>
     <button class="btn-gerenciar" id="btn-migrar-fotos" onclick="iniciarMigracaoFotos()" title="Escolha a pasta do catálogo (com fotos-v, fotos-h, fotos) para subir essas fotos antigas pro banco de uma vez por todas"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Migrar fotos locais</button>
+    <button class="btn-gerenciar" id="btn-fotos-lote" onclick="iniciarFotosLote()" title="Escolha uma pasta com fotos nomeadas CODIGO_TIPO-NUMERO_RUA-REFERENCIA — liga cada foto ao painel pelo código, mostra a prévia e só grava depois da sua confirmação"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/><polyline points="15 3 21 3 21 9"/></svg> Atualizar fotos em lote</button>
+    <input type="file" id="fotos-lote-input" multiple webkitdirectory style="display:none" onchange="onFotosLoteSelecionadas(this)">
     <button class="btn-gerenciar" id="btn-importar-unificado" onclick="abrirImportUnificada()" title="Escolha a categoria, o tipo de sincronismo e a planilha — mostra uma pré-visualização detalhada antes de gravar qualquer coisa"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="11" x2="13" y2="11"/></svg> Atualizar a partir de planilha</button>
     <input type="file" id="imp-file-input" accept=".xlsx,.xls" style="display:none" onchange="onImpFileSelecionado(this)">
     <button class="btn-gerenciar" id="btn-corrigir-duplicatas" onclick="abrirDuplicatas()" title="Detecta painéis duplicados (mesma cidade/categoria/endereço) e deixa você escolher qual manter"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Corrigir duplicatas</button>
@@ -887,7 +1166,7 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
     </div>
     <button class="btn-gerenciar" onclick="abrirGerenciarCidades()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Cidades</button>
     <button class="btn-gerenciar" onclick="abrirGerenciarModelos()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Modelos</button>
-    <button class="btn-gerenciar" onclick="fazerBackup()" title="Baixa um arquivo com tudo que está salvo hoje — não altera nada no banco"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Backup</button>
+    <button class="btn-gerenciar" onclick="fazerBackupCompleto()" title="Baixa um arquivo com tudo que está salvo hoje — não altera nada no banco"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Backup</button>
     <button class="btn-add-painel" onclick="openNewPanel()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Novo Painel</button>
     <button class="btn-logout" onclick="doLogout()">Sair do admin</button>
   </div>
@@ -916,6 +1195,10 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           Gerar PPT selecionados
         </button>
+        <button class="btn-mapa" onclick="abrirMapaAtivos()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          Mapa dos ativos
+        </button>
         <button class="btn-allpdf" onclick="openCatalogChoice()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           Catálogo completo
@@ -924,7 +1207,24 @@ onSnapshot(collection(db, 'duplicatas_ignoradas'), function(snap){
       </div>
     </aside>
     <main id="main">
-      <div class="res-bar" id="res-bar"></div>
+      <div class="res-row">
+        <div class="res-bar" id="res-bar"></div>
+        <div class="res-tools">
+          <span id="total-ativos-badge" title="Total de ativos cadastrados no catálogo"><span id="total-ativos-num">0</span> <span class="total-ativos-label">ativos no catálogo</span></span>
+          <div class="view-btns" id="sort-btns" title="Ordenar por">
+      <button class="vb sb active" id="sb-numero" onclick="setSort('numero')" title="Ordenar pelo número do painel">Nº</button>
+      <button class="vb sb" id="sb-code" onclick="setSort('code')" title="Ordenar pelo código">Cód.</button>
+    </div>
+          <div class="view-btns">
+      <button class="vb active" id="vb-grid" onclick="setView('grid')" title="Grade">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </button>
+      <button class="vb" id="vb-list" onclick="setView('list')" title="Lista">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      </button>
+    </div>
+        </div>
+      </div>
       <div id="content"></div>
     </main>
   </div>
@@ -1279,8 +1579,19 @@ function matchTerms(p,terms){
     var ws=normTxt(grupo).split(/\s+/).filter(Boolean);
     if(!ws.length) return false;
     var soNumeros=ws.every(function(w){return /^\d+$/.test(w);});
-    return soNumeros ? ws.some(function(w){return hay.indexOf(w)!==-1;}) : ws.every(function(w){return hay.indexOf(w)!==-1;});
+    var bate=function(w){return /^\d+$/.test(w) ? matchNumero(p,w) : hay.indexOf(w)!==-1;};
+    return soNumeros ? ws.some(bate) : ws.every(bate);
   });
+}
+// Número digitado: bate exato com o nº do painel (107 = 107, 64 = 064) ou com o código (a partir de 4 dígitos, pelo início).
+// Não procura mais o número dentro de endereço/nome, evitando falsos resultados (ex.: 107 em "Av. Barão de Studart, 1071").
+function matchNumero(p,w){
+  var n=parseInt(w,10);
+  var dig=String(numLimpo(dMub(p))||'').match(/\d+/);
+  if(dig && parseInt(dig[0],10)===n) return true;
+  var code=String(p.code||'').replace(/\D/g,'');
+  if(code && (code===w || (w.length>=4 && code.indexOf(w)===0))) return true;
+  return false;
 }
 function onSearchInput(){
   var v=document.getElementById('search-input').value.trim().toLowerCase();
@@ -1403,13 +1714,371 @@ function renderAssetDrawer(origMub){
   </aside>`;
   wrap.addEventListener('click',function(e){if(e.target===wrap)closeDetail();});
   document.body.appendChild(wrap);
+  aplicarFotoHdNoDetalhe(origMub);
   requestAnimationFrame(function(){wrap.classList.add('open');});
   var escHandler=function(e){if(e.key==='Escape'){closeDetail();document.removeEventListener('keydown',escHandler);}};
   document.addEventListener('keydown',escHandler);
   setTimeout(function(){var c=wrap.querySelector('.asset-drawer-close');if(c)c.focus();},50);
 }
+/* ── DOWNLOAD DO ATIVO: gera um JPG com a foto + faixa de informações (número, código, nome, endereço, bairro, impactos) ── */
+function _carregarImg(src,cors){
+  return new Promise(function(res,rej){var im=new Image();if(cors)im.crossOrigin='anonymous';im.onload=function(){res(im);};im.onerror=rej;im.src=src;});
+}
+async function _fotoParaCanvas(srcs){
+  for(var i=0;i<srcs.length;i++){
+    var src=srcs[i]; if(!src) continue;
+    try{
+      var cors=src.indexOf('data:')!==0;
+      var im=await _carregarImg(src,cors);
+      var t=document.createElement('canvas');t.width=1;t.height=1;var tx=t.getContext('2d');tx.drawImage(im,0,0,1,1);t.toDataURL(); // testa se a imagem pode ser exportada
+      return im;
+    }catch(e){ /* tenta a próxima */ }
+  }
+  return null;
+}
+function _quebraLinha(ctx,txt,maxW){
+  var ws=String(txt||'').split(/\s+/),linha='',out=[];
+  ws.forEach(function(w){var t=linha?linha+' '+w:w;if(ctx.measureText(t).width>maxW&&linha){out.push(linha);linha=w;}else linha=t;});
+  if(linha) out.push(linha); return out;
+}
+function _rr(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function toggleMenuDownload(ev,btn){
+  ev.stopPropagation();
+  var w=btn.parentNode, abrir=!w.classList.contains('open');
+  document.querySelectorAll('.dl-wrap.open').forEach(function(el){el.classList.remove('open');});
+  if(abrir){
+    w.classList.add('open');
+    var fechar=function(e){if(!w.contains(e.target)){w.classList.remove('open');document.removeEventListener('click',fechar,true);}};
+    setTimeout(function(){document.addEventListener('click',fechar,true);},0);
+  }
+}
+function _nomeArquivoAtivo(p,sufixo){
+  var dm=dMub(p);
+  return (rotuloAtivo(p,dm)+'_'+(p.code||'')+'_'+(p.name||'')+(sufixo?'_'+sufixo:'')).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\w-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+}
+function _dispararDownload(href,nome){var a=document.createElement('a');a.href=href;a.download=nome;document.body.appendChild(a);a.click();a.remove();}
+// Fontes da foto, da melhor para a pior: foto grande (HD) guardada à parte → foto do registro → a que está na tela.
+async function _fontesFotoAtivo(om){
+  var hd=null; try{hd=await carregarFotoHd(om);}catch(e){}
+  var imgDrawer=document.querySelector('#asset-drawer-backdrop .detail-photo-wrap img');
+  return [hd,photoSrc(om),imgDrawer&&imgDrawer.getAttribute('src')].filter(Boolean);
+}
+// Aviso de direitos no canto superior direito (desenhado em coordenadas de 1920 de largura).
+var TEXTO_DIREITOS='© '+new Date().getFullYear()+' Urbmídia · Todos os direitos reservados · Proibida a reprodução sem autorização';
+function direitosHtml(fs){return '<span style="position:absolute;top:10px;right:10px;z-index:2;background:rgba(15,23,42,.55);color:#fff;font-size:'+(fs||8)+'px;font-weight:600;letter-spacing:.2px;padding:4px 11px;border-radius:20px;white-space:nowrap;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;line-height:1.3">'+TEXTO_DIREITOS+'</span>';}
+function _carimboDireitos(x,W){
+  x.save();
+  x.font='600 21px Inter, "Segoe UI", Arial, sans-serif';x.textBaseline='middle';
+  var tw=x.measureText(TEXTO_DIREITOS).width, h=40, w=tw+32, m=28;
+  x.fillStyle='rgba(15,23,42,.55)';_rr(x,W-m-w,m,w,h,h/2);x.fill();
+  x.fillStyle='rgba(255,255,255,.95)';x.fillText(TEXTO_DIREITOS,W-m-w+16,m+h/2+1);
+  x.restore();
+}
+async function baixarAtivo(om,btn,comInfo){
+  var p=getPanel(om); if(!p) return;
+  var menu=btn&&btn.closest('.dl-menu'); var itens=menu?menu.querySelectorAll('button'):[];
+  itens.forEach(function(b){b.disabled=true;});
+  try{
+    var fontes=await _fontesFotoAtivo(om);
+    if(!comInfo){ await _baixarSoImagem(p,fontes); return; }
+    var foto=await _fotoParaCanvas(fontes);
+    var logo=await _fotoParaCanvas([typeof LOGO_FULL!=='undefined'?LOGO_FULL:'',LOGO_SRC()]);
+    // layout desenhado em 1920 de largura e ampliado até a resolução real da foto (mín. 1920, máx. 4096)
+    var W=1920, esc=foto?Math.min(Math.max(foto.naturalWidth/W,1),4096/W):1;
+    var fotoH=foto?Math.round(W*foto.naturalHeight/foto.naturalWidth):1080;
+    fotoH=Math.min(Math.max(fotoH,800),1600);
+    var PAD=72, infoH=340, H=fotoH+infoH;
+    var c=document.createElement('canvas');c.width=Math.round(W*esc);c.height=Math.round(H*esc);
+    var x=c.getContext('2d');x.scale(esc,esc);x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';
+    x.fillStyle='#ffffff';x.fillRect(0,0,W,H);
+    if(foto){
+      var k=Math.max(W/foto.naturalWidth,fotoH/foto.naturalHeight),dw=foto.naturalWidth*k,dh=foto.naturalHeight*k;
+      x.save();x.beginPath();x.rect(0,0,W,fotoH);x.clip();x.drawImage(foto,(W-dw)/2,(fotoH-dh)/2,dw,dh);x.restore();
+    }else{x.fillStyle='#e2e8f0';x.fillRect(0,0,W,fotoH);}
+    _carimboDireitos(x,W);
+    var dm=dMub(p), rot=rotuloAtivo(p,dm)+(p.code?'  /  '+p.code:'');
+    x.font='800 44px Inter, "Segoe UI", Arial, sans-serif';
+    var bw=x.measureText(rot).width+64;
+    x.fillStyle='rgba(15,23,42,.78)';_rr(x,PAD-8,fotoH-PAD-74,bw,84,16);x.fill();
+    x.fillStyle='#fff';x.textBaseline='middle';x.fillText(rot,PAD+24,fotoH-PAD-32);
+    var y0=fotoH; x.fillStyle='#2563eb';x.fillRect(0,y0,W,8);
+    var logoW=0;
+    if(logo){var lh=56;logoW=Math.round(lh*logo.naturalWidth/logo.naturalHeight);x.drawImage(logo,W-PAD-logoW,y0+60,logoW,lh);}
+    var maxTxt=W-PAD*2-(logoW?logoW+60:0);
+    x.textBaseline='alphabetic';x.fillStyle='#0f172a';x.font='800 60px Inter, "Segoe UI", Arial, sans-serif';
+    x.fillText(_quebraLinha(x,p.name||'',maxTxt)[0]||'',PAD,y0+112);
+    x.fillStyle='#475569';x.font='500 36px Inter, "Segoe UI", Arial, sans-serif';
+    x.fillText(_quebraLinha(x,[p.addr,p.bairro,(p.cidade||'Fortaleza')].filter(Boolean).join(' · '),maxTxt)[0]||'',PAD,y0+172);
+    var estudo=p.alcance&&p.alcance.toLowerCase().indexOf('estudo')!==-1;
+    var dados=[['Impactos semanais',estudo?'Em estudo':(p.alcance||'—')],[catTipo(p)+' / Código',dm+' / '+(p.code||'—')]];
+    if(p.tamanho) dados.push(['Tamanho',p.tamanho]);
+    if(p.lat&&Math.abs(p.lat)>0.5) dados.push(['GPS',p.lat+', '+p.lng]);
+    var cx=PAD, colW=(W-PAD*2)/dados.length;
+    dados.forEach(function(d){
+      x.fillStyle='#94a3b8';x.font='700 24px Inter, "Segoe UI", Arial, sans-serif';x.fillText(d[0].toUpperCase(),cx,y0+238);
+      x.fillStyle='#1e293b';x.font='800 36px Inter, "Segoe UI", Arial, sans-serif';x.fillText(String(d[1]),cx,y0+284);
+      cx+=colW;
+    });
+    _dispararDownload(c.toDataURL('image/jpeg',0.95),_nomeArquivoAtivo(p)+'.jpg');
+    if(!foto) alert('A imagem foi gerada, mas a foto deste painel não pôde ser incluída (o servidor da foto bloqueou a cópia).');
+  }catch(e){
+    console.error(e);alert('Não consegui gerar a imagem do ativo: '+e.message);
+  }finally{
+    itens.forEach(function(b){b.disabled=false;});
+    var w=btn&&btn.closest('.dl-wrap'); if(w) w.classList.remove('open');
+  }
+}
+// Só a imagem: mantém a resolução original da foto e só acrescenta o aviso de direitos (JPG 96%).
+async function _baixarSoImagem(p,fontes){
+  var foto=await _fotoParaCanvas(fontes);
+  if(!foto){ if(fontes[0]) window.open(fontes[0],'_blank'); else alert('Este painel não tem foto para baixar.'); return; }
+  var w=foto.naturalWidth,h=foto.naturalHeight,esc=w/1920;
+  var c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');
+  x.drawImage(foto,0,0);
+  x.scale(esc,esc);_carimboDireitos(x,1920);
+  _dispararDownload(c.toDataURL('image/jpeg',0.96),_nomeArquivoAtivo(p,'foto')+'.jpg');
+}
+/* ── MAPA DOS ATIVOS ──
+   Motor principal: Google Maps (visual padrão do Maps), ativado com uma chave da API.
+   Sem chave (ou se a chave falhar), usa Leaflet + mapa simples da Esri, que funciona sem chave. */
+// 👉 Cole aqui a chave do Google Maps (Google Cloud → APIs → "Maps JavaScript API").
+//    Também dá para colar pelo próprio mapa, no modo admin (fica salva só neste navegador).
+var GOOGLE_MAPS_KEY='';
+function _gmapsKey(){try{return localStorage.getItem('gmaps_key')||GOOGLE_MAPS_KEY;}catch(e){return GOOGLE_MAPS_KEY;}}
+var _mapaSoSel=false,_mapa=null,_mapaMotor=null,_mapaFiltroCat={abrigos:true,horizontais:true,verticais:true,empenas:true},_mapaPraca=null,_mapaFundoAtual='mapa';
+var MAPA_CATS=[{k:'abrigos',nome:'Abrigos'},{k:'horizontais',nome:'Horizontais'},{k:'verticais',nome:'Verticais'},{k:'empenas',nome:'Empenas'}];
+function _mapaEsc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function _js(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.async=true;s.onload=res;s.onerror=function(){rej(new Error('não carregou '+src));};document.head.appendChild(s);});}
+function _css(h){var l=document.createElement('link');l.rel='stylesheet';l.href=h;document.head.appendChild(l);}
+
+/* ── Coordenadas: lê "-3,7375" ou "-3.7375", corrige vírgula fora do lugar e marca as suspeitas ── */
+function lerCoord(v,ehLat){
+  var s=String(v==null?'':v).trim().replace(/\s/g,'');
+  if(!s) return NaN;
+  if(s.indexOf(',')!==-1&&s.indexOf('.')===-1) s=s.replace(',','.');
+  var n=parseFloat(s); if(!isFinite(n)) return NaN;
+  if(ehLat&&(n<-34||n>6)) n=n/10;          // ex.: -37.179 → -3.7179
+  if(!ehLat&&(n<-75||n>-28)&&n<-100) n=n/10;
+  return n;
+}
+function _medianas(lista){var a=lista.slice().sort(function(x,y){return x-y;});return a.length?a[Math.floor(a.length/2)]:0;}
+// Retorna {ok:[{p,lat,lng}], ruins:[{p,motivo}]}
+function _mapaClassificar(paineis){
+  var ok=[],ruins=[];
+  paineis.forEach(function(p){
+    var vazio=(p.lat==null||p.lat===''||p.lat===0||p.lat==='0')&&(p.lng==null||p.lng===''||p.lng===0||p.lng==='0');
+    if(vazio){ruins.push({p:p,motivo:'sem coordenadas',vazio:true});return;}
+    var la=lerCoord(p.lat,true),ln=lerCoord(p.lng,false);
+    if(!isFinite(la)||!isFinite(ln)){ruins.push({p:p,motivo:'coordenada inválida'});return;}
+    if(la<-34||la>6||ln<-75||ln>-28){ruins.push({p:p,motivo:'fora do Brasil'});return;}
+    if(la===Math.round(la)||ln===Math.round(ln)){ruins.push({p:p,motivo:'coordenada incompleta (sem casas decimais)'});return;}
+    ok.push({p:p,lat:la,lng:ln});
+  });
+  // longe demais do centro da própria praça (> 60 km) → provavelmente digitada errada
+  var porCid={}; ok.forEach(function(o){var c=o.p.cidade||'Fortaleza';(porCid[c]=porCid[c]||[]).push(o);});
+  var final=[];
+  Object.keys(porCid).forEach(function(c){
+    var g=porCid[c]; if(g.length<3){final=final.concat(g);return;}
+    var mla=_medianas(g.map(function(o){return o.lat;})),mln=_medianas(g.map(function(o){return o.lng;}));
+    g.forEach(function(o){var km=Math.sqrt(Math.pow(o.lat-mla,2)+Math.pow(o.lng-mln,2))*111;if(km>60)ruins.push({p:o.p,motivo:'longe da praça ('+Math.round(km)+' km)'});else final.push(o);});
+  });
+  return {ok:final,ruins:ruins};
+}
+
+/* ── Pin da Urbmídia desenhado uma vez em PNG (serve para os dois motores) ── */
+var _pinPng={};
+function _pinImagem(pausado){
+  var k=pausado?'p':'a'; if(_pinPng[k]) return Promise.resolve(_pinPng[k]);
+  return new Promise(function(res){
+    var esc=2,W=40,H=50,c=document.createElement('canvas');c.width=W*esc;c.height=H*esc;var x=c.getContext('2d');x.scale(esc,esc);
+    x.shadowColor='rgba(15,23,42,.35)';x.shadowBlur=4;x.shadowOffsetY=2;
+    var path=new Path2D('M20 48C20 48 3 30 3 18.5a17 17 0 0 1 34 0C37 30 20 48 20 48z');
+    x.fillStyle=pausado?'#94a3b8':'#1d4ed8';x.fill(path);x.shadowColor='transparent';x.lineWidth=2;x.strokeStyle='#fff';x.stroke(path);
+    x.beginPath();x.arc(20,18.5,12.5,0,Math.PI*2);x.fillStyle='#fff';x.fill();
+    var im=new Image();im.onload=function(){var w=19,h=w*im.naturalHeight/im.naturalWidth;x.drawImage(im,20-w/2,18.5-h/2,w,h);_pinPng[k]=c.toDataURL('image/png');res(_pinPng[k]);};
+    im.onerror=function(){_pinPng[k]=c.toDataURL('image/png');res(_pinPng[k]);};
+    im.src=LOGO_ICON;
+  });
+}
+
+/* ── Abrir / fechar ── */
+function abrirMapaAtivos(opts){
+  _mapaSoSel=!!(opts&&opts.soSelecionados&&S.sel.size);
+  var ov=document.getElementById('mapa-overlay');
+  if(!ov){
+    ov=document.createElement('div'); ov.id='mapa-overlay';
+    ov.innerHTML='<div class="mapa-box"><div class="mapa-head">'+
+      '<div class="mapa-head-l"><img src="'+LOGO_ICON+'" class="mapa-head-ico" alt=""><div><div class="mapa-tit">Mapa dos ativos</div><div class="mapa-sub" id="mapa-sub">Carregando…</div></div></div>'+
+      '<div class="mapa-head-r"><div class="mapa-fundo"><button class="mapa-fundo-btn on" data-f="mapa" onclick="_mapaFundo(\'mapa\')">Mapa</button><button class="mapa-fundo-btn" data-f="satelite" onclick="_mapaFundo(\'satelite\')">Satélite</button></div>'+
+      '<select id="mapa-praca" onchange="_mapaPraca=this.value||null;atualizarMapa(true)"></select>'+
+      '<div class="mapa-chips" id="mapa-chips"></div>'+
+      '<button class="mapa-cfg" id="mapa-cfg" onclick="configurarGoogleMaps()" title="Configurar Google Maps" style="display:none"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>'+
+      '<button class="mapa-close" onclick="fecharMapaAtivos()" aria-label="Fechar" title="Fechar (Esc)"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>'+
+      '<div class="mapa-area"><div id="mapa-canvas"><div class="mapa-loading">Carregando mapa…</div></div><div id="mapa-gps" class="mapa-gps"></div></div></div>';
+    ov.addEventListener('click',function(e){if(e.target===ov)fecharMapaAtivos();});
+    document.body.appendChild(ov);
+    document.addEventListener('keydown',function(e){
+      if(e.key!=='Escape'||!ov.classList.contains('open')) return;
+      if(document.getElementById('asset-drawer-backdrop')||document.getElementById('lightbox')?.classList.contains('open')||document.getElementById('edit-overlay')?.classList.contains('open')) return;
+      fecharMapaAtivos();
+    });
+  }
+  document.getElementById('mapa-cfg').style.display=S.adminMode?'':'none';
+  ov.classList.add('open'); document.body.style.overflow='hidden';
+  _mapaPraca=_mapaSoSel?null:(S.cidade||null);
+  if(_mapa){ setTimeout(function(){ if(_mapaMotor==='leaflet') _mapa.invalidateSize(); atualizarMapa(true); },60); return; }
+  var key=_gmapsKey();
+  (key?_iniciarGoogle(key).catch(function(e){console.warn('Google Maps indisponível, usando mapa alternativo:',e);return _iniciarLeaflet();}):_iniciarLeaflet())
+    .then(function(){atualizarMapa(true);})
+    .catch(function(e){document.getElementById('mapa-canvas').innerHTML='<div class="mapa-loading">Não foi possível carregar o mapa ('+_mapaEsc(e.message)+'). Verifique a internet e tente de novo.</div>';});
+}
+function fecharMapaAtivos(){
+  var ov=document.getElementById('mapa-overlay'); if(ov) ov.classList.remove('open');
+  if(!document.getElementById('asset-drawer-backdrop')) document.body.style.overflow='';
+}
+function configurarGoogleMaps(){
+  var atual=_gmapsKey();
+  var k=prompt('Cole a chave da API do Google Maps (Maps JavaScript API).\nDeixe em branco para voltar ao mapa simples.',atual||'');
+  if(k===null) return;
+  try{ k=k.trim(); if(k) localStorage.setItem('gmaps_key',k); else localStorage.removeItem('gmaps_key'); }catch(e){}
+  location.reload();
+}
+
+/* ── Motor Google Maps ── */
+var _gMarkers=[],_gCluster=null,_gInfo=null;
+function _iniciarGoogle(key){
+  return new Promise(function(res,rej){
+    var t=setTimeout(function(){rej(new Error('tempo esgotado'));},15000);
+    window.gm_authFailure=function(){
+      // chave recusada pelo Google: troca para o mapa alternativo sem travar a tela
+      alert('O Google recusou a chave do Maps (verifique se a "Maps JavaScript API" está ativada e o faturamento ligado no Google Cloud). Vou mostrar o mapa simples.');
+      _mapa=null;_mapaMotor=null;document.getElementById('mapa-canvas').innerHTML='';
+      _iniciarLeaflet().then(function(){atualizarMapa(true);});
+    };
+    window._gmapsPronto=function(){
+      _js('https://cdn.jsdelivr.net/npm/@googlemaps/markerclusterer@2.5.3/dist/index.min.js').catch(function(){}).then(function(){
+        clearTimeout(t);
+        var el=document.getElementById('mapa-canvas'); el.innerHTML='';
+        _mapa=new google.maps.Map(el,{center:{lat:-3.77,lng:-38.53},zoom:12,mapTypeId:'roadmap',streetViewControl:true,mapTypeControl:false,fullscreenControl:false,clickableIcons:false,gestureHandling:'greedy'});
+        _mapaMotor='google'; _gInfo=new google.maps.InfoWindow({maxWidth:280});
+        res();
+      });
+    };
+    _js('https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(key)+'&callback=_gmapsPronto&language=pt-BR&region=BR&v=weekly').catch(function(e){clearTimeout(t);rej(e);});
+  });
+}
+async function _renderGoogle(vis,enquadrar){
+  var ico=await _pinImagem(false), icoP=await _pinImagem(true);
+  if(_gCluster){_gCluster.clearMarkers();_gCluster=null;}
+  _gMarkers.forEach(function(m){m.setMap(null);}); _gMarkers=[];
+  var bounds=new google.maps.LatLngBounds();
+  vis.forEach(function(o){
+    var m=new google.maps.Marker({position:{lat:o.lat,lng:o.lng},title:o.p.name||'',icon:{url:o.p.ativo===false?icoP:ico,scaledSize:new google.maps.Size(40,50),anchor:new google.maps.Point(20,48)}});
+    m.addListener('click',function(){_gInfo.setContent(_mapaPopup(o.p));_gInfo.open({map:_mapa,anchor:m});});
+    _gMarkers.push(m); bounds.extend(m.getPosition());
+  });
+  var MC=window.markerClusterer&&window.markerClusterer.MarkerClusterer;
+  if(MC){
+    _gCluster=new MC({map:_mapa,markers:_gMarkers,renderer:{render:function(cl){var n=cl.count,s=n<10?38:n<50?44:52;
+      var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+(s+12)+'" height="'+(s+12)+'"><circle cx="'+(s/2+6)+'" cy="'+(s/2+6)+'" r="'+(s/2+5)+'" fill="#1d4ed8" fill-opacity=".22"/><circle cx="'+(s/2+6)+'" cy="'+(s/2+6)+'" r="'+(s/2-1)+'" fill="#1d4ed8" stroke="#fff" stroke-width="3"/></svg>';
+      return new google.maps.Marker({position:cl.position,icon:{url:'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg),scaledSize:new google.maps.Size(s+12,s+12),anchor:new google.maps.Point(s/2+6,s/2+6)},label:{text:String(n),color:'#fff',fontSize:'13px',fontWeight:'800'},zIndex:1000+n});}}});
+  }else{ _gMarkers.forEach(function(m){m.setMap(_mapa);}); }
+  if(enquadrar&&vis.length){ if(vis.length===1){_mapa.setCenter(bounds.getCenter());_mapa.setZoom(16);} else _mapa.fitBounds(bounds,48); }
+}
+
+/* ── Motor alternativo: Leaflet + Esri (sem chave) ── */
+var _lCluster=null,_lCamada=null,_ESRI='https://server.arcgisonline.com/ArcGIS/rest/services/';
+var MAPA_FUNDOS={
+  mapa:[{url:_ESRI+'Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',op:{maxNativeZoom:16,maxZoom:19,attribution:'Tiles &copy; Esri'}},
+        {url:_ESRI+'Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',op:{maxNativeZoom:16,maxZoom:19}}],
+  satelite:[{url:_ESRI+'World_Imagery/MapServer/tile/{z}/{y}/{x}',op:{maxZoom:19,attribution:'Imagens &copy; Esri, Maxar'}},
+            {url:_ESRI+'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',op:{maxZoom:19}}]
+};
+var _leafletLibs=null;
+function _iniciarLeaflet(){
+  if(!_leafletLibs){
+    _css('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css');
+    _css('https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css');
+    _leafletLibs=_js('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js').then(function(){return _js('https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js');});
+    _leafletLibs.catch(function(){_leafletLibs=null;});
+  }
+  return _leafletLibs.then(function(){
+    var el=document.getElementById('mapa-canvas'); el.innerHTML='';
+    _mapa=L.map(el).setView([-3.77,-38.53],12); _mapaMotor='leaflet';
+    _mapaFundo(_mapaFundoAtual);
+    setTimeout(function(){_mapa.invalidateSize();},60);
+  });
+}
+async function _renderLeaflet(vis,enquadrar){
+  var ico=await _pinImagem(false), icoP=await _pinImagem(true);
+  if(_lCluster) _mapa.removeLayer(_lCluster);
+  _lCluster=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:46,
+    iconCreateFunction:function(cl){var n=cl.getChildCount();var s=n<10?38:n<50?44:52;return L.divIcon({className:'urb-cluster-wrap',iconSize:[s,s],html:'<div class="urb-cluster" style="width:'+s+'px;height:'+s+'px">'+n+'</div>'});}});
+  vis.forEach(function(o){
+    var m=L.marker([o.lat,o.lng],{icon:L.icon({iconUrl:o.p.ativo===false?icoP:ico,iconSize:[40,50],iconAnchor:[20,48],popupAnchor:[0,-44]}),title:o.p.name||''});
+    m.bindPopup(function(){return _mapaPopup(o.p);},{maxWidth:280,minWidth:250,className:'urb-popup'});
+    _lCluster.addLayer(m);
+  });
+  _mapa.addLayer(_lCluster);
+  if(enquadrar&&vis.length) _mapa.fitBounds(L.latLngBounds(vis.map(function(o){return [o.lat,o.lng];})),{padding:[40,40],maxZoom:16});
+}
+
+/* ── Comum aos dois motores ── */
+function _mapaFundo(tipo){
+  tipo=(tipo==='satelite')?'satelite':'mapa'; _mapaFundoAtual=tipo;
+  document.querySelectorAll('.mapa-fundo-btn').forEach(function(b){b.classList.toggle('on',b.dataset.f===tipo);});
+  if(!_mapa) return;
+  if(_mapaMotor==='google'){ _mapa.setMapTypeId(tipo==='satelite'?'hybrid':'roadmap'); return; }
+  if(_lCamada) _mapa.removeLayer(_lCamada);
+  _lCamada=L.layerGroup(MAPA_FUNDOS[tipo].map(function(c){return L.tileLayer(c.url,c.op);})).addTo(_mapa);
+}
+function toggleMapaCat(k){_mapaFiltroCat[k]=!_mapaFiltroCat[k];atualizarMapa(false);}
+var _mapaRuins=[];
+function atualizarMapa(enquadrar){
+  if(!_mapa) return;
+  var base=(window.PANELS_CACHE||[]).filter(function(x){return S.adminMode||x.ativo!==false;}).map(function(x){return getPanel(x._docId);});
+  if(_mapaSoSel) base=base.filter(function(p){return S.sel.has(selKey(p._origMub));});
+  var cls=_mapaClassificar(base);
+  var cidades=Array.from(new Set(base.map(function(p){return p.cidade||'Fortaleza';}))).sort(function(a,b){if(a==='Fortaleza')return -1;if(b==='Fortaleza')return 1;return a.localeCompare(b,'pt-BR');});
+  if(_mapaPraca&&cidades.indexOf(_mapaPraca)===-1) _mapaPraca=null;
+  document.getElementById('mapa-praca').innerHTML='<option value="">Todas as praças</option>'+cidades.map(function(c){return '<option'+(c===_mapaPraca?' selected':'')+'>'+_mapaEsc(c)+'</option>';}).join('');
+  var naPraca=function(p){return !_mapaPraca||(p.cidade||'Fortaleza')===_mapaPraca;};
+  var daPraca=cls.ok.filter(function(o){return naPraca(o.p);});
+  document.getElementById('mapa-chips').innerHTML=MAPA_CATS.map(function(c){
+    var n=daPraca.filter(function(o){return o.p.categoria===c.k;}).length; if(!n) return '';
+    return '<button class="mapa-chip'+(_mapaFiltroCat[c.k]?' on':'')+'" onclick="toggleMapaCat(\''+c.k+'\')">'+c.nome+' <b>'+n+'</b></button>';
+  }).join('');
+  var vis=daPraca.filter(function(o){return _mapaFiltroCat[o.p.categoria]!==false;});
+  _mapaRuins=cls.ruins.filter(function(r){return naPraca(r.p);});
+  var sub=document.getElementById('mapa-sub');
+  sub.innerHTML=_mapaEsc(vis.length+' ativo'+(vis.length!==1?'s':'')+' no mapa · '+(_mapaSoSel?'só os selecionados':(_mapaPraca||'todas as praças')))+(_mapaSoSel?' · <a href="#" class="mapa-gps-link" style="color:#1d4ed8" onclick="event.preventDefault();_mapaSoSel=false;_mapaPraca=S.cidade||null;atualizarMapa(true)">mostrar todos</a>':'')+
+    (_mapaRuins.length?' · <a href="#" class="mapa-gps-link" onclick="toggleListaGps(event)">⚠ '+_mapaRuins.length+' com GPS a corrigir</a>':'');
+  _renderListaGps();
+  (_mapaMotor==='google'?_renderGoogle(vis,enquadrar):_renderLeaflet(vis,enquadrar)).catch(function(e){console.error(e);});
+}
+function toggleListaGps(e){if(e)e.preventDefault();document.getElementById('mapa-gps').classList.toggle('open');}
+function _renderListaGps(){
+  var box=document.getElementById('mapa-gps'); if(!box) return;
+  if(!_mapaRuins.length){box.classList.remove('open');box.innerHTML='';return;}
+  box.innerHTML='<div class="mapa-gps-head"><b>GPS a corrigir ('+_mapaRuins.length+')</b><button onclick="toggleListaGps()">×</button></div>'+
+    '<div class="mapa-gps-txt">Estes ativos não aparecem no mapa porque a coordenada está vazia ou errada. Dica: no Google Maps, clique com o botão direito no ponto e copie os números (ex.: -3.737544, -38.495121).</div>'+
+    '<div class="mapa-gps-lista">'+_mapaRuins.map(function(r){var p=r.p;
+      return '<div class="mapa-gps-item"><div><div class="mapa-gps-nome">'+_mapaEsc(rotuloAtivo(p,dMub(p)))+' · '+_mapaEsc(p.name)+'</div>'+
+        '<div class="mapa-gps-mot">'+_mapaEsc(r.motivo)+(r.vazio?'':' · '+_mapaEsc(p.lat)+', '+_mapaEsc(p.lng))+' · '+_mapaEsc(p.cidade||'Fortaleza')+'</div></div>'+
+        (S.adminMode?'<button onclick="openEdit(\''+p._origMub+'\')">Corrigir</button>':'<button onclick="openDetail(\''+p._origMub+'\')">Ver</button>')+'</div>';
+    }).join('')+'</div>';
+}
+function _mapaPopup(p){
+  var dm=dMub(p), url=mapsUrl(p), estudo=p.alcance&&String(p.alcance).toLowerCase().indexOf('estudo')!==-1;
+  return '<div class="urb-pop">'+
+    '<div class="urb-pop-foto"><img src="'+_mapaEsc(photoSrc(p._origMub))+'" onerror="this.parentNode.style.display=\'none\'"><span>'+_mapaEsc(rotuloAtivo(p,dm)+(p.code?' / '+p.code:''))+'</span></div>'+
+    '<div class="urb-pop-body"><div class="urb-pop-nome">'+_mapaEsc(p.name)+(p.ativo===false?' <em>pausado</em>':'')+'</div>'+
+    '<div class="urb-pop-end">'+_mapaEsc([p.addr,p.bairro].filter(Boolean).join(' · '))+'</div>'+
+    '<div class="urb-pop-imp"><b>'+_mapaEsc(estudo?'Em estudo':(p.alcance||'—'))+'</b> impactos semanais</div>'+
+    '<div class="urb-pop-acoes"><button onclick="openDetail(\''+p._origMub+'\')">Ver ficha</button>'+(url?'<a href="'+url+'" target="_blank" rel="noopener">Google Maps</a>':'')+'</div></div></div>';
+}
 function openMapFortaleza(){window.open('https://www.google.com/maps/@-3.7721,-38.5229,12z','_blank');}
-function mapsUrl(p){return(p.lat&&Math.abs(p.lat)>0.5)?`https://maps.google.com?q=${p.lat},${p.lng}`:null;}
+function mapsUrl(p){var la=lerCoord(p.lat,true),ln=lerCoord(p.lng,false);return(isFinite(la)&&isFinite(ln)&&Math.abs(la)>0.5&&Math.abs(ln)>0.5)?`https://maps.google.com?q=${la},${ln}`:null;}
 function updateTabCounts(){
   var savedCat=S.category, savedTerms=S.terms;
   try{
@@ -1444,35 +2113,42 @@ function phHtml(origMub,big=false){
 }
 function renderGrid(list){
   var idxDivisor=S.adminMode?list.findIndex(function(p){return isInactive(p._origMub);}):-1;
+  var icoImp='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>';
   return`<div class="grid">${list.map((p,idx)=>{
-    const om=p._origMub;const sel=S.sel.has(selKey(om));const inact=isInactive(om);const url=mapsUrl(p);const dm=dMub(p);
+    const om=p._origMub;const sel=S.sel.has(selKey(om));const inact=isInactive(om);const dm=dMub(p);
     const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');
-    const alcHtml=estudo?`<span class="alcance-estudo-pill">Em estudo</span>`:`<div class="alcance-pill"><span class="a-num">${p.alcance}</span><span class="a-unit">impactos semanais</span></div>`;
+    const imp=estudo?`<span class="card-imp estudo">Em estudo</span>`:(p.alcance?`<span class="card-imp">${icoImp}<b>${p.alcance}</b>/sem</span>`:'');
     const divisor=(idx===idxDivisor)?`<div class="grid-divisor"><span>Pausados</span></div>`:'';
-    return`${divisor}<div class="card${sel?' sel':''}${inact?' inactive-card':''}" id="card-${om}">
-      <div class="card-photo" onclick="openDetail('${om}')">
+    const admin=S.adminMode?`<div class="card-admin-bar" onclick="event.stopPropagation()"><button class="btn-card-edit" onclick="openEdit('${om}')">Editar</button><div class="card-kebab"><button class="btn-card-more" onclick="toggleCardMenu(event,this)" aria-label="Mais ações" title="Mais ações"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button><div class="card-menu"><button onclick="fecharCardMenus();toggleInactive('${om}')">${inact?'Ativar painel':'Pausar painel'}</button><button class="danger" onclick="fecharCardMenus();openDel('${om}')">Excluir</button></div></div>${p._isNew?'<span class="badge-novo">Novo</span>':''}</div>`:'';
+    return`${divisor}<div class="card${sel?' sel':''}${inact?' inactive-card':''}" id="card-${om}" onclick="openDetail('${om}')">
+      <div class="card-photo">
         ${phHtml(om)}
-        <div class="photo-grad"></div>
-        <div class="card-chk${sel?' on':''}" id="chk-${om}" onclick="event.stopPropagation();toggleSel('${om}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-        ${inact?'<div class="inactive-overlay">Inativo</div>':''}
-        <div class="photo-info">
-          <span class="mub-label" style="white-space:nowrap">${rotuloAtivo(p,dm)}${p.code?" / "+p.code:""}</span>
-          ${alcHtml}
-        </div>
+        <button class="card-chk${sel?' on':''}" id="chk-${om}" onclick="event.stopPropagation();toggleSel('${om}')" aria-label="Selecionar ${String(p.name||'').replace(/"/g,'&quot;')}" title="Selecionar"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>
+        ${inact?'<div class="inactive-overlay">Pausado</div>':''}
+        <span class="card-tag">${rotuloAtivo(p,dm)}${p.code?" / "+p.code:""}</span>
       </div>
       <div class="card-body">
         <div class="card-name">${p.name}${(p.subtipo==='amigo'&&scopeEf()==='category')?' <span class="badge-amigo">Abrigo Amigo</span>':''}${scopeEf()!=='category'?`<span class="cat-badge">${catLabelFull(p)}</span>`:''}${(scopeEf()==='catalog'||(scopeEf()==='category'&&S.category==='lampion'))?`<span class="cat-badge">${p.cidade||'Fortaleza'}</span>`:''}</div>
         <div class="card-addr">${p.addr}</div>
-        <span class="card-bairro">${p.bairro}</span>
-        <div class="card-actions">
-          <button class="act-btn" onclick="event.stopPropagation();openDetail('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Ver ficha</button>
-          ${url?`<div class="act-sep"></div><button class="act-btn" onclick="event.stopPropagation();window.open('${url}','_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Maps</button>`:''}
-        </div>
-        ${S.adminMode?`<div class="card-admin-bar"><button class="btn-card-edit" onclick="openEdit('${om}')">Editar</button>${inact?`<button class="btn-card-activate" onclick="toggleInactive('${om}')">Ativar</button>`:`<button class="btn-card-pause" onclick="toggleInactive('${om}')">Pausar</button>`}<button class="btn-excluir" onclick="openDel('${om}')">Excluir</button>${p._isNew?'<span class=\"badge-novo\">Novo</span>':''}</div>`:''}
+        <div class="card-meta"><span class="card-bairro">${p.bairro}</span>${imp}</div>
+        ${admin}
       </div>
     </div>`;
   }).join('')}</div>`;
 }
+function toggleCardMenu(ev,btn){
+  ev.stopPropagation();
+  var w=btn.parentNode,abrir=!w.classList.contains('open');
+  fecharCardMenus(); if(abrir) w.classList.add('open');
+}
+function fecharCardMenus(){document.querySelectorAll('.card-kebab.open').forEach(function(el){el.classList.remove('open');});}
+function toggleSfMenu(ev){ev.stopPropagation();document.getElementById('sel-float').classList.toggle('menu-open');}
+function fecharSfMenu(){var el=document.getElementById('sel-float');if(el)el.classList.remove('menu-open');}
+document.addEventListener('click',function(e){
+  if(!e.target.closest||!e.target.closest('.card-kebab')) fecharCardMenus();
+  if(!e.target.closest||!e.target.closest('.sf-exp-wrap')) fecharSfMenu();
+});
+
 function renderList(list){
   var idxDivisor=S.adminMode?list.findIndex(function(p){return isInactive(p._origMub);}):-1;
   return list.map((p,idx)=>{
@@ -1508,13 +2184,13 @@ function renderDetail(p){
   const gps=p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização';
   return`<div class="detail-shell">
     <div class="detail-back"><button class="btn-back" onclick="closeDetail()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Voltar ao catálogo</button></div>
-    <div class="detail-photo-wrap" onclick="openLightbox('${src}')">
+    <div class="detail-photo-wrap" onclick="openLightboxPainel('${om}')">
       ${phHtml(om,true)}
       <div class="zoom-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg> Clique para ver foto completa</div>
     </div>
     <div class="detail-headline">
       <div class="detail-name">${p.name}${p.subtipo==='amigo'?' <span class="badge-amigo">Abrigo Amigo</span>':''}</div>
-      <span class="detail-type">${rotuloAtivo(p,dm)}${p.code?' · '+p.code:''}</span>
+      <div class="detail-type-wrap"><span class="detail-type">${rotuloAtivo(p,dm)}${p.code?' · '+p.code:''}</span><div class="dl-wrap"><button class="btn-d-download" onclick="toggleMenuDownload(event,this)" aria-haspopup="true" title="Baixar a foto deste ativo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download<svg class="dl-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="11" height="11"><polyline points="6 9 12 15 18 9"/></svg></button><div class="dl-menu" role="menu"><button role="menuitem" onclick="baixarAtivo('${om}',this,true)"><b>Com informações</b><span>Foto + número, código, endereço e impactos</span></button><button role="menuitem" onclick="baixarAtivo('${om}',this,false)"><b>Só a imagem</b><span>Foto em resolução original, sem a faixa de dados</span></button></div></div></div>
     </div>
     <div class="detail-addr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.addr}</div>
     <div class="stat-hero">
@@ -1537,7 +2213,7 @@ function renderDetail(p){
     ${S.adminMode?`<div class="detail-admin-bar"><button class="btn-d-edit" onclick="openEdit('${om}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar painel</button><button class="btn-d-pause" onclick="toggleInactive('${om}');closeDetail()">${inact?'Ativar painel':'Pausar painel'}</button></div>`:''}
   </div>`;
 }
-function buildPrint(panels){const today=new Date().toLocaleDateString('pt-BR');return panels.map(p=>{const url=mapsUrl(p);const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');const dm=dMub(p);return`<div class="pp"><div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Catálogo de Ativos URBMÍDIA Fortaleza</span><div class="pp-badge">${rotuloAtivo(p,dm)}</div></div><div class="pp-name">${p.name}</div><div class="pp-addr">${p.addr}</div><img src="${photoSrc(p._origMub)}" class="pp-photo" alt="${rotuloAtivo(p,dm)}" onerror="_pErr(this)"><div class="pp-grid"><div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">${p.bairro}</div></div><div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">${estudo?'Em estudo':p.alcance}</div></div><div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">${p.code}</div></div></div><div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}${url?` · <a href="${url}" style="color:#2563eb">${url}</a>`:''}</div><div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:15px;vertical-align:middle;object-fit:contain"> — Catálogo de Ativos URBMÍDIA Fortaleza</span><span>Gerado em ${today}</span></div></div>`;}).join('');}
+function buildPrint(panels){const today=new Date().toLocaleDateString('pt-BR');return panels.map(p=>{const url=mapsUrl(p);const estudo=p.alcance&&p.alcance.toLowerCase().includes('estudo');const dm=dMub(p);return`<div class="pp"><div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Catálogo de Ativos URBMÍDIA Fortaleza</span><div class="pp-badge">${rotuloAtivo(p,dm)}</div></div><div class="pp-name">${p.name}</div><div class="pp-addr">${p.addr}</div><div style="position:relative"><img src="${photoSrc(p._origMub)}" class="pp-photo" alt="${rotuloAtivo(p,dm)}" onerror="_pErr(this)">${direitosHtml(8)}</div><div class="pp-grid"><div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">${p.bairro}</div></div><div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">${estudo?'Em estudo':p.alcance}</div></div><div class="pp-box"><div class="pp-label">Código</div><div class="pp-val">${p.code}</div></div></div><div class="pp-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.lat&&Math.abs(p.lat)>0.5?`${p.lat}, ${p.lng}`:'Em atualização'}${url?` · <a href="${url}" style="color:#2563eb">${url}</a>`:''}</div><div class="pp-footer"><span><img src="' + LOGO_FULL + '" style="height:15px;vertical-align:middle;object-fit:contain"> — Catálogo de Ativos URBMÍDIA Fortaleza</span><span>Gerado em ${today}</span></div></div>`;}).join('');}
 var _panelsToPrint=null;
 function getSelectedPanelsSorted(withPhotoSrc){
   var panels=[];
@@ -1571,69 +2247,251 @@ async function exportSelectedExcel(){
   var panels=getSelectedPanelsSorted(false);
   if(!panels.length) return;
   var today=new Date().toLocaleDateString('pt-BR').split('/').join('-');
-  await exportExcelPanels(panels, 'urbmidia-paineis-selecionados-'+today, document.getElementById('btn-xlsx'));
+  await exportExcelPanels(panels, nomeArquivoCatalogo(Array.from(new Set(panels.map(function(p){return p.cidade||'Fortaleza';}))),true), document.getElementById('btn-xlsx'));
 }
+/* ── NOME DOS ARQUIVOS DE CATÁLOGO: CATALOGO-URBMIDIA-2026_Fortaleza_07-10 ── */
+function _slugTitulo(txt){return String(txt||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
+function nomeArquivoCatalogo(cidades,selecao){
+  var d=new Date(), ano=d.getFullYear(), dt=('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2);
+  var total=0; try{pracaGroups().forEach(function(g){total+=g.cidades.length;});}catch(e){}
+  var praca;
+  if(selecao) praca='Selecao'+(cidades&&cidades.length===1?'-'+_slugTitulo(cidades[0]):'');
+  else if(cidades.length===1) praca=_slugTitulo(cidades[0]);
+  else if(total && cidades.length>=total) praca='Completo';
+  else if(cidades.length===2) praca=_slugTitulo(cidades[0])+'-e-'+_slugTitulo(cidades[1]);
+  else praca='Varias-Pracas';
+  return 'CATALOGO-URBMIDIA-'+ano+'_'+praca+'_'+dt;
+}
+
+/* ── PLANILHA DO CATÁLOGO ──
+   1 praça  → aba Resumo + uma aba por categoria (com filtros).
+   2+ praças → aba Resumo + uma aba por praça, cada uma com blocos separados por categoria. */
 async function exportExcelPanels(panels, nomeBase, btnEl){
   if(!panels.length) return;
   if(typeof ExcelJS==='undefined'){ alert('A biblioteca de planilha ainda está carregando, tenta de novo em um instante.'); return; }
-
-  var btn=btnEl||null;
-  var oldTxt=btn?btn.innerHTML:null;
+  var btn=btnEl||null, oldTxt=btn?btn.innerHTML:null;
   if(btn){btn.disabled=true;btn.textContent='Gerando...';}
-
   try{
+    var NAVY='FF0C1847', BLUE='FF1D4ED8', BLUE_L='FFEFF4FF', GRAY='FF64748B', LINE='FFE2E8F0', ZEBRA='FFF8FAFC', INK='FF0F172A', WHITE='FFFFFFFF';
+    var F='Arial', hoje=new Date(), hojeTxt=hoje.toLocaleDateString('pt-BR'), ano=hoje.getFullYear();
+    var aviso=(typeof TEXTO_DIREITOS!=='undefined')?TEXTO_DIREITOS:'© '+ano+' Urbmídia · Todos os direitos reservados';
+    var RES_ABRIGO='1080 x 1920'; // resolução padrão dos abrigos (quando o cadastro não traz)
+    var num=function(v){var s=String(v==null?'':v).trim();if(/^\d{1,3}(\.\d{3})+$/.test(s)||/^\d+$/.test(s))return parseInt(s.replace(/\./g,''),10);return s||null;};
+    var coord=function(v){var n=parseFloat(String(v==null?'':v).replace(',','.'));return isFinite(n)&&Math.abs(n)>0.5?n:null;};
+    var cid=function(p){return p.cidade||'Fortaleza';};
+    var ordCid=function(a,b){if(a===b)return 0;if(a==='Fortaleza')return -1;if(b==='Fortaleza')return 1;return a.localeCompare(b,'pt-BR');};
+    var ordPainel=function(a,b){var c=ordCid(cid(a),cid(b));if(c)return c;return (parseInt(String(dMub(a)).replace(/\D/g,''))||0)-(parseInt(String(dMub(b)).replace(/\D/g,''))||0);};
+    var colLetra=function(n){var s='';while(n>0){var m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26);}return s;};
+    var nomeAba=function(t){return String(t).replace(/[\[\]:*?\/\\]/g,'-').slice(0,31);};
+    var fill=function(c){return {type:'pattern',pattern:'solid',fgColor:{argb:c}};};
+
+    var CATS=[{k:'abrigos',nome:'Abrigos'},{k:'horizontais',nome:'Painéis Horizontais'},{k:'verticais',nome:'Painéis Verticais'},{k:'empenas',nome:'Empenas'}];
+    var catDe=function(p){var k=p.categoria||p._printCat||'abrigos';return k==='abrigo-amigo'?'abrigos':k;};
+    var tipoDe=function(p){return p.categoria==='abrigos'?(p.subtipo==='amigo'?'Abrigo Amigo':'Abrigo'):(isLampion(p)?'Lampion':'');};
+    var resDe=function(p){var r=String(p.resolucao||'').trim();if(!r&&catDe(p)==='abrigos'&&p.subtipo!=='amigo')return RES_ABRIGO;return r;};
+    var cidades=Array.from(new Set(panels.map(cid))).sort(ordCid);
+    var modoPraca=cidades.length>1;
+
     var wb=new ExcelJS.Workbook();
-    wb.creator='URBMÍDIA';
-    wb.created=new Date();
-    var ws=wb.addWorksheet('Painéis',{views:[{state:'frozen',ySplit:2}]});
+    wb.creator='Urbmídia'; wb.company='Urbmídia'; wb.title='Catálogo de Ativos Urbmídia '+ano; wb.created=hoje;
+    var logoId=null; try{ if(typeof LOGO_FULL!=='undefined') logoId=wb.addImage({base64:LOGO_FULL,extension:'png'}); }catch(e){}
 
-    ws.mergeCells('A1:J1');
-    var titleCell=ws.getCell('A1');
-    var cidadesNaPlanilha=Array.from(new Set(panels.map(function(p){return p.cidade||'Fortaleza';}))).sort();
-    var pracaLabelXlsx=cidadesNaPlanilha.length<=3?cidadesNaPlanilha.join(', '):(cidadesNaPlanilha.length+' praças');
-    titleCell.value='URBMÍDIA — Catálogo de painéis ('+pracaLabelXlsx+')';
-    titleCell.font={bold:true,size:14,color:{argb:'FFFFFFFF'}};
-    titleCell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF0C1847'}};
-    titleCell.alignment={vertical:'middle',horizontal:'left',indent:1};
-    ws.getRow(1).height=28;
-
-    var headers=['Cidade','Categoria','Número','Código','Nome do ponto','Endereço','Bairro','Impactos Semanais','Tamanho','Resolução','Tempo (s)','Latitude','Longitude'];
-    ws.columns=[
-      {width:16},{width:16},{width:10},{width:10},{width:34},{width:38},{width:20},{width:16},{width:16},{width:16},{width:10},{width:12},{width:12}
-    ];
-    var headerRow=ws.getRow(2);
-    headers.forEach(function(h,i){ headerRow.getCell(i+1).value=h; });
-    headerRow.eachCell(function(cell){
-      cell.font={bold:true,size:11,color:{argb:'FFFFFFFF'}};
-      cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF1D4ED8'}};
-      cell.alignment={vertical:'middle',horizontal:'left'};
-      cell.border={bottom:{style:'medium',color:{argb:'FF0C1847'}}};
-    });
-    headerRow.height=22;
-
-    panels.forEach(function(p,i){
-      var row=ws.addRow([
-        p.cidade||'Fortaleza', catLabel(p._printCat), dMub(p)||'', p.code||'', p.name||'', p.addr||'', p.bairro||'', p.alcance||'', p.tamanho||'', p.resolucao||'', p.tempo||'', p.lat||'', p.lng||''
-      ]);
-      var fillColor=i%2===0?'FFF1F5F9':'FFFFFFFF';
-      row.eachCell(function(cell){
-        cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:fillColor}};
-        cell.font={size:10.5,color:{argb:'FF0F172A'}};
-        cell.border={bottom:{style:'thin',color:{argb:'FFE2E8F0'}}};
-        cell.alignment={vertical:'middle'};
+    var cabecalho=function(ws,nCols,titulo,subtitulo){
+      ws.getRow(1).height=46; ws.getRow(2).height=18; ws.getRow(3).height=4; ws.getRow(4).height=10;
+      if(logoId!==null) ws.addImage(logoId,{tl:{col:0.12,row:0.28},ext:{width:150,height:31},editAs:'oneCell'});
+      var last=colLetra(nCols);
+      ws.mergeCells('C1:'+last+'1');
+      var t=ws.getCell('C1'); t.value=titulo; t.font={name:F,size:17,bold:true,color:{argb:NAVY}}; t.alignment={vertical:'middle',horizontal:'right'};
+      ws.mergeCells('A2:'+last+'2');
+      var st=ws.getCell('A2'); st.value=subtitulo; st.font={name:F,size:9,color:{argb:GRAY}}; st.alignment={vertical:'middle',horizontal:'right'};
+      for(var c=1;c<=nCols;c++) ws.getRow(3).getCell(c).fill=fill(BLUE);
+    };
+    var linhaCabecalho=function(row,alinh,altura){
+      row.height=altura||34;
+      row.eachCell(function(cell,i){
+        cell.font={name:F,size:9.5,bold:true,color:{argb:WHITE}};
+        cell.fill=fill(NAVY);
+        // recuo à direita maior para não ficar embaixo da setinha do filtro
+        cell.alignment={vertical:'middle',horizontal:(alinh&&alinh[i-1])||'left',indent:1,wrapText:true};
       });
-      row.getCell(2).font={size:10.5,bold:true,color:{argb:'FF1D4ED8'}};
+    };
+    var linhaTotal=function(row,nCols){
+      row.height=22;
+      for(var c=1;c<=nCols;c++){var cc=row.getCell(c);cc.fill=fill(BLUE_L);cc.border={top:{style:'medium',color:{argb:BLUE}}};cc.font={name:F,size:10,bold:true,color:{argb:NAVY}};cc.alignment={vertical:'middle',horizontal:'left',indent:1};}
+    };
+    var rodape=function(ws,linha,nCols,retrato){
+      ws.mergeCells('A'+linha+':'+colLetra(nCols)+linha);
+      var c=ws.getCell('A'+linha); c.value=aviso; c.font={name:F,size:8,italic:true,color:{argb:'FF94A3B8'}}; c.alignment={horizontal:'left',vertical:'middle'};
+      ws.headerFooter={oddFooter:'&L&"Arial"&7'+aviso.replace(/&/g,'&&')+'&R&"Arial"&7Página &P de &N'};
+      ws.pageSetup={paperSize:9,orientation:retrato?'portrait':'landscape',fitToPage:true,fitToWidth:1,fitToHeight:0,margins:{left:0.4,right:0.4,top:0.5,bottom:0.6,header:0.2,footer:0.3}};
+    };
+
+    // ── monta as abas (cada aba tem um ou mais blocos)
+    var abas=[];
+    if(modoPraca){
+      cidades.forEach(function(c){
+        var blocos=CATS.map(function(cat){return {cat:cat,lista:panels.filter(function(p){return cid(p)===c&&catDe(p)===cat.k;}).sort(ordPainel)};}).filter(function(b){return b.lista.length;});
+        if(blocos.length) abas.push({nome:nomeAba(c),titulo:c,cidade:c,blocos:blocos});
+      });
+    }else{
+      CATS.forEach(function(cat){
+        var lista=panels.filter(function(p){return catDe(p)===cat.k;}).sort(ordPainel);
+        if(lista.length) abas.push({nome:nomeAba(cat.nome),titulo:cat.nome,blocos:[{cat:cat,lista:lista}]});
+      });
+    }
+
+    var wsR=wb.addWorksheet('Resumo',{views:[{showGridLines:false}],properties:{tabColor:{argb:NAVY}}});
+    var regs=[]; // um registro por bloco, usado nas fórmulas do Resumo
+
+    abas.forEach(function(aba){
+      var todos=[]; aba.blocos.forEach(function(b){todos=todos.concat(b.lista);});
+      var defs=[
+        {h:'Nº',w:8,a:'center',v:function(p){return dMub(p)||'';}},
+        {h:'Código',w:11,a:'center',v:function(p){return p.code||'';},k:'cod'},
+        {h:'Tipo',w:15,v:tipoDe,k:'tipo'},
+        {h:'Nome do ponto',w:36,v:function(p){return p.name||'';},k:'nome'},
+        {h:'Endereço',w:40,v:function(p){return p.addr||'';}},
+        {h:'Bairro',w:22,v:function(p){return p.bairro||'';}},
+        {h:'Cidade',w:18,v:cid,k:'cid'},
+        {h:'Impactos semanais',w:15,a:'right',v:function(p){return num(p.alcance);},fmt:'#,##0',k:'imp'},
+        {h:'Tamanho',w:16,a:'center',v:function(p){return p.tamanho||'';},opc:true},
+        {h:'Resolução (px)',w:16,a:'center',v:resDe,opc:true},
+        {h:'Tempo de exibição (s)',w:13,a:'center',v:function(p){return num(p.tempo);},opc:true},
+        {h:'Latitude',w:12,a:'right',v:function(p){return coord(p.lat);},opc:true},
+        {h:'Longitude',w:12,a:'right',v:function(p){return coord(p.lng);},opc:true},
+        {h:'Mapa',w:13,a:'center',v:function(p){var u=mapsUrl(p);return u?{text:'Ver no mapa',hyperlink:u}:'';},opc:true,link:true}
+      ].filter(function(d){
+        if(d.opc) return todos.some(function(p){var x=d.v(p);return x!==''&&x!=null;});
+        if(d.k==='tipo') return todos.some(function(p){var t=tipoDe(p);return t==='Abrigo Amigo'||t==='Lampion';});
+        if(d.k==='cid') return !aba.cidade; // na aba da praça a cidade já está no título
+        return true;
+      });
+      var nCols=defs.length, iOf=function(k){return defs.findIndex(function(d){return d.k===k;})+1;};
+      var iCod=iOf('cod'), iImp=iOf('imp'), iCid=iOf('cid');
+      var umBloco=aba.blocos.length===1;
+      var ws=wb.addWorksheet(aba.nome,{views:[{state:'frozen',ySplit:umBloco?5:4,showGridLines:false}]});
+      ws.columns=defs.map(function(d){return {width:d.w};});
+      var nCid=new Set(todos.map(cid)).size;
+      var sub=todos.length+' ativo'+(todos.length!==1?'s':'')+(aba.cidade?' · '+aba.blocos.length+' categoria'+(aba.blocos.length!==1?'s':''):' · '+nCid+' praça'+(nCid!==1?'s':''))+' · atualizado em '+hojeTxt;
+      cabecalho(ws,nCols,aba.titulo,sub);
+      var ref="'"+aba.nome.replace(/'/g,"''")+"'";
+      var r=5;
+      aba.blocos.forEach(function(b){
+        if(!umBloco){
+          ws.mergeCells('A'+r+':'+colLetra(nCols)+r);
+          var tc=ws.getCell('A'+r); tc.value=b.cat.nome+'  ·  '+b.lista.length+' ativo'+(b.lista.length!==1?'s':'');
+          tc.font={name:F,size:12,bold:true,color:{argb:BLUE}}; tc.alignment={vertical:'bottom'}; ws.getRow(r).height=26; r++;
+        }
+        var hr=ws.getRow(r); defs.forEach(function(d,i){hr.getCell(i+1).value=d.h;}); linhaCabecalho(hr,defs.map(function(d){return d.a;}));
+        var rh=r; r++;
+        var r0=r, soma=0;
+        b.lista.forEach(function(p,i){
+          var row=ws.getRow(r); row.height=19;
+          defs.forEach(function(d,j){
+            var cell=row.getCell(j+1), val=d.v(p);
+            cell.value=(val===''?null:val);
+            cell.font=d.link&&val?{name:F,size:9.5,color:{argb:BLUE},underline:true}:{name:F,size:9.5,bold:d.k==='nome',color:{argb:INK}};
+            if(d.fmt&&typeof val==='number') cell.numFmt=d.fmt;
+            cell.alignment={vertical:'middle',horizontal:d.a||'left',indent:d.a==='center'?0:1};
+            cell.fill=fill(i%2?ZEBRA:WHITE);
+            cell.border={bottom:{style:'thin',color:{argb:LINE}}};
+          });
+          var imp=num(p.alcance); if(typeof imp==='number') soma+=imp;
+          r++;
+        });
+        var rN=r-1, tr=ws.getRow(r); linhaTotal(tr,nCols);
+        tr.getCell(1).value='Total';
+        // SUBTOTAL respeita filtros: ao filtrar uma cidade, o total acompanha
+        tr.getCell(iCod).value={formula:'SUBTOTAL(103,'+colLetra(iCod)+r0+':'+colLetra(iCod)+rN+')',result:b.lista.length}; tr.getCell(iCod).alignment={vertical:'middle',horizontal:'center'};
+        tr.getCell(iImp).value={formula:'SUBTOTAL(109,'+colLetra(iImp)+r0+':'+colLetra(iImp)+rN+')',result:soma}; tr.getCell(iImp).numFmt='#,##0'; tr.getCell(iImp).alignment={vertical:'middle',horizontal:'right',indent:1};
+        if(umBloco) ws.autoFilter={from:{row:rh,column:1},to:{row:rN,column:nCols}};
+        regs.push({aba:aba,cat:b.cat.k,ref:ref,cod:colLetra(iCod),imp:colLetra(iImp),cidCol:iCid?colLetra(iCid):null,r0:r0,rN:rN,lista:b.lista,soma:soma});
+        r+=umBloco?2:3;
+      });
+      rodape(ws,r,nCols,false);
+      if(umBloco) ws.pageSetup.printTitlesRow='5:5';
     });
+
+    // ── aba Resumo
+    var catsUsadas=CATS.filter(function(c){return regs.some(function(g){return g.cat===c.k;});});
+    var nColsR=catsUsadas.length+3;
+    wsR.columns=[{width:24}].concat(catsUsadas.map(function(){return {width:15};})).concat([{width:15},{width:18}]);
+    cabecalho(wsR,nColsR,'Catálogo de Ativos '+ano,(cidades.length===1?cidades[0]:cidades.length+' praças')+' · '+panels.length+' ativos · gerado em '+hojeTxt);
+    var r=5;
+    var titulo=function(txt){var c=wsR.getCell('A'+r);c.value=txt;c.font={name:F,size:11,bold:true,color:{argb:NAVY}};wsR.getRow(r).height=22;r++;};
+    var estiloLinha=function(row,nC,i,alinh){for(var c=1;c<=nC;c++){var cc=row.getCell(c);cc.font=cc.font&&cc.font.underline?cc.font:{name:F,size:10,bold:c===1,color:{argb:INK}};cc.fill=fill(i%2?ZEBRA:WHITE);cc.border={bottom:{style:'thin',color:{argb:LINE}}};cc.alignment={vertical:'middle',horizontal:alinh(c),indent:alinh(c)==='center'?0:1};}row.height=20;};
+    var linkFont={name:F,size:10,bold:true,underline:true,color:{argb:BLUE}};
+    // contagem de uma categoria numa praça (fórmula + resultado)
+    var contaCat=function(catK,cidade){
+      var gs=regs.filter(function(g){return g.cat===catK&&(!cidade||!g.aba.cidade||g.aba.cidade===cidade);});
+      var f=[],res=0;
+      gs.forEach(function(g){
+        var n=cidade?g.lista.filter(function(p){return cid(p)===cidade;}).length:g.lista.length; res+=n;
+        if(cidade&&g.cidCol) f.push('COUNTIF('+g.ref+'!'+g.cidCol+g.r0+':'+g.cidCol+g.rN+',"'+cidade.replace(/"/g,'""')+'")');
+        else f.push('COUNTA('+g.ref+'!'+g.cod+g.r0+':'+g.cod+g.rN+')');
+      });
+      return {formula:f.length?f.join('+'):'0',result:res};
+    };
+    var somaImp=function(catK,cidade){
+      var gs=regs.filter(function(g){return (!catK||g.cat===catK)&&(!cidade||!g.aba.cidade||g.aba.cidade===cidade);});
+      var f=[],res=0;
+      gs.forEach(function(g){
+        g.lista.forEach(function(p){if(!cidade||cid(p)===cidade){var v=num(p.alcance);if(typeof v==='number')res+=v;}});
+        var rng=g.ref+'!'+g.imp+g.r0+':'+g.imp+g.rN;
+        if(cidade&&g.cidCol) f.push('SUMIF('+g.ref+'!'+g.cidCol+g.r0+':'+g.cidCol+g.rN+',"'+cidade.replace(/"/g,'""')+'",'+rng+')');
+        else f.push('SUM('+rng+')');
+      });
+      return {formula:f.length?f.join('+'):'0',result:res};
+    };
+
+    titulo('Por categoria');
+    var h1=wsR.getRow(r); ['Categoria','Ativos','Impactos semanais'].forEach(function(t,i){h1.getCell(i+1).value=t;}); linhaCabecalho(h1,['left','center','right'],26); r++;
+    var ini1=r, totAt=0, totImp=0;
+    catsUsadas.forEach(function(cat,i){
+      var row=wsR.getRow(r), aAba=abas.find(function(a){return !a.cidade&&a.blocos[0].cat.k===cat.k;});
+      row.getCell(1).value=aAba?{text:cat.nome,hyperlink:"#'"+aAba.nome+"'!A1"}:cat.nome;
+      if(aAba) row.getCell(1).font=linkFont;
+      var ct=contaCat(cat.k,null), si=somaImp(cat.k,null); totAt+=ct.result; totImp+=si.result;
+      row.getCell(2).value=ct; row.getCell(3).value=si;
+      estiloLinha(row,3,i,function(c){return c===1?'left':c===2?'center':'right';}); row.getCell(3).numFmt='#,##0'; r++;
+    });
+    var t1=wsR.getRow(r); linhaTotal(t1,3);
+    t1.getCell(1).value='Total'; t1.getCell(2).value={formula:'SUM(B'+ini1+':B'+(r-1)+')',result:totAt}; t1.getCell(2).alignment={vertical:'middle',horizontal:'center'};
+    t1.getCell(3).value={formula:'SUM(C'+ini1+':C'+(r-1)+')',result:totImp}; t1.getCell(3).numFmt='#,##0'; t1.getCell(3).alignment={vertical:'middle',horizontal:'right',indent:1};
+    r+=3;
+
+    titulo('Por praça');
+    var cab2=['Praça'].concat(catsUsadas.map(function(c){return c.nome;})).concat(['Total de ativos','Impactos semanais']);
+    var nC2=cab2.length, cT=nC2-1;
+    var h2=wsR.getRow(r); cab2.forEach(function(t,i){h2.getCell(i+1).value=t;}); linhaCabecalho(h2,cab2.map(function(_,i){return i===0?'left':i===nC2-1?'right':'center';})); r++;
+    var ini2=r, totCol={};
+    cidades.forEach(function(c,i){
+      var row=wsR.getRow(r), aAba=abas.find(function(a){return a.cidade===c;});
+      row.getCell(1).value=aAba?{text:c,hyperlink:"#'"+aAba.nome+"'!A1"}:c;
+      if(aAba) row.getCell(1).font=linkFont;
+      var tot=0;
+      catsUsadas.forEach(function(cat,j){var ct=contaCat(cat.k,c);tot+=ct.result;row.getCell(j+2).value=ct;totCol[j+2]=(totCol[j+2]||0)+ct.result;});
+      row.getCell(cT).value={formula:'SUM(B'+r+':'+colLetra(cT-1)+r+')',result:tot}; totCol[cT]=(totCol[cT]||0)+tot;
+      var si=somaImp(null,c); row.getCell(nC2).value=si; totCol[nC2]=(totCol[nC2]||0)+si.result;
+      estiloLinha(row,nC2,i,function(k){return k===1?'left':k===nC2?'right':'center';});
+      row.getCell(cT).font={name:F,size:10,bold:true,color:{argb:INK}}; row.getCell(nC2).numFmt='#,##0'; r++;
+    });
+    var t2=wsR.getRow(r); linhaTotal(t2,nC2); t2.getCell(1).value='Total';
+    for(var c2=2;c2<=nC2;c2++){var L=colLetra(c2);t2.getCell(c2).value={formula:'SUM('+L+ini2+':'+L+(r-1)+')',result:totCol[c2]||0};t2.getCell(c2).alignment={vertical:'middle',horizontal:c2===nC2?'right':'center',indent:c2===nC2?1:0};}
+    t2.getCell(nC2).numFmt='#,##0';
+    r+=2;
+    var nota=wsR.getCell('A'+r); wsR.mergeCells('A'+r+':'+colLetra(nColsR)+r);
+    nota.value=modoPraca?'Cada praça tem a sua aba, com os ativos separados por categoria. Clique no nome da praça para abrir.':'Clique no nome da categoria para abrir a aba. Nas abas, use os filtros do cabeçalho; a linha de Total acompanha o filtro.';
+    nota.font={name:F,size:8.5,color:{argb:GRAY}};
+    rodape(wsR,r+1,nColsR,true);
 
     var buf=await wb.xlsx.writeBuffer();
     var blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=url; a.download=nomeBase+'.xlsx';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    var url=URL.createObjectURL(blob), a=document.createElement('a');
+    a.href=url; a.download=nomeBase+'.xlsx'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},4000);
   }catch(e){
-    alert('Erro ao gerar a planilha: '+e.message);
+    console.error(e); alert('Erro ao gerar a planilha: '+e.message);
   }finally{
     if(btn){btn.disabled=false;btn.innerHTML=oldTxt;}
   }
@@ -1641,7 +2499,7 @@ async function exportExcelPanels(panels, nomeBase, btnEl){
 async function generatePPTSelected(){
   var panels=getSelectedPanelsSorted(true);
   if(!panels.length) return;
-  await buildPPT(panels, 'urbmidia-paineis-selecionados', document.getElementById('btn-pptx'));
+  await buildPPT(panels, nomeArquivoCatalogo(Array.from(new Set(panels.map(function(p){return p.cidade||'Fortaleza';}))),true), document.getElementById('btn-pptx'));
 }
 async function buildPPT(panels, nomeBase, btnEl){
   if(typeof PptxGenJS==='undefined'){ alert('A biblioteca de PPT ainda está carregando (ou não conseguiu carregar). Verifique sua conexão com a internet e tente de novo.'); return; }
@@ -1663,6 +2521,7 @@ async function buildPPT(panels, nomeBase, btnEl){
         slide.addShape('rect', {x:0,y:0,w:10,h:4.15,fill:{color:'1E3A8A'}});
         slide.addText('Sem foto cadastrada', {x:0,y:1.85,w:10,h:0.5,align:'center',color:'FFFFFF',fontSize:16,fontFace:'Arial'});
       }
+      slide.addText(TEXTO_DIREITOS, {shape:pres.ShapeType.roundRect, rectRadius:0.12, x:4.45,y:0.15,w:5.4,h:0.27, align:'center',valign:'middle', fontSize:7.5,bold:true,color:'FFFFFF',fontFace:'Arial', fill:{color:'0F172A',transparency:45}, margin:0});
       slide.addShape('rect', {x:0,y:4.15,w:10,h:1.48,fill:{color:'0F172A'}});
       var dm=dMub(p)||'';
       slide.addText((catLabel(p._printCat)||'')+(dm?' '+dm:''), {x:0.35,y:4.24,w:9.3,h:0.32,fontSize:15,bold:true,color:'FFFFFF',fontFace:'Arial'});
@@ -1759,6 +2618,7 @@ function setCcFormat(f){
   document.getElementById('cc-fmt-xlsx').classList.toggle('on',f==='xlsx');
   document.getElementById('cc-confirm-btn').textContent = f==='pdf'?'Gerar PDF':f==='ppt'?'Gerar PPT':'Gerar Excel';
 }
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var o=document.getElementById('catalog-choice-overlay');if(o&&o.classList.contains('open'))closeCatalogChoice();}});
 function closeCatalogChoice(){document.getElementById('catalog-choice-overlay').classList.remove('open');}
 function showCategoryPicker(){document.getElementById('cc-cats-box').style.display='block';}
 function getAllPanelsForCidades(cats, cidades){
@@ -1805,7 +2665,7 @@ function confirmCategoryChoice(){
   gerarNoFormatoEscolhido(panels, cidades);
 }
 function gerarNoFormatoEscolhido(panels, cidades){
-  var nomeBase = cidades.length===1 ? 'catalogo-'+citySlug(cidades[0]) : 'catalogo-'+cidades.length+'-pracas';
+  var nomeBase = nomeArquivoCatalogo(cidades,false);
   if(_ccFormat==='ppt'){ buildPPT(panels, nomeBase); }
   else if(_ccFormat==='xlsx'){ exportExcelPanels(panels, nomeBase); }
   else { _panelsToPrint=panels; showPrintModal(true); }
@@ -1888,6 +2748,12 @@ function onRestoreFileSelected(input){
     var data;
     try{ data=JSON.parse(e.target.result); }
     catch(err){ alert('Esse arquivo não é um JSON válido.'); input.value=''; return; }
+    if(data && !Array.isArray(data.paineis) && Array.isArray(data.fotos_hd)){
+      var dataHd=data.exportadoEm ? new Date(data.exportadoEm).toLocaleString('pt-BR') : 'data desconhecida';
+      if(!confirm('Restaurar o backup de fotos grandes de '+dataHd+'?\n\n'+data.fotos_hd.length+' foto(s) serão regravadas na coleção de fotos grandes. Os painéis não são alterados.')){ input.value=''; return; }
+      restaurarBackup(data).finally(function(){ input.value=''; });
+      return;
+    }
     if(!data || !Array.isArray(data.paineis)){ alert('Esse arquivo não parece ser um backup deste catálogo (formato não reconhecido).'); input.value=''; return; }
     var nPain=data.paineis.length, nCid=(data.cidades||[]).length, nMod=(data.modelos||[]).length;
     var dataStr=data.exportadoEm ? new Date(data.exportadoEm).toLocaleString('pt-BR') : 'data desconhecida';
@@ -1900,12 +2766,21 @@ function onRestoreFileSelected(input){
 async function restaurarBackup(data){
   var btn=document.getElementById('btn-restaurar');
   if(btn){btn.disabled=true;btn.textContent='Restaurando...';}
-  var ok=0, falhas=0;
+  var ok=0, falhas=0, okHd=0;
   try{
-    for(var i=0;i<data.paineis.length;i++){
+    for(var h=0;h<(data.fotos_hd||[]).length;h++){
+      var fh=Object.assign({},data.fotos_hd[h]);
+      var docIdH=fh._docId; delete fh._docId;
+      if(!docIdH||!fh.foto) continue;
+      try{ await window.FB.setDoc(window.FB.doc(window.FB.db,FOTO_HD_COL,docIdH), Object.assign({},fh,{atualizadoEm:window.FB.serverTimestamp()})); _fotoHdCache.delete(docIdH); okHd++; }
+      catch(e){ falhas++; console.error('Erro ao restaurar foto grande '+docIdH+':', e); }
+    }
+    for(var i=0;i<(data.paineis||[]).length;i++){
       var p=Object.assign({},data.paineis[i]);
       var docId=p._docId; delete p._docId;
       if(!docId) continue;
+      // Backup sem fotoHd (anterior à foto grande) volta a mostrar a foto do backup, e não a foto grande gravada depois.
+      if(p.fotoHd===undefined) p.fotoHd=false;
       try{ await window.FB.setDoc(window.FB.doc(window.FB.db,'paineis',docId), Object.assign({},p,{atualizadoEm:window.FB.serverTimestamp()}), {merge:true}); ok++; }
       catch(e){ falhas++; console.error('Erro ao restaurar painel '+docId+':', e); }
     }
@@ -1926,7 +2801,7 @@ async function restaurarBackup(data){
   } finally {
     if(btn){btn.disabled=false;btn.textContent='Restaurar backup';}
   }
-  alert('Restauração concluída.\nPainéis restaurados: '+ok+(falhas?'\nFalhas: '+falhas+' (veja o console F12 para detalhes)':''));
+  alert('Restauração concluída.\nPainéis restaurados: '+ok+(okHd?'\nFotos grandes restauradas: '+okHd:'')+(falhas?'\nFalhas: '+falhas+' (veja o console F12 para detalhes)':''));
 }
 async function seedDefaultsIfEmpty(){
   try{
@@ -2410,10 +3285,14 @@ async function resolverDuplicatas(){
       if(fonte.lng && fonte.lng!==manter.lng) updates.lng=fonte.lng;
     }
     // Foto: nunca vem da planilha — se o mantido não tiver, pega de qualquer um do grupo que tiver.
-    var fotoFinal = manter && manter.fotoUrl ? null : (grupo.map(function(p){return p.fotoUrl;}).find(function(f){return !!f;}) || null);
-    if(fotoFinal) updates.fotoUrl=fotoFinal;
+    var doador = manter && manter.fotoUrl ? null : (grupo.find(function(p){return !!p.fotoUrl;}) || null);
+    if(doador) updates.fotoUrl=doador.fotoUrl;
 
     try{
+      // A foto grande acompanha a miniatura herdada (copiada antes de apagar a duplicata).
+      if(manter && doador && doador.fotoHd && doador._docId!==manter._docId){
+        if(await copiarFotoHd(doador._docId, manter._docId)){ updates.fotoHd=true; updates.fotoHdEm=window.FB.serverTimestamp(); }
+      }
       if(manter && Object.keys(updates).length){
         updates.atualizadoEm=window.FB.serverTimestamp();
         await window.FB.setDoc(window.FB.doc(window.FB.db,'paineis',manter._docId), updates, {merge:true});
@@ -2421,6 +3300,7 @@ async function resolverDuplicatas(){
       }
       for(var di=0; di<descartar.length; di++){
         await window.FB.deleteDoc(window.FB.doc(window.FB.db,'paineis',descartar[di]._docId));
+        if(descartar[di].fotoHd) await apagarFotoHd(descartar[di]._docId);
         okDelete++;
       }
     }catch(e){ falhas++; console.error('Erro ao resolver grupo de duplicatas:', e); }
@@ -2931,6 +3811,262 @@ async function onFotosMigradasSelecionadas(input){
   input.value='';
   alert('Migração de fotos concluída.\nFotos migradas: '+ok+(falhas?'\nFalhas: '+falhas+' (veja o console F12 para detalhes)':''));
 }
+/* ── FOTO EM DUAS VERSÕES (sem Storage, tudo no Firestore) ──
+   • Miniatura (até 800px) fica no campo fotoUrl do painel: é o que a grade, a lista e o PDF usam.
+   • Foto grande (até 1280px, JPEG ~250–300 KB) fica em fotos_hd/{mesmo ID do painel}
+     e só é lida ao abrir o detalhe. O painel ganha fotoHd:true para o app saber que ela existe.
+   • Nunca amplia: fotos menores que isso ficam no tamanho original.
+   • Painéis sem foto nova continuam exatamente como antes (só fotoUrl). */
+var FOTO_HD_COL='fotos_hd';
+var FOTO_HD_W=1280, FOTO_HD_ALVO_MAX=300*1024, FOTO_HD_LIMITE_TEXTO=900*1024;
+var FOTO_THUMB_W=800, FOTO_THUMB_QUALIDADE=0.85, FOTO_THUMB_MAX=320*1024;
+function bytesDeDataUrl(d){var i=d.indexOf(',');return Math.round((d.length-i-1)*3/4);}
+function carregarImagem(src){
+  return new Promise(function(resolve,reject){
+    var img=new Image(),url=null;
+    img.onload=function(){resolve(img);if(url)setTimeout(function(){URL.revokeObjectURL(url);},0);};
+    img.onerror=function(){if(url)URL.revokeObjectURL(url);reject(new Error('não foi possível ler a imagem'));};
+    if(typeof src==='string') img.src=src; else {url=URL.createObjectURL(src);img.src=url;}
+  });
+}
+// Reduz em etapas de no máximo metade por vez: fica mais nítido do que reduzir de uma vez só.
+function desenharReduzida(img,largura){
+  var w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;
+  var alvoW=Math.min(largura,w),alvoH=Math.round(h*alvoW/w);
+  var origem=img,ow=w,oh=h;
+  while(ow/2>=alvoW){
+    var c0=document.createElement('canvas');c0.width=Math.round(ow/2);c0.height=Math.round(oh/2);
+    var x0=c0.getContext('2d');x0.imageSmoothingQuality='high';x0.drawImage(origem,0,0,c0.width,c0.height);
+    origem=c0;ow=c0.width;oh=c0.height;
+  }
+  var c=document.createElement('canvas');c.width=alvoW;c.height=alvoH;
+  var x=c.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(origem,0,0,alvoW,alvoH);
+  return c;
+}
+async function gerarVersoesFoto(src){
+  var img=await carregarImagem(src);
+  var hdC=desenharReduzida(img,FOTO_HD_W);
+  var q=0.92,hd=hdC.toDataURL('image/jpeg',q);
+  while(bytesDeDataUrl(hd)>FOTO_HD_ALVO_MAX && q>0.5){q-=0.04;hd=hdC.toDataURL('image/jpeg',q);}
+  if(hd.length>FOTO_HD_LIMITE_TEXTO) throw new Error('foto grande demais mesmo comprimida ('+Math.round(hd.length/1024)+' KB)');
+  var thC=desenharReduzida(img,FOTO_THUMB_W);
+  var tq=FOTO_THUMB_QUALIDADE,th=thC.toDataURL('image/jpeg',tq);
+  while(bytesDeDataUrl(th)>FOTO_THUMB_MAX && tq>0.5){tq-=0.05;th=thC.toDataURL('image/jpeg',tq);}
+  return {hd:{dataUrl:hd,largura:hdC.width,altura:hdC.height,bytes:bytesDeDataUrl(hd),qualidade:Math.round(q*100)/100},
+          thumb:{dataUrl:th,largura:thC.width,altura:thC.height,bytes:bytesDeDataUrl(th)}};
+}
+var _fotoHdCache=new Map();
+// Grava a foto grande primeiro e só depois marca o painel (assim fotoHd:true nunca aponta para um documento que não existe).
+async function gravarFotoHd(docId,versoes,arquivoOrigem){
+  await window.FB.setDoc(window.FB.doc(window.FB.db,FOTO_HD_COL,docId),{
+    foto:versoes.hd.dataUrl, largura:versoes.hd.largura, altura:versoes.hd.altura, bytes:versoes.hd.bytes,
+    arquivoOrigem:arquivoOrigem||null, atualizadoEm:window.FB.serverTimestamp()
+  });
+  _fotoHdCache.set(docId,versoes.hd.dataUrl);
+  return {fotoUrl:versoes.thumb.dataUrl, fotoHd:true, fotoHdEm:window.FB.serverTimestamp()};
+}
+async function apagarFotoHd(docId){
+  _fotoHdCache.delete(docId);
+  try{ await window.FB.deleteDoc(window.FB.doc(window.FB.db,FOTO_HD_COL,docId)); }
+  catch(e){ console.warn('Não consegui apagar a foto grande de '+docId+':',e); }
+}
+async function copiarFotoHd(deDocId,paraDocId){
+  var snap=await window.FB.getDoc(window.FB.doc(window.FB.db,FOTO_HD_COL,deDocId));
+  if(!snap.exists()) return false;
+  await window.FB.setDoc(window.FB.doc(window.FB.db,FOTO_HD_COL,paraDocId),Object.assign({},snap.data(),{atualizadoEm:window.FB.serverTimestamp()}));
+  return true;
+}
+// Lê a foto grande (uma vez por painel). Se não existir ou falhar, devolve null e o app segue com a miniatura.
+async function carregarFotoHd(docId){
+  if(_fotoHdCache.has(docId)) return _fotoHdCache.get(docId);
+  var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===docId;});
+  if(!p||!p.fotoHd) return null;
+  try{
+    var snap=await window.FB.getDoc(window.FB.doc(window.FB.db,FOTO_HD_COL,docId));
+    var f=snap.exists()?snap.data().foto:null;
+    if(f) _fotoHdCache.set(docId,f);
+    return f||null;
+  }catch(e){ console.warn('Foto grande indisponível para '+docId+', usando a miniatura:',e); return null; }
+}
+function openLightboxPainel(docId){
+  openLightbox(_fotoHdCache.get(docId)||photoSrc(docId));
+  carregarFotoHd(docId).then(function(f){
+    var lb=document.getElementById('lightbox');
+    if(f&&lb&&lb.classList.contains('open')) document.getElementById('lightbox-img').src=f;
+  });
+}
+function aplicarFotoHdNoDetalhe(docId){
+  carregarFotoHd(docId).then(function(f){
+    if(!f||S.detailMub!==docId) return;
+    var img=document.querySelector('#asset-drawer-backdrop .detail-photo-wrap img');
+    if(img) img.src=f;
+  });
+}
+
+/* ── ATUALIZAR FOTOS EM LOTE ── */
+var _fl=null; // {itens:[...], extras:{...}}
+function flEsc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function iniciarFotosLote(){
+  if(!window.PANELS_LOADED){alert('Os painéis ainda não terminaram de carregar do servidor. Aguarde alguns segundos e tente de novo.');return;}
+  document.getElementById('fotos-lote-input').click();
+}
+function onFotosLoteSelecionadas(input){
+  var files=Array.prototype.slice.call(input.files||[]);
+  input.value='';
+  if(!files.length) return;
+  var porCodigo={};
+  (window.PANELS_CACHE||[]).forEach(function(p){
+    var c=String(p.code||'').trim();
+    if(!c) return;
+    (porCodigo[c]=porCodigo[c]||[]).push(p);
+  });
+  var grupos={},ignorados=[],semPainel={};
+  files.forEach(function(f){
+    var caminho=f.webkitRelativePath||f.name;
+    if(/^\./.test(f.name)) return; // .DS_Store e afins
+    if(!/\.(jpe?g|png)$/i.test(f.name)){ignorados.push(caminho+' (não é JPG/PNG)');return;}
+    var m=f.name.match(/^(\d{5})_/);
+    if(!m){ignorados.push(caminho+' (nome sem código no começo)');return;}
+    if(!porCodigo[m[1]]){(semPainel[m[1]]=semPainel[m[1]]||[]).push(caminho);return;}
+    (grupos[m[1]]=grupos[m[1]]||[]).push(f);
+  });
+  var itens=Object.keys(grupos).sort().map(function(code){
+    var arqs=grupos[code].sort(function(a,b){return a.name.localeCompare(b.name);});
+    var paineis=porCodigo[code];
+    return {code:code, arquivos:arqs, arqIdx:0, paineis:paineis,
+            painelEscolha: paineis.length===1 ? paineis[0]._docId : '',
+            incluir: paineis.length===1, url:null};
+  });
+  if(!itens.length){
+    alert('Nenhuma foto dessa pasta bateu com o código de um painel.\n\nO nome do arquivo precisa começar com o código de 5 dígitos, ex.: 65363_ABRIGO-171_AV-CENTRAL-PASTA-CHEF.jpg'+(ignorados.length?'\n\nArquivos ignorados: '+ignorados.length:''));
+    return;
+  }
+  _fl={itens:itens, ignorados:ignorados, semPainel:semPainel};
+  renderFotosLote();
+  document.getElementById('fl-overlay').classList.add('open');
+}
+function flUrl(it){
+  var f=it.arquivos[it.arqIdx];
+  if(!it.url||it.urlArq!==f){ if(it.url) URL.revokeObjectURL(it.url); it.url=URL.createObjectURL(f); it.urlArq=f; }
+  return it.url;
+}
+function renderFotosLote(){
+  if(!_fl) return;
+  var html=_fl.itens.map(function(it,i){
+    var p=it.painelEscolha && it.painelEscolha!=='*' ? it.paineis.find(function(x){return x._docId===it.painelEscolha;}) : it.paineis[0];
+    var antiga=p&&p.fotoUrl?p.fotoUrl:'';
+    var arq=it.arquivos[it.arqIdx];
+    var selArq=it.arquivos.length>1 ? '<br><select onchange="flEscolherArquivo('+i+',this.value)">'+it.arquivos.map(function(f,k){return '<option value="'+k+'"'+(k===it.arqIdx?' selected':'')+'>'+flEsc(f.name)+'</option>';}).join('')+'</select>' : '';
+    var selPainel='';
+    if(it.paineis.length>1){
+      selPainel='<br><span class="fl-badge warn">'+it.paineis.length+' painéis com este código</span><br><select onchange="flEscolherPainel('+i+',this.value)">'+
+        '<option value=""'+(it.painelEscolha===''?' selected':'')+'>Escolha qual painel recebe a foto…</option>'+
+        it.paineis.map(function(x){return '<option value="'+flEsc(x._docId)+'"'+(it.painelEscolha===x._docId?' selected':'')+'>'+flEsc(rotuloAtivo(x)+' · '+(x.name||'')+' · '+(x.cidade||'Fortaleza'))+'</option>';}).join('')+
+        '<option value="*"'+(it.painelEscolha==='*'?' selected':'')+'>Gravar nos '+it.paineis.length+'</option></select>';
+    }
+    var jaTemHd=it.paineis.some(function(x){return x.fotoHd;});
+    var bloqueado=it.paineis.length>1 && !it.painelEscolha;
+    return '<div class="fl-row'+(it.incluir?'':' off')+'" id="fl-row-'+i+'">'+
+      '<input type="checkbox" '+(it.incluir?'checked ':'')+(bloqueado?'disabled title="Escolha o painel primeiro" ':'')+'onchange="flMarcar('+i+',this.checked)">'+
+      '<div class="fl-img"><span class="fl-tag">Atual</span>'+(antiga?'<img src="'+antiga+'" alt="" loading="lazy">':'Sem foto')+'</div>'+
+      '<div class="fl-img"><span class="fl-tag">Nova</span><img src="'+flUrl(it)+'" alt="" loading="lazy"></div>'+
+      '<div class="fl-info"><b>'+flEsc(it.code)+'</b>'+(p?' · '+flEsc(rotuloAtivo(p))+'<br>'+flEsc(p.name||'')+' · '+flEsc(p.cidade||'Fortaleza'):'')+
+        (jaTemHd?'<span class="fl-badge">já tem foto nova</span>':'')+
+        '<br><span class="fl-sub">'+flEsc(arq.name)+' · '+Math.round(arq.size/1024)+' KB</span>'+selArq+selPainel+'</div>'+
+    '</div>';
+  }).join('');
+  document.getElementById('fl-list').innerHTML=html;
+  flAtualizarResumo();
+  var ex=[];
+  var sp=Object.keys(_fl.semPainel);
+  if(sp.length) ex.push('<b>'+sp.length+' código(s) sem painel no banco</b> (não serão gravados): '+sp.map(function(c){return flEsc(c)+' ('+_fl.semPainel[c].length+' foto'+(_fl.semPainel[c].length>1?'s':'')+')';}).join(', '));
+  if(_fl.ignorados.length) ex.push('<b>'+_fl.ignorados.length+' arquivo(s) ignorado(s):</b><br>'+_fl.ignorados.map(flEsc).join('<br>'));
+  document.getElementById('fl-extra').innerHTML=ex.join('<br><br>');
+  document.getElementById('fl-extra').style.display=ex.length?'block':'none';
+}
+function flAtualizarResumo(){
+  var n=_fl.itens.filter(function(it){return it.incluir;}).length;
+  var pend=_fl.itens.filter(function(it){return it.paineis.length>1&&!it.painelEscolha;}).length;
+  document.getElementById('fl-resumo').innerHTML=_fl.itens.length+' painel(is) encontrados · <b>'+n+' marcado(s) para gravar</b>'+(pend?' · <span style="color:#991b1b">'+pend+' aguardando escolha do painel</span>':'');
+}
+function flMarcar(i,v){_fl.itens[i].incluir=v;var r=document.getElementById('fl-row-'+i);if(r)r.classList.toggle('off',!v);flAtualizarResumo();}
+function flMarcarTodos(v){_fl.itens.forEach(function(it){if(!v||!(it.paineis.length>1&&!it.painelEscolha))it.incluir=v;});renderFotosLote();}
+function flEscolherArquivo(i,k){_fl.itens[i].arqIdx=Number(k);renderFotosLote();}
+function flEscolherPainel(i,v){var it=_fl.itens[i];it.painelEscolha=v;it.incluir=!!v;renderFotosLote();}
+function fecharFotosLote(){
+  if(_fl) _fl.itens.forEach(function(it){if(it.url)URL.revokeObjectURL(it.url);});
+  _fl=null;
+  document.getElementById('fl-overlay').classList.remove('open');
+  document.getElementById('fl-list').innerHTML='';
+}
+// Baixa, num arquivo à parte, as fotos grandes já gravadas (todas ou só dos IDs informados).
+async function fazerBackupFotosHd(ids){
+  var docs=[];
+  if(ids){
+    for(var i=0;i<ids.length;i++){
+      var s=await window.FB.getDoc(window.FB.doc(window.FB.db,FOTO_HD_COL,ids[i]));
+      if(s.exists()) docs.push(Object.assign({_docId:s.id},serializavelTimestamp(s.data())));
+    }
+  } else {
+    var snap=await window.FB.getDocs(window.FB.collection(window.FB.db,FOTO_HD_COL));
+    snap.forEach(function(s){docs.push(Object.assign({_docId:s.id},serializavelTimestamp(s.data())));});
+  }
+  if(!docs.length) return 0;
+  var blob=new Blob([JSON.stringify({versao:1,exportadoEm:new Date().toISOString(),fotos_hd:docs})],{type:'application/json'});
+  var url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='backup-fotos-hd-'+new Date().toISOString().slice(0,19).replace(/:/g,'-')+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  return docs.length;
+}
+async function fazerBackupCompleto(){
+  fazerBackup();
+  if((window.PANELS_CACHE||[]).some(function(p){return p.fotoHd;})){
+    try{ await fazerBackupFotosHd(); }
+    catch(e){ alert('O backup dos painéis foi baixado, mas não consegui baixar as fotos grandes ('+e.message+').'); }
+  }
+}
+async function confirmarFotosLote(){
+  if(!_fl) return;
+  var tarefas=[];
+  _fl.itens.forEach(function(it){
+    if(!it.incluir||!it.painelEscolha) return;
+    var alvos=it.painelEscolha==='*'?it.paineis.map(function(p){return p._docId;}):[it.painelEscolha];
+    tarefas.push({arquivo:it.arquivos[it.arqIdx], alvos:alvos});
+  });
+  if(!tarefas.length){alert('Nenhuma foto marcada para gravar.');return;}
+  var nAlvos=tarefas.reduce(function(s,t){return s+t.alvos.length;},0);
+  if(!confirm('Gravar a foto nova em '+nAlvos+' painel(is)?\n\nAntes de gravar vou baixar um backup dos painéis (com as fotos atuais). As fotos atuais são substituídas pela nova miniatura, e a foto grande fica guardada à parte.')) return;
+  // Backup antes de qualquer gravação: painéis (fotos atuais) + fotos grandes que serão sobrescritas.
+  try{
+    fazerBackup();
+    var comHd=[];
+    tarefas.forEach(function(t){t.alvos.forEach(function(id){var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===id;});if(p&&p.fotoHd)comHd.push(id);});});
+    if(comHd.length) await fazerBackupFotosHd(comHd);
+  }catch(e){ alert('Não consegui gerar o backup ('+e.message+'). Por segurança, nada foi gravado.'); return; }
+  var btn=document.getElementById('fl-confirm'),cancel=document.getElementById('fl-cancel');
+  btn.disabled=true;cancel.disabled=true;
+  var ok=0,falhas=[],somaHd=0,somaThumb=0;
+  for(var i=0;i<tarefas.length;i++){
+    var t=tarefas[i];
+    btn.textContent='Gravando '+(i+1)+'/'+tarefas.length+'…';
+    try{
+      var v=await gerarVersoesFoto(t.arquivo);
+      for(var j=0;j<t.alvos.length;j++){
+        try{
+          var campos=await gravarFotoHd(t.alvos[j],v,t.arquivo.webkitRelativePath||t.arquivo.name);
+          campos.atualizadoEm=window.FB.serverTimestamp();
+          await window.FB.setDoc(window.FB.doc(window.FB.db,'paineis',t.alvos[j]),campos,{merge:true});
+          ok++;somaHd+=v.hd.bytes;somaThumb+=v.thumb.bytes;
+        }catch(e){falhas.push(t.alvos[j]+': '+e.message);console.error('Erro ao gravar foto de '+t.alvos[j]+':',e);}
+      }
+    }catch(e){falhas.push(t.arquivo.name+': '+e.message);console.error('Erro ao preparar '+t.arquivo.name+':',e);}
+  }
+  btn.disabled=false;cancel.disabled=false;btn.textContent='Confirmar e gravar';
+  fecharFotosLote();
+  alert('Fotos atualizadas: '+ok+(ok?'\nMédia da foto grande: '+Math.round(somaHd/ok/1024)+' KB · miniatura: '+Math.round(somaThumb/ok/1024)+' KB':'')+
+        (falhas.length?'\n\nFalhas ('+falhas.length+'):\n'+falhas.slice(0,15).join('\n')+(falhas.length>15?'\n… (veja o console F12)':''):''));
+}
 function onPhotoChange(input){const file=input.files[0];if(!file) return;S.removePhoto=false;if(file.size>25*1024*1024){alert('Arquivo muito grande. Máximo 25MB.');input.value='';return;}const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');const img=new Image();img.onload=()=>{const maxW=FOTO_MAX_W,maxH=FOTO_MAX_H;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}canvas.width=w;canvas.height=h;ctx.drawImage(img,0,0,w,h);ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,w,h);let q=FOTO_QUALIDADE,b64=canvas.toDataURL('image/jpeg',q);while(b64.length>FOTO_MAX_BYTES&&q>0.5){q-=0.05;b64=canvas.toDataURL('image/jpeg',q);}S.pendingPhoto=b64;showUploadPreview(b64);};img.src=URL.createObjectURL(file);}
 function onPhotoChangeNP(input){const file=input.files[0];if(!file) return;if(file.size>25*1024*1024){alert('Arquivo muito grande. Máximo 25MB.');input.value='';return;}const canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');const img=new Image();img.onload=()=>{const maxW=FOTO_MAX_W,maxH=FOTO_MAX_H;let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}canvas.width=w;canvas.height=h;ctx.drawImage(img,0,0,w,h);ctx.imageSmoothingQuality='high';ctx.drawImage(img,0,0,w,h);let q=FOTO_QUALIDADE,b64=canvas.toDataURL('image/jpeg',q);while(b64.length>FOTO_MAX_BYTES&&q>0.5){q-=0.05;b64=canvas.toDataURL('image/jpeg',q);}S.npPendingPhoto=b64;showUploadPreviewNP(b64);};img.src=URL.createObjectURL(file);}
 async function saveEdit(){
@@ -2947,8 +4083,8 @@ async function saveEdit(){
     addr:document.getElementById('e-addr').value.trim(),
     bairro:document.getElementById('e-bairro').value.trim(),
     alcance:document.getElementById('e-alcance').value.trim(),
-    lat:parseFloat(document.getElementById('e-lat').value)||0,
-    lng:parseFloat(document.getElementById('e-lng').value)||0,
+    lat:lerCoord(document.getElementById('e-lat').value,true)||0,
+    lng:lerCoord(document.getElementById('e-lng').value,false)||0,
     atualizadoEm: window.FB.serverTimestamp()
   };
   if(p0.categoria==='abrigos'){
@@ -2963,13 +4099,15 @@ async function saveEdit(){
   // Foto: sem Storage por enquanto (modo de teste). Guardamos o JPEG comprimido
   // como texto base64 direto no campo fotoUrl do documento no Firestore
   // (cabe tranquilo no limite de 1MB por documento).
-  if(S.removePhoto && !S.pendingPhoto){ updates.fotoUrl = null; }
+  var apagarHd=false;
+  if(S.removePhoto && !S.pendingPhoto){ updates.fotoUrl = null; updates.fotoHd = false; apagarHd = !!p0.fotoHd; }
 
   var btn=document.querySelector('#edit-overlay .btn-save');
   if(btn){btn.disabled=true;btn.textContent='Salvando...';}
   try{
-    if(S.pendingPhoto){ if(btn) btn.textContent='Enviando foto...'; updates.fotoUrl = await prepararFotoParaSalvar(S.pendingPhoto, key); if(btn) btn.textContent='Salvando...'; }
+    if(S.pendingPhoto){ if(btn) btn.textContent='Enviando foto...'; Object.assign(updates, await gravarFotoHd(key, await gerarVersoesFoto(S.pendingPhoto), 'editor')); if(btn) btn.textContent='Salvando...'; }
     await window.FB.updateDoc(window.FB.doc(window.FB.db,'paineis',key), updates);
+    if(apagarHd) await apagarFotoHd(key);
     closeEdit();
   }catch(e){
     alert('Erro ao salvar: '+e.message);
@@ -2988,6 +4126,17 @@ function updateBottomNav(){
 }
 function updateMobileSel(){
   var n=S.sel.size;
+  var sf=document.getElementById('sel-float');
+  if(sf){
+    sf.classList.toggle('show',n>0); if(!n) sf.classList.remove('menu-open');
+    document.body.classList.toggle('tem-selecao',n>0);
+    document.getElementById('sf-n').textContent=n;
+    document.getElementById('sf-txt').textContent=n===1?'selecionado':'selecionados';
+    var soma=0,temNum=false;
+    S.sel.forEach(function(k){var id=k.substring(k.indexOf(':')+1);var p=(window.PANELS_CACHE||[]).find(function(x){return x._docId===id;});
+      var v=String(p&&p.alcance||'').trim();if(/^\d{1,3}(\.\d{3})*$/.test(v)){soma+=parseInt(v.replace(/\./g,''),10);temNum=true;}});
+    document.getElementById('sf-imp').textContent=temNum?soma.toLocaleString('pt-BR')+' impactos/sem':'';
+  }
   var bar=document.getElementById('mobile-sel-bar');
   var txt=document.getElementById('mob-sel-txt');
   if(bar) bar.style.display=n>0?'flex':'none';
@@ -3069,6 +4218,7 @@ function executePrint() {
         '</div>' +
         '<div style="margin-top:auto;padding-top:36px">' +
           '<img src="' + LOGO_FULL + '" style="height:38px;object-fit:contain;object-position:left;filter:brightness(0) invert(1)">' +
+          '<div style="font-size:9px;color:rgba(255,255,255,.6);margin-top:14px;letter-spacing:.2px">' + TEXTO_DIREITOS + '</div>' +
         '</div>' +
       '</div>' +
       '<div style="width:48%;background:#0C1847;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">' +
@@ -3094,6 +4244,7 @@ function executePrint() {
         '</div>' +
         '<div style="margin-top:auto;padding-top:28px">' +
           '<img src="' + LOGO_FULL + '" style="height:36px;object-fit:contain;object-position:left;filter:brightness(0) invert(1)">' +
+          '<div style="font-size:9px;color:rgba(255,255,255,.6);margin-top:14px;letter-spacing:.2px">' + TEXTO_DIREITOS + '</div>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -3119,8 +4270,8 @@ function executePrint() {
           '<div style="font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:.6px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.addr.toUpperCase() + '</div>' +
         '</div>' +
         // Foto - height calculado para caber na página
-        '<div style="width:100%;height:592px;overflow:hidden;background:#f1f5f9">' +
-          '<img src="' + src + '" style="width:100%;height:100%;object-fit:cover;display:block" onerror="_pErr(this)">' +
+        '<div style="width:100%;height:592px;overflow:hidden;background:#f1f5f9;position:relative">' +
+          '<img src="' + src + '" style="width:100%;height:100%;object-fit:cover;display:block" onerror="_pErr(this)">' + direitosHtml(9) +
         '</div>' +
         // Rodapé com boxes
         '<div style="display:flex;align-items:stretch;height:75px;box-sizing:border-box">' +
@@ -3160,7 +4311,7 @@ function executePrint() {
       html += '<div class="pp' + (isLast ? ' last-pp' : '') + '">' +
         '<div class="pp-head"><div class="pp-logo"><img src="' + LOGO_FULL + '" style="height:20px;object-fit:contain;object-position:left"></div><span>Cat\u00e1logo de Ativos URBM\u00cdDIA ' + (p.cidade||'Fortaleza') + '</span><div class="pp-badge">' + rotuloAtivo(p,dm) + '</div></div>' +
         '<div class="pp-name">' + p.name + '</div><div class="pp-addr">' + p.addr + '</div>' +
-        '<img src="' + src + '" class="pp-photo" alt="' + rotuloAtivo(p,dm) + '" onerror="_pErr(this)">' +
+        '<div style="position:relative">' + '<img src="' + src + '" class="pp-photo" alt="' + rotuloAtivo(p,dm) + '" onerror="_pErr(this)">' + direitosHtml(8) + '</div>' +
         '<div class="pp-grid">' +
           '<div class="pp-box"><div class="pp-label">Bairro</div><div class="pp-val" style="font-size:13px">' + p.bairro + '</div></div>' +
           '<div class="pp-box"><div class="pp-label">Impactos Semanais</div><div class="pp-val" style="color:#1d4ed8">' + (estudo ? 'Em estudo' : p.alcance) + '</div></div>' +
@@ -3176,6 +4327,9 @@ function executePrint() {
   
   document.getElementById('print-area').innerHTML = html;
   closePrintModal();
+  var _tituloAntes=document.title;
+  document.title=nomeArquivoCatalogo(cidadesNoPdf,!S_printAll);
+  window.addEventListener('afterprint',function _vt(){document.title=_tituloAntes;window.removeEventListener('afterprint',_vt);});
   setTimeout(function(){ window.print(); }, 200);
 }
 
@@ -3264,8 +4418,8 @@ async function saveNewPanel(){
   var tamanho=document.getElementById('np-tamanho').value.trim();
   var resolucao=document.getElementById('np-resolucao').value.trim();
   var tempo=document.getElementById('np-tempo').value.trim();
-  var lat=parseFloat(document.getElementById('np-lat').value)||0;
-  var lng=parseFloat(document.getElementById('np-lng').value)||0;
+  var lat=lerCoord(document.getElementById('np-lat').value,true)||0;
+  var lng=lerCoord(document.getElementById('np-lng').value,false)||0;
 
   var cidade=document.getElementById('np-cidade').value||S.cidade;
   var regiao=pracaRegiaoDaCidade(cidade);
@@ -3290,7 +4444,7 @@ async function saveNewPanel(){
   var btn=document.querySelector('#new-panel-overlay .btn-save');
   if(btn){btn.disabled=true;btn.textContent='Cadastrando...';}
   try{
-    if(S.npPendingPhoto){ if(btn) btn.textContent='Enviando foto...'; newPanel.fotoUrl = await prepararFotoParaSalvar(S.npPendingPhoto, docId); }
+    if(S.npPendingPhoto){ if(btn) btn.textContent='Enviando foto...'; Object.assign(newPanel, await gravarFotoHd(docId, await gerarVersoesFoto(S.npPendingPhoto), 'novo painel')); }
     await window.FB.setDoc(window.FB.doc(window.FB.db,'paineis',docId), newPanel);
     closeNewPanel();
     if(S.cidade!==cidade){ S.cidade=cidade; S.regiao=regiao; document.getElementById('praca-label').textContent=cidade; document.getElementById('btn-bairro').style.display=(cidade==='Fortaleza')?'flex':'none'; }
@@ -3315,7 +4469,9 @@ function closeDel(){document.getElementById('del-overlay').classList.remove('ope
 async function confirmDel(){
   if(!delPending.key) return;
   try{
+    var tinhaHd=!!getPanel(delPending.key).fotoHd;
     await window.FB.deleteDoc(window.FB.doc(window.FB.db,'paineis',delPending.key));
+    if(tinhaHd) await apagarFotoHd(delPending.key);
     closeDel();
   }catch(e){
     alert('Erro ao excluir painel: '+e.message);
@@ -3352,28 +4508,26 @@ if((window.PANELS_CACHE||[]).length){ window.__onPanelsUpdate(); }
 </script>
 
 <nav id="bottom-nav">
-  <button class="bn-btn active" id="bn-cat" onclick="setView('grid')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    <span class="bn-label">Catálogo</span>
-  </button>
-  <button class="bn-btn" id="bn-praca" onclick="togglePracaPanel()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-    <span class="bn-label">Praça</span>
-  </button>
-  <button class="bn-btn" id="bn-filter" onclick="toggleBairroPanel()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-    <span class="bn-label">Bairros</span>
-  </button>
-  <button class="bn-btn" id="bn-list" onclick="setView('list')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-    <span class="bn-label">Lista</span>
-  </button>
-  <button class="bn-btn" id="bn-adm" onclick="openAdminLogin()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-    <span class="bn-label">Admin</span>
-  </button>
+  <button class="bn-btn active" id="bn-cat" onclick="setView('grid')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="bn-label">Catálogo</span></button>
+  <button class="bn-btn" id="bn-list" onclick="setView('list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg><span class="bn-label">Lista</span></button>
+  <button class="bn-btn" id="bn-mapa" onclick="abrirMapaAtivos()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg><span class="bn-label">Mapa</span></button>
+  <button class="bn-btn" id="bn-exp" onclick="openCatalogChoice()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="bn-label">Catálogos</span></button>
+  <button class="bn-btn" id="bn-adm" onclick="openAdminLogin()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="bn-label">Conta</span></button>
 </nav>
 
+<div id="sel-float" role="region" aria-label="Painéis selecionados">
+  <div class="sf-info"><span class="sf-count"><b id="sf-n">0</b> <span id="sf-txt">selecionados</span></span><span class="sf-imp" id="sf-imp"></span></div>
+  <button class="sf-btn sf-ghost" onclick="abrirMapaAtivos({soSelecionados:true})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg><span>Ver no mapa</span></button>
+  <div class="sf-exp-wrap">
+    <div class="sf-menu" id="sf-menu" role="menu">
+      <button role="menuitem" onclick="fecharSfMenu();printSelected()"><span class="sf-ic sf-pdf">PDF</span><span><b>Catálogo em PDF</b><small>Uma página por ponto, com foto</small></span></button>
+      <button role="menuitem" onclick="fecharSfMenu();generatePPTSelected()"><span class="sf-ic sf-ppt">PPT</span><span><b>Apresentação</b><small>Para a reunião com o cliente</small></span></button>
+      <button role="menuitem" onclick="fecharSfMenu();exportSelectedExcel()"><span class="sf-ic sf-xls">XLS</span><span><b>Planilha Excel</b><small>Lista com dados e totais</small></span></button>
+    </div>
+    <button class="sf-btn sf-primary" onclick="toggleSfMenu(event)" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+  </div>
+  <button class="sf-x" onclick="fecharSfMenu();clearSel()" aria-label="Limpar seleção" title="Limpar seleção"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
 <div id="mobile-sel-bar">
   <span class="mob-sel-txt" id="mob-sel-txt">0 painéis</span>
   <button class="mob-sel-pdf" onclick="printSelected()">PDF</button>
@@ -3461,6 +4615,20 @@ if((window.PANELS_CACHE||[]).length){ window.__onPanelsUpdate(); }
     <div class="edit-actions">
       <button class="btn-cancel" onclick="closeImportPreview()">Cancelar</button>
       <button class="btn-save" id="imp-preview-confirm" onclick="confirmarImportacao()">Confirmar e gravar</button>
+    </div>
+  </div>
+</div>
+
+<div id="fl-overlay">
+  <div class="edit-modal" style="max-width:900px;width:100%">
+    <h3>Atualizar fotos em lote</h3>
+    <p style="font-size:12px;color:#64748b;margin-bottom:10px">Cada foto foi ligada ao painel pelo código no começo do nome do arquivo. Confira a foto atual e a nova lado a lado e desmarque o que não quiser trocar. Nada é gravado até você clicar em <b>Confirmar e gravar</b>.</p>
+    <div class="fl-tools"><span id="fl-resumo"></span><button type="button" onclick="flMarcarTodos(true)">Marcar todos</button><button type="button" onclick="flMarcarTodos(false)">Desmarcar todos</button></div>
+    <div id="fl-list" style="max-height:56vh;overflow-y:auto"></div>
+    <div id="fl-extra" class="fl-extra"></div>
+    <div class="edit-actions">
+      <button class="btn-cancel" id="fl-cancel" onclick="fecharFotosLote()">Cancelar</button>
+      <button class="btn-save" id="fl-confirm" onclick="confirmarFotosLote()">Confirmar e gravar</button>
     </div>
   </div>
 </div>
@@ -3558,6 +4726,7 @@ if((window.PANELS_CACHE||[]).length){ window.__onPanelsUpdate(); }
 
 <div id="catalog-choice-overlay" onclick="if(event.target===this) closeCatalogChoice()">
   <div class="cc-modal">
+    <button class="cc-close" onclick="closeCatalogChoice()" aria-label="Fechar" title="Fechar (Esc)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <h3>Catálogo completo</h3>
     <div class="fg full" style="margin-bottom:12px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
